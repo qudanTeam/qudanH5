@@ -1,0 +1,292 @@
+html,body{
+    background-color: #fff;
+}
+.user-info{
+    position: relative;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    font-size: .14rem;
+    color: #666;
+    padding: .2rem .14rem .3rem;
+}
+.user-info .media-object{
+    width: .66rem;
+    height: .66rem;
+    border-radius: 50%;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.user-info .media-object img{
+    max-width: 100%;
+    max-height: 100%;
+}
+.user-info .media-body{
+    position: relative;
+    margin-left: .2rem;
+}
+.user-info .media-body h2{
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    font-size: .2rem;
+    color: #030303;
+    line-height: .28rem;
+}
+.user-info .media-body .icon-vip-level{
+    display: inline-block;
+    margin-left: .08rem;
+    width: .19rem;
+    height: .18rem;
+}
+.user-info .media-body .icon-vip-level.level1{
+    background: url(../images/icon-vip1@2x.png) no-repeat;
+    background-size: contain;
+}
+.user-info .media-body .icon-vip-level.level2{
+    background: url(../images/icon-vip2@2x.png) no-repeat;
+    background-size: contain;
+}
+.user-info .media-body .icon-vip-level.level3{
+    background: url(../images/icon-vip3@2x.png) no-repeat;
+    background-size: contain;
+}
+.user-info .media-body p{
+    line-height: .24rem;
+}
+.user-info .media-body .date{
+    font-size: .13rem;
+}
+.user-info .btn{
+    position: absolute;
+    top: .2rem;
+    right: .14rem;
+    font-size: .11rem;
+    height: .21rem;
+    line-height: .21rem;
+    padding: 0 .08rem;
+}
+.user-info .btn.btn-not-vip{
+    background-color:#c3c3c3;
+    color:#fff;
+}
+.main{
+    font-size: .12rem;
+}
+.main .title-wrap{
+    position: relative;
+    padding:0 .14rem;
+}
+.main .title{
+    display: inline-block;
+    position: relative;
+    font-size: .2rem;
+    color: #000;
+    line-height: .28rem;
+    height: .28rem;
+    font-weight: 500;
+}
+.main .sub-title{
+    display: inline-block;
+    font-size: .12rem;
+    color:#666;
+    margin-left: .1rem;
+}
+.main .title-wrap .btn-vipxplain{
+    display: inline-block;
+    width: .74rem;
+    position: absolute;
+    top:.03rem;
+    right:.14rem;
+    line-height: .21rem;
+    height: .21rem;
+    padding:0 .1rem;
+    font-size: .13rem;
+    color: #fff;
+    /* background-color: #ffbf00; */
+    border-radius: .2rem;
+    background: #ffbf00 url(../images/icon-vip-arrow@2x.png) no-repeat;
+    background-size: .04rem .07rem;
+    background-position: .62rem center;
+}
+.vipLevel{
+    padding:.15rem .14rem;
+}
+.vipLevel .flex-wrap{
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+}
+.vipLevel .media-object{
+    position: relative;
+    width: 1.76rem;
+    height: 1.1rem;
+}
+.vipLevel .media-object img{
+    max-width: 100%;
+}
+.vipLevel .media-object>.btn{
+    position: absolute;
+    left: .12rem;
+    bottom:.15rem;
+    line-height: .22rem;
+    height: .22rem;
+    padding:0 .12rem;
+    font-size: .12rem;
+    border-radius: .11rem;
+    background-color: #fff;
+}
+ .vipLevel1 .media-object>.btn{
+    color: #ffbf00;
+}
+ .vipLevel2 .media-object>.btn{
+    color: #4c8cff;
+}
+.vipLevel3 .media-object>.btn{
+    color: #ff563a;
+}
+.vipLevel .media-body{
+    margin-left: .16rem;
+}
+.vipLevel .media-body p{
+    line-height: .38rem;
+    font-size: .2rem;
+    color: #666;
+}
+.vipLevel .media-body .data{
+    color: #000;
+    font-weight: 500;
+}
+.vipLevel .media-body p .data{
+    display: inline-block;
+    margin-left: .1rem;
+}
+.vipLevel .media-body>.btn{
+    display: inline-block;
+    height: .29rem;
+    line-height: .29rem;
+    font-size: .16rem;
+    padding:0 .23rem;
+    margin-top: .05rem;
+    color: #fff;
+}
+.vipLevel1 .media-body>.btn{
+    background: -webkit-linear-gradient(left,#FFBF00 ,#ffe100);
+    background: -o-linear-gradient(right,#FFBF00, #ffe100 );
+    background: -moz-linear-gradient(right,#FFBF00, #ffe100 );
+    background: linear-gradient(to right,#FFBF00, #ffe100 );
+}
+.vipLevel2 .media-body>.btn{
+    background: -webkit-linear-gradient(left, #447DFF ,#6CC3FF);
+    background: -o-linear-gradient(right, #447DFF ,#6CC3FF );
+    background: -moz-linear-gradient(right, #447DFF ,#6CC3FF );
+    background: linear-gradient(to right, #447DFF ,#6CC3FF );
+}
+.vipLevel3 .media-body>.btn{
+    background: -webkit-linear-gradient(left, #ff3a2a ,#ff8354 );
+    background: -o-linear-gradient(right,#ff3a2a, #ff8354 );
+    background: -moz-linear-gradient(right,#ff3a2a, #ff8354 );
+    background: linear-gradient(to right,#ff3a2a, #ff8354 );
+}
+.vipLevel .tips{
+    margin-top: .13rem;
+    font-size: .12rem;
+    color: #666;
+}
+.vipLevel .tips .btn-vipxplain{
+    color:#ffbf00;
+}
+.vip-privilege-wrap{
+    padding:.16rem .14rem;
+}
+.vip-privilege-wrap .title{
+    margin-bottom: .12rem;
+}
+.vip-privilege div{
+    margin-bottom: .1rem;
+}
+.vip-privilege p{
+    margin-left: .28rem;
+    line-height: .22rem;
+    font-size: .16rem;
+    color:#666;
+}
+.vip-privilege .index{
+    float: left;
+    display: inline-block;
+    background-color: #ffbf00;
+    width: .18rem;
+    height: .18rem;
+    line-height: .18rem;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+}
+.layui-m-layersection{
+    top:15%;
+}
+.layer-html .title{
+    margin-bottom: .2rem;
+    font-weight: 500;
+}
+.layer-html .vip-privilege p{
+    font-size: .14rem;
+    color:#666;
+}
+.layui-m-layer1 .layui-m-layerchild.applyVip-html{
+    width:3.04rem;
+    padding:0 0 .22rem;
+}
+.applyVip-html .banner{
+    width: 100%;
+    height: 1.19rem;
+}
+.applyVip-html .banner1{
+    background: url(../images/layer-vip1.png) no-repeat;
+    background-size: contain;
+}
+.applyVip-html .banner2{
+    background: url(../images/layer-vip2.png) no-repeat;
+    background-size: contain;
+}
+.applyVip-html .banner3{
+    background: url(../images/layer-vip3.png) no-repeat;
+    background-size: contain;
+}
+.applyVip-html .main{
+    padding:.16rem .16rem 0;
+}
+.applyVip-html .main p{
+    color:#666;
+    font-size: .14rem;
+    line-height: .2rem;
+    margin-bottom: .12rem;
+}
+.applyVip-html .main p .data{
+    font-size: .16rem;
+    color:#000;
+    font-weight: 500;
+}
+.applyVip-html .main .money{
+    font-size: .2rem;
+    color: #000;
+    margin: .08rem 0 .17rem;
+    line-height: .28rem;
+    font-weight: 500;
+}
+.applyVip-html .main .flex-wrap{
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+}
+.applyVip-html .main .flex-wrap .btn{
+    display: inline-block;
+    height: .36rem;
+    line-height: .36rem;
+    width:1.28rem;
+    font-size: .16rem;
+    text-align: center;
+}

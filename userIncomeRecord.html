@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>收入记录</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>收入记录</h1>
+    </header>
+    <div class="content">
+        <div class="tab tab-record">
+            <a class="btn tab-title active">已结算</a>
+            <a class="btn  tab-title ">待结算</a>
+        </div>
+        <ul class="list cash-list income-list">
+           
+        </ul>
+    </div>
+    <script id="tpl" type="text/html">
+         <li>
+            <img src="<%=list.productLogo%>" alt="" class="media-object fl">
+            <div class="media-body">
+                <h3 class="title"><%=list.productName%></h3>
+                <p class="date"><%=list.auditTime%></p>
+                <p class="top-right text-red data">+<%=list.revenue%></p>
+            </div>
+        </li>
+        <li>
+            <img src="images/icon-dd.png" alt="" class="media-object fl">
+            <div class="media-body">
+                <h3 class="title">360阳光贷款推广</h3>
+                <p class="date">09-06 12:00:43</p>
+                <p class="top-right text-red">等待结算</p>
+                <p class="bottom-right">＋125</p>
+            </div>
+        </li>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/pullToRefresh.js"></script>
+    <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
+    <script>
+         var token = getCookie('token');
+         var incomeList = document.querySelector(".income-list");
+         var tpl = document.getElementById("tpl").innerHTML;
+         var list;
+        $(".tab a").click(function () {
+            $(this).addClass("active").siblings('a').removeClass('active');
+        })
+        Ajax_token(IP + 'msqudan/api/user/revenues?sendStatus='+type,"GET", token, '', getlist);//获收入记录列表
+        function getlist(Data){
+            if(Data.code==200){
+                list = Data.data.list;
+                var html = template(tpl,list);
+                incomeList.innerHTML = html;
+            }
+        }
+    </script>
+
+</body>
+
+</html>

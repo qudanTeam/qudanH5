@@ -1,0 +1,235 @@
+html,body{
+    background-color: #fff;
+}
+.banner{
+    position: relative;
+    width: 3.47rem;
+    padding:.14rem .16rem;
+    margin:.18rem 0 .3rem;
+    color:#fff;
+    font-size: .14rem;
+    border-radius: .1rem;
+}
+.banner.banner-beAgent{
+    background: url(../images/banner-bg-agent.png) no-repeat;
+    background-size:contain;
+}
+.banner-beAgent>.title{
+    font-size: .2rem;
+    line-height: .28rem;
+}
+.banner-beAgent>p{
+    margin-top:.04rem;
+    color: #fff;
+    line-height: .2rem;
+    font-size: .14rem;
+}
+.banner-beAgent>.btn{
+    display: inline-block;
+    height: .27rem;
+    line-height: .27rem;
+    background-color: #fff;
+    padding:0 .18rem;
+    margin:.12rem 0 .03rem;
+}
+.banner-upgradeAgent>.title{
+    font-size: .18rem;
+    line-height: .25rem;
+}
+.banner-upgradeAgent>.sub-title{
+    line-height: .21rem;
+    color: #fff;
+    font-size: .12rem;
+}
+.banner-upgradeAgent>.btn{
+    position: absolute;
+    top:.18rem;
+    right: .14rem;
+    height: .21rem;
+    line-height: .21rem;
+    padding:0 .12rem;
+    background-color: #fff;
+    font-size: .12rem;
+}
+.banner-upgradeAgent .border{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: .01rem;
+    margin:.12rem -.14rem .26rem;
+}
+.banner-upgradeAgent .border:after{
+    position: absolute;
+    top:0;
+    right: 0;
+    left: 0;
+    content: '';
+    height: .01rem;
+    background-color: #6BC1FF;;
+    transform: scaleY(.5);
+    -webkit-transform: scaleY(.5);
+}
+.banner-upgradeAgent .data-wrap{
+    margin-right: -.14rem;
+    margin-left:-.14rem;
+}
+.banner-upgradeAgent .flex-wrap{
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    float: left;
+    height: .55rem;
+}
+.banner-upgradeAgent .flex-wrap:first-child{
+    width: 40%;
+}
+.banner-upgradeAgent .flex-wrap:nth-child(2){
+    width: 30%;
+}
+.banner-upgradeAgent .flex-wrap:nth-child(3){
+    width: 30%;
+}
+.banner-upgradeAgent .flex-item{
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    flex-direction: column;
+}
+.banner-upgradeAgent .flex-wrap .btn{
+    height: .22rem;
+    line-height: .22rem;
+    padding:0 .12rem;
+    font-size:.12rem;
+    background-color: transparent;
+    border: .01rem solid #fff; 
+}
+.banner-upgradeAgent .flex-wrap .data{
+    font-size: .18rem;
+    margin-top: .1rem;
+}
+.main>.title{
+    padding-left: .28rem;
+    font-size: .18rem;
+    color: #000;
+    line-height: .25rem;
+}
+.main>.title:first-child{
+    background: url(../images/icon-agent1.png) no-repeat;
+    background-size: .22rem .22rem;
+    background-position:left center ;
+}
+.main>.title:nth-of-type(2){
+    background: url(../images/icon-agent2.png) no-repeat;
+    background-size: .22rem .22rem;
+    background-position:left center ;
+}
+.main>.title:nth-of-type(3){
+    background: url(../images/icon-agent3.png) no-repeat;
+    background-size: .22rem .22rem;
+    background-position:left center ;
+}
+.main>.text{
+    margin: .12rem 0 .22rem;
+    font-size: .15rem;
+    color: #666;
+    line-height: .22rem;
+}
+.main>.text.make-money-tips{
+    line-height: .28rem;
+}
+.main .make-money-summary{
+    font-size: .18rem;
+    padding-bottom:.2rem;
+}
+.main>.sub-title{
+    font-size: .15rem;
+    color: #000;
+}
+.main .agent-level-wrap{
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    margin: .2rem 0 .4rem;
+}
+
+.main .flex-item{
+    display: flex;
+    display: -webkit-flex;
+    width: 1.07rem;
+    height: 1.6rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.main .flex-item .info{
+    display: flex;
+    display: -webkit-flex;
+    width: 1.07rem;
+    height: 1.18rem;
+    flex-direction: column;
+    align-items: center;
+    padding: .12rem 0 .18rem;
+    margin-bottom: .14rem;
+}
+.main .flex-item1 .info{
+    background: url(../images/bg-agent-level1.png) no-repeat;
+    background-size: contain;
+}
+.main .flex-item2 .info{
+    background: url(../images/bg-agent-level2.png) no-repeat;
+    background-size: contain;
+}
+.main .flex-item3 .info{
+    background: url(../images/bg-agent-level3.png) no-repeat;
+    background-size: contain;
+}
+.main .flex-item .info p{
+    color: #fff;
+    font-size: .14rem;
+}
+.main .flex-item .info .num{
+    font-size: .18rem;
+    line-height: .25rem;
+    margin: .06rem 0 .14rem;
+}
+.main .flex-item .info .btn{
+    padding:0 .09rem;
+    height: .23rem;
+    line-height: .23rem;
+    font-size: .13rem;
+    background-color: #fff;
+}
+.main .flex-item1 .info .btn{
+    color: #ffbf00;
+}
+.main .flex-item2 .info .btn{
+    color: #4c8cff;
+}
+.main .flex-item3 .info .btn{
+    color: #ff563a;
+}
+.main .flex-item1 .btn-agent-level{
+    color: #ffbf00;
+    border:1px solid #ffbf00;
+}
+.main .flex-item2 .btn-agent-level{
+    color: #4c8cff;
+    border:1px solid #4c8cff;
+}
+.main .flex-item3 .btn-agent-level{
+    color: #ff563a;
+    border:1px solid #ff563a;
+}
+.main .flex-item .btn-agent-level{
+    height: .28rem;
+    width: .97rem;
+    line-height: .28rem;
+    font-size: .15rem;
+}
+.fixed-bottom-btn {
+    justify-content: center;
+}
+.fixed-bottom-btn .btn{
+    width: 2.9rem;
+    color: #fff;
+}

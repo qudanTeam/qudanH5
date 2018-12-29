@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+    <style>
+        html,body{
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body class="body-user-info">
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>个人信息</h1>
+    </header>
+    <div class="content">
+
+    </div>
+    <script id="tpl-content" type="text/html">
+        <div class="userinfo flex-wrap">
+            <div class="flex-item ">
+                <%if(user.username==''){%>
+                <h2><%=des(user.registerMobile)%> </h2>
+                <%}else{%>
+                <h2><%=user.username%> </h2>
+                <%}%>
+                <p>欢迎加入趣单大家庭～</p>
+            </div>
+            <div class="head-img flex-item">
+                <%if(user.userface==''){%>
+                <img src="images/default-head-img.png" alt="" class="head-img flex-item">
+                <%}else{%>
+                <img src="<%=user.userface%>" alt="" class="head-img flex-item">
+                <%}%>
+            </div>
+        </div>
+        <ul class="list">
+            <li>用户id<span class="fr"><%=user.id%></span></li>
+            <%if(!user.isAgent){%>
+            <li>代理等级<span class="fr">非代理</span></li>
+            <%}else{%>
+            <li>代理等级<span class="fr"><%=aLevel(user.agent.agentLevel)%><a class="btn btn-primary btn-upgrade">升级</a></span></li>
+            <%}%>
+            <%if(user.recommendUsername){%>
+            <li>推荐人<span class="fr"><%=user.recommendUsername%></span></li>
+            <%}else{%>
+            <li>推荐人<span class="fr">平台</span></li>
+            <%}%>
+        </ul>
+        <%if(user.status==3){%>
+        <h3 class="title">已实名认证</h3>
+        <ul class="list">
+            <li>真实姓名<span class="fr"><%=user.realname%></span></li>
+            <li>手机号码<span class="fr"><%=user.registerMobile%></span></li>
+            <li>身份证号码<span class="fr"><%=user.idNo%></span></li>
+        </ul>
+        <%}else{%>
+        <h3 class="title">请完成实名认证</h3>
+        <ul class="list">
+            <li>真实姓名<input type="text" class="fr name" placeholder="您的姓名要与身份证保持一致"></li>
+            <li>手机号码<span class="fr mobile"><%=user.registerMobile%></span></li>
+            <li>身份证号码<input type="number" class="fr idNo" placeholder="请输入您的身份证号码"></li>
+        </ul>
+        <p class="btn-wrap"><a class="btn btn-primary btn-submit">保存</a></p>
+        <%}%>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="plugin/template.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token = getCookie('token');
+        var tplContent = document.getElementById("tpl-content").innerHTML;
+        var content = document.querySelector(".content");
+        var user;
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
+        template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级
+            if (level == 1) {
+                return '初级'
+            }
+            if (level == 2) {
+                return '中级'
+            }
+            if (level == 3) {
+                return '高级'
+            }
+        });
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                user = Data.data.user;
+                var html = template(tplContent, user);
+                content.innerHTML = html;
+                //实名认证
+                var btnSubmit = document.querySelector(".btn-submit");
+                btnSubmit.addEventListener("click", function () {
+                    var name = document.querySelector(".name").value;
+                    var idNo = document.querySelector(".idNo").value;
+                    var mobile = document.querySelector(".mobile").text;
+                    if (name == '') {
+                        layerMsg("请输入真实姓名");
+                        return false;
+                    }
+                    if (name != "") {
+                        var regName = /^[\u4e00-\u9fa5]{2,4}$/i;
+                        if (!regName.test(name)) {
+                            layerMsg('真实姓名填写有误');
+                            return false;
+                        }
+                    }
+                    if (idNo == '') {
+                        layerMsg("请输入身份证号码");
+                        return false;
+                    }
+                    if (idNo != "") {
+                        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+                        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                        if (reg.test(idNo) === false) {
+                            layerMsg("身份证号码有误<br>请重新输入");
+                            return false;
+                        }
+                    }
+                    var data = JSON.stringify({
+                        realname: name,
+                        idNo: idNo,
+                        mobile: mobile
+                    });
+                    Ajax_token(IP + "msqudan/api/user/realname", "POST", token, data, realName);
+                })
+            }
+        }
+        function realName(Data) {
+            if (Data.code == 200) {
+                layerMsg("提交成功,请等待审核");
+            }
+        }
+    </script>
+</body>
+
+</html>

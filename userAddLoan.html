@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>添加贷款</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+    <link rel="stylesheet" href="css/goodslist.css?v=2018122701">
+    <style>
+        html,
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>添加贷款</h1>
+    </header>
+    <div class="content content-store content-addLoan">
+        
+        <ul class="list goods-list loan-goods-list">
+                <li>
+                    <img class="media-object fl" src="images/bg-dl.png" alt="">
+                    <div class="media-body">
+                        <h3 class="title">360阳光贷款推广<span class="tag text-blue">信用卡</span></h3>
+                        <p class="data"><span>月利率：1.5%</span><span>贷款期限：3-12个月</span></p>
+                        <p class="summary">贷款额度：<span class="text-red">30万</span></p>
+                        <p class="text-right text-red">赚2.6%</p>
+                        <a class="btn btn-grey">已推广</a>
+                    </div>
+                </li>
+                <li>
+                    <img class="media-object fl" src="images/bg-dl.png" alt="">
+                    <div class="media-body">
+                        <h3 class="title">360阳光贷款推广<span class="tag text-blue">信用卡</span></h3>
+                        <p class="data"><span>月利率：1.5%</span><span>贷款期限：3-12个月</span></p>
+                        <p class="summary">贷款额度：<span class="text-red">30万</span></p>
+                        <p class="text-right text-red">赚2.6%</p>
+                        <a class="btn linear-gradient-red">添加推广</a>
+                    </div>
+                </li>
+            </ul>
+    </div>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script>
+        $(".tab a").click(function () {
+            $(this).addClass("active").siblings("a").removeClass("active");
+        })
+
+    </script>
+</body>
+
+</html>

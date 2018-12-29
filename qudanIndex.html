@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>趣单</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/swiper/swiper.min.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/goodslist.css?v=2018122701">
+    <style>
+        #wrapper{top:1.85rem;}
+        .content {
+            padding-top: .1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <header id="header">
+        <a class='icon-back'></a>
+        <h1>趣单</h1>
+    </header> -->
+    <ul class="nav">
+        <li><a href="index.html"> <i class="icon icon-home"></i>首页</a> </li>
+        <li class="active"><a href="qudanIndex.html"><i class="icon icon-qd"></i>趣单</a> </li>
+        <li><a class="vip"><i class="icon icon-vip"></i>VIP</a></li>
+        <li><a class="usermain"><i class="icon icon-user"></i>我的</a></li>
+    </ul>
+    <div class="content">
+        <!-- 轮播图start -->
+        <div class="swiper-container swiper-container-banner">
+            <div class="swiper-wrapper" id="banner-swipper-wrapper">
+            </div>
+            <!-- 如果需要分页器 -->
+            <div class="swiper-pagination"></div>
+        </div>
+        <!-- 轮播图end -->
+        <!-- 商品列表start -->
+        <div class="goods-content">
+            <div class="tab" id="tab">
+                <a class="btn tab-title">信用卡</a>
+                <a class="btn  tab-title ">贷款</a>
+            </div>
+            <div id="wrapper">
+                <div id="goods-list">
+                </div>
+            </div>
+
+        </div>
+        <!-- 商品列表end -->
+
+    </div>
+    <script id="tpl-swiper-banner" type="text/html">
+        <%for(var i = 0; i < bannerList.banners.length; i++) {%>
+        <div class="swiper-slide"><a href="<%=bannerList.banners[i].link%>" style="display:block;" target="_blank"><img src="<%=bannerList.banners[i].img%>" alt=""></a></div>
+        <%}%>
+    </script>
+    <script id="tpl-goodslist" type="text/html">
+        <%if(goods.loan.length==0){%>
+            <ul class="list goods-list">
+                <%for(var i = 0; i < goods.card.length; i++) {var one=goods.card[i]%>
+                <%if (one.productType==1) {%>
+                <li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
+                <%}else if(one.productType==2){%>
+                <li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
+                <%}%>
+                    <img class="media-object fl" src="<%=one.logo%>" alt="">
+                    <div class="media-body">
+                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <p class="data"><span>通过率：<%=rate(one.allowRate,0)%></span><span>申请人数：<%=one.applyNum%></span></p>
+                        <p class="summary text-overflow"><%=one.specialTxt%></p>
+                        <a class="btn linear-gradient-red">赚<%=one.baseSalary%>元</a>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        <%}else if(goods.card.length==0){%>
+            <ul class="list goods-list loan-goods-list">
+                <%for(var i = 0; i < goods.loan.length; i++) {var one=goods.loan[i]%>
+                <%if (one.productType==1) {%>
+                <li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
+                <%}else if(one.productType==2){%>
+                <li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
+                <%}%>
+                    <img class="media-object fl" src="<%=one.logo%>" alt="">
+                    <div class="media-body">
+                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <p class="data"><span>月利率：<%=rate(one.monthRate,1)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
+                        <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
+                        <p class="text-right">通过率：<%=rate(one.allowRate,0)%></p>
+                        <a class="btn linear-gradient-red">赚<%=rate(one.baseSalary,1)%></a>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        <%}%>
+        
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="plugin/swiper/swiper.min.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/pullToRefresh.js"></script>
+    <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
+    <script>
+        var tplSwiperBanner = document.getElementById('tpl-swiper-banner').innerHTML;
+        var tplGoodsList = document.getElementById("tpl-goodslist").innerHTML;
+        var tab = document.getElementById('tab');
+        var tabTitle = tab.querySelectorAll('.tab-title');
+        var bannerList, goods;
+        var page = 1, per_page = 10, type, total;
+        if (getQueryString('type')) {//从首页模块入口进来的商品列表页,判断商品类型
+            type = parseInt(getQueryString('type'));
+        } else {//从底部一级菜单进来
+            type = 1;
+        }
+        var data = {
+            page: page,
+            per_page: per_page,
+            type: type
+        }
+        switch (type) {
+            case 1:
+                tabTitle[0].className = 'btn tab-title active';
+                tabTitle[1].className = 'btn tab-title';
+                break;
+            case 2:
+                tabTitle[0].className = 'btn tab-title ';
+                tabTitle[1].className = 'btn tab-title active';
+                break;
+        }
+        Ajax(IP + 'msqudan/api/banners', '', getSwiper);//获取banner
+
+        Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100).toFixed(num);
+            str += "%";
+            return str;
+        });
+        template.registerFunction('unit', function (amountLine) {//template辅助方法：换算‘万’单位
+            var str = Number(amountLine / 10000).toFixed(0);
+            str += "万";
+            return str;
+        });
+        template.registerFunction('_array', function (specialTag) {//template辅助方法：字符串转数组
+            var str = specialTag.split('，');
+            return str;
+        });
+        //类型切换
+        $(".tab a").click(function () {
+            document.querySelector('.pullUpLabel').style.display = 'block';
+            $(this).addClass("active").siblings('a').removeClass('active');
+            var index = $(this).index();
+            switch (index) {
+                case 0:
+                    type = 1;
+                    break;
+                case 1:
+                    type = 2;
+                    break;
+            }
+            page = 1;
+            data = {
+                page: page,
+                per_page: per_page,
+                type: type
+            }
+            console.log(page);
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+        })
+        function getSwiper(Data) {
+            if (Data.code == 200) {
+                bannerList = Data.data;
+                var html = template(tplSwiperBanner, bannerList);
+                document.getElementById('banner-swipper-wrapper').innerHTML = html;
+                // 初始化swipper
+                new Swiper('.swiper-container-banner', {
+                    direction: 'horizontal', // 切换方向选项
+                    autoplay: true, // 循环模式选项
+                    loop: true,
+                    pagination: {
+                        el: '.swiper-pagination'
+                    }
+                })
+            }
+        }
+        function getGoods(Data) {
+            if (Data.code == 200) {
+                if (Data.total != 0) {
+                    total = Math.floor((Data.data.total) / per_page);
+                    console.log(total);
+                    goods = Data.data;
+                    var html = template(tplGoodsList, goods);
+                    document.getElementById('goods-list').innerHTML = html;
+                    myScroll.refresh();
+                } else {
+                    document.getElementById('goods-list').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+                }
+            }
+        }
+        //下啦刷新
+        function pullDownAction() {
+            page = 1;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page,
+                type: type
+            }
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+        }
+        // 上拉加载
+        function pullUpAction() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            page++;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page,
+                type: type
+            }
+            console.log(total);
+            var div = document.createElement("div");
+            div.className = 'no-more';
+            div.innerHTML = '已经到底了哦～';
+            if (total < page) {
+                if (!document.querySelector('.no-more')) {
+                    document.getElementById('goods-list').appendChild(div);
+                }
+                myScroll.refresh();
+                return false;
+            }
+
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+        }
+        function Ajax(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                data: data,
+                success: callback,
+                error: function (e) {
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                }
+            })
+        }
+        
+    </script>
+</body>
+
+</html>

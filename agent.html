@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>代理</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/agent.css?v=2018122701">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>成为代理</h1>
+    </header>
+    <div class="content content-fixedbottom">
+        <!-- banner start -->
+        <div id="banner"></div>
+        <!-- benner end -->
+        <div class="main">
+            <h2 class="title">如何成为代理</h2>
+            <div class="text">
+                当您邀请的用户在我们平台完成注册成为新用户后，平台会根据您邀请的有效用户数自动将您升级为相应的代理级别。
+            </div>
+            <h2 class="title">成为代理的好处</h2>
+            <div class="text">
+                当您成为代理后可享受下级代理任务推广所带来的佣金加成，不同级别的代理享受的佣金加成比例也是不一样哦！
+            </div>
+            <h3 class="sub-title">
+                以下是代理级别的划分
+            </h3>
+            <div class="agent-level-wrap">
+
+            </div>
+            <h2 class="title">赚钱教程</h2>
+            <div class="text make-money-tips">
+                1、生成链接，邀请好友；</br>
+                2、好友下载注册，完成任务；</br>
+                3、你获得团队收益。
+            </div>
+            <div class="text-yellow make-money-summary">邀请人数越多，享受分佣比例越高！</div>
+        </div>
+    </div>
+    <div class="btn-wrap fixed-bottom-btn"> <a href="agentShare.html" class="btn linear-gradient-red">邀请好友来赚钱</a></div>
+    <script id="tpl-banner" type="text/html">
+        <%if(!user.isAgent){%>
+        <div class="banner banner-beAgent">
+            <h2 class="title">我的推荐数据</h2>
+            <p>还没有用户通过你的页面完成注册哦！</p>
+            <p>海报发到微信群或朋友圈效果更佳哦！</p>
+            <a href="agentShare.html" class="btn text-blue">去分享推广</a>
+        </div>
+        <%}else{%>
+        <div class="banner banner-upgradeAgent linear-gradient-blue clearfix">
+            <h2 class="title">我的代理等级：<%=aLevel(user.agent.agentLevel)%></h2>
+            <%if(user.agent.agentLevel==3){%>
+            <p class="sub-title">您已达到黄金最高级别了哦～</p>
+            <%}else{%>
+            <p class="sub-title">距离<%=nexLevel(user.agent.agentLevel)%>还差<%=user.agent.nextLevelGap%>人</p>
+            <%}%>
+            <p class="btn text-blue">当前佣金比例<%=rate(user.agent.agentRate)%></p>
+            <span class="border"></span>
+            <div class="data-wrap">
+                <div class="flex-wrap">
+                    <div class="flex-item">
+                        <span class="btn">推荐用户注册数</span><span class="data"><%=user.agent.recommendRegisterCount%></span>
+                    </div>
+                </div>
+                <div class="flex-wrap">
+                    <div class="flex-item">
+                        <span class="btn">任务完成数</span><span class="data"><%=user.agent.recommendJobDoneCount%></span>
+                    </div>
+                </div>
+                <div class="flex-wrap">
+                    <div class="flex-item">
+                        <span class="btn">团队收益</span><span class="data">¥<%=user.agent.agentRevenue%></span>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <%}%>
+    </script>
+    <script id="tpl-agent-level" type="text/html">
+        <%for(var i = 0; i < agentLevel.agents.length; i++) {%>
+        <div class="flex-item flex-item<%=i+1%>">
+            <div class="info">
+                <p>邀请人数</p>
+                <p class="num"><%=agentLevel.agents[i].inviteLimit%>人</p>
+                <p class="btn">佣金加成<%=rate(agentLevel.agents[i].directRate)%></p>
+            </div>
+            <p class="btn btn-agent-level btn-outlined"><%=aLevel(agentLevel.agents[i].level)%>代理</p>
+        </div>
+       <%}%>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/template.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token = getCookie('token');
+        var banner = document.getElementById('banner')
+        var tplBanner = document.getElementById("tpl-banner").innerHTML;
+        var tplAgentLevel = document.getElementById("tpl-agent-level").innerHTML;
+        var user, agentLevel;
+
+        Ajax_token(IP + 'msqudan/api/user/info',"GET", token, '', getUserInfo);//获取用户信息
+        AjaxGet(IP + 'msqudan/api/agents', getAgentLevel);//获取代理等级划分
+
+        template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级
+            if (level == 1) {
+                return '初级'
+            }
+            if (level == 2) {
+                return '中级'
+            }
+            if (level == 3) {
+                return '高级'
+            }
+        });
+        template.registerFunction('nexLevel', function (level) {//template辅助方法：代理等级
+            if (level == 1) {
+                return '中级'
+            }
+            if (level == 2) {
+                return '高级'
+            }
+        });
+        template.registerFunction('rate', function (point) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100);
+            str += "%";
+            return str;
+        });
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                user = Data.data.user;
+                var html = template(tplBanner, user);
+                banner.innerHTML = html;
+                if(user.isAgent){
+                    document.querySelector("#header h1").innerHTML = "升级代理"
+                }else if(!user.isAgent){
+                    document.querySelector("#header h1").innerHTML = "成为代理"
+                }
+            }
+        }
+        function getAgentLevel(Data) {
+            if (Data.code == 200) {
+                agentLevel = Data.data;
+                var html = template(tplAgentLevel, agentLevel);
+                document.querySelector(".agent-level-wrap").innerHTML = html;
+            }
+        }
+    </script>
+</body>
+
+</html>

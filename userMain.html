@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+</head>
+
+<body>
+    <!-- <header id="header">
+        <a class='icon-back'></a>
+        <h1>我的</h1>
+    </header> -->
+    <ul class="nav">
+        <li><a href="index.html"> <i class="icon icon-home"></i>首页</a> </li>
+        <li><a href="qudanIndex.html"><i class="icon icon-qd"></i>趣单</a> </li>
+        <li><a class="vip"><i class="icon icon-vip"></i>VIP</a></li>
+        <li class="active"><a class="usermain"><i class="icon icon-user"></i>我的</a></li>
+    </ul>
+    <div class=" main-content-fixedbottom">
+        <div class="bgcolor-white content">
+            <div id="top"></div>
+        </div>
+        <div class="bgcolor-white content agent-ranking">
+            <h2>全网代理发放排行（月）</h2>
+            <ul class="list">
+                <li>
+                    <span class="index">1</span>
+                    <div class="media">
+                        <img src="images/default-head-img.png" alt="" class="media-object">
+                        <div class="media-body">
+                            张家辉
+                            <span class="fr">¥3322.00</span>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <span class="index">2</span>
+                    <div class="media">
+                        <img src="images/default-head-img.png" alt="" class="media-object">
+                        <div class="media-body">
+                            张家辉
+                            <span class="fr">¥3322.00</span>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <span class="index">3</span>
+                    <div class="media">
+                        <img src="images/default-head-img.png" alt="" class="media-object">
+                        <div class="media-body">
+                            张家辉
+                            <span class="fr">¥3322.00</span>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <span class="index">4</span>
+                    <div class="media">
+                        <img src="images/default-head-img.png" alt="" class="media-object">
+                        <div class="media-body">
+                            张家辉
+                            <span class="fr">¥3322.00</span>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <span class="index">5</span>
+                    <div class="media">
+                        <img src="images/default-head-img.png" alt="" class="media-object">
+                        <div class="media-body">
+                            张家辉
+                            <span class="fr">¥3322.00</span>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script id="tpl-top" type="text/html">
+    <div class="userinfo flex-wrap" onclick="window.location.href='userInfo.html'">
+        <%if(user.status==3){%>
+        <div class="flex-item realname">
+        <%}else{%>
+        <div class="flex-item ">
+        <%}%>
+            <%if(user.username==''){%>
+            <h2><%=des(user.registerMobile)%> 
+            <%}else{%>
+            <h2><%=user.username%> 
+            <%}%>
+            <%if(user.vipLevel!=null){%>
+                <i class="icon-vip-level level<%=user.vipLevel%>"></i>
+            <%}%>
+            <%if(user.status==3){%>
+            <span class="tag">已实名</span>
+            <%}else{%>
+            <span class="tag">未实名</span>
+            <%}%>
+            </h2>
+            <p>趣单id：<%=user.id%> </p>
+        </div>
+        <div class="head-img flex-item">
+            <%if(user.userface==''){%>
+            <img src="images/default-head-img.png" alt="" class="head-img flex-item">
+            <%}else{%>
+            <img src="<%=user.userface%>" alt="" class="head-img flex-item">
+            <%}%>
+        </div>
+    </div>
+    <div class="balance flex-wrap linear-gradient-yellow">
+        <div class="flex-item">
+            <p class="title">我的余额</p>
+            <p class="data">¥<%=user.blance%></p>
+        </div>
+        <div class="flex-item flex-wrap">
+            <%if(user.financeStatus==3){%>
+            <a class="btn text-yellow btn-cash" href="userApplyCash.html">提现</a>
+            <%}else{%>
+            <a class="btn text-yellow btn-cash" onclick="notRealName()">提现</a>
+            <%}%>
+        </div>
+    </div>
+    <div class="module-wrap flex-wrap">
+        <div class="module" onclick="window.location.href='userFinancialRecord.html'">
+            <div class="module-img module-img1"></div>
+            <div class="module-name">财务记录</div>
+        </div>
+        <div class="module" onclick="window.location.href='userOrder.html'">
+            <div class="module-img module-img2"></div>
+            <div class="module-name">我的订单</div>
+        </div>
+        <div class="module" onclick="contactService();">
+            <div class="module-img module-img3"></div>
+            <div class="module-name">联系客服</div>
+        </div>
+        <div class="module" onclick="window.location.href='userSetting.html'">
+            <div class="module-img module-img4"></div>
+            <div class="module-name">我的设置</div>
+        </div>
+    </div>
+    <%if(user.isAgent){%>
+    <div class="agent-data clearfix">
+        <div class="left fl">
+            <p class="title">我的代理等级</p><span class="btn btn-scale">佣金加成<%=rate(user.agent.agentRate)%></span>
+            <p class="agent-level"><%=aLevel(user.agent.agentLevel)%></p>
+            <%if(user.agent.agentLevel==3){%>
+                <p class="info">您已达到黄金最高级别了哦～</p>
+                <%}else{%>
+                <p class="info">离<%=nexLevel(user.agent.agentLevel)%>还差<%=user.agent.nextLevelGap%>人</p><a href="" class="btn btn-invite text-blue"> 邀请好友</a>
+            <%}%>
+        </div>
+        <div class="right fr">
+            <a href="userStore.html" class="btn btn-primary my-store">我的店铺</a>
+            <a href="userTeam.html" class="btn btn-red my-team">我的团队</a>
+        </div>
+    </div>
+    <%}else{%>
+   <div class="not-agent-data flex-wrap">
+        <div class="left flex-wrap">
+            <a class="btn">累计发放工资</a>
+            <p class="data">¥53535.00</p>
+        </div>
+        <div class="right flex-wrap">
+            <a class="btn">服务代理数</a>
+            <p class="data">88888</p>
+        </div>
+    </div>
+    <div class="agent-btn-wrap">
+        <a href="agentShare.html" class="btn linear-gradient-red">立即代理，团队赚钱！</a>
+    </div> 
+    <%}%>
+    
+</script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/template.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token = getCookie('token');
+        var tplTop = document.getElementById("tpl-top").innerHTML;
+        var topWrap = document.getElementById("top");
+        var user;
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
+       
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
+        template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级
+            if (level == 1) {
+                return '初级'
+            }
+            if (level == 2) {
+                return '中级'
+            }
+            if (level == 3) {
+                return '高级'
+            }
+        });
+        template.registerFunction('nexLevel', function (level) {//template辅助方法：代理等级
+            if (level == 1) {
+                return '中级'
+            }
+            if (level == 2) {
+                return '高级'
+            }
+        });
+        template.registerFunction('rate', function (point) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100);
+            str += "%";
+            return str;
+        });
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                user = Data.data.user;
+                var html = template(tplTop, user);
+                topWrap.innerHTML = html;
+            }
+        }
+        function notRealName() {
+            var html = '<div class="img-wrap"></div>\
+                    <h3>身份尚未认证</h3>\
+                    <p>为保证您的资金安全，您需要先通过认证。</p>\
+                    <a class="btn linear-gradient-yellow btn-identify" href="userRealName.html">去认证</a>\
+                    <span class="icon-close"></span>';
+            layerHtml('cash-html', html);
+        }
+        function contactService() {
+            var html = '<h3>联系客服</h3>\
+                    <p>客服微信号：sdvdvsvs</p>\
+                    <p>企业QQ号：34345346546</p>\
+                    <p>企业QQ群：23435364645</p>\
+                    <span class="icon-close"></span>';
+            layerHtml('service-html', html);
+        }
+    </script>
+</body>
+
+</html>

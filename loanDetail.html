@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>贷款详情</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/qudan.css?v=2018122701">
+</head>
+
+<body class="qudan-detail">
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>贷款详情</h1>
+    </header>
+    <div id="main">
+    </div>
+    <div class="btn-wrap fixed-bottom-btn">
+        <a class="btn linear-gradient-blue" id="applyLoan-btn">我要贷款</a>
+        <a class="btn linear-gradient-red" id="goShare-btn">邀请贷款赚佣金</a>
+    </div>
+    <script id='tpl-main' type='text/html'>
+        <div class="banner banner-loan-detail">
+                <img src="<%=detail.product.detailHeaderImg%>" alt="">
+                <div class="btn-wrap">
+                    <a  class="btn  btn-outlined btn-blue" id="shareIndex-btn">分享素材</a>
+                </div>
+                <div class="goods-summary loan-summary">
+                    <h2 class="title"><%=detail.product.productName%><%for(var j = 0; j < _array(detail.product.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(detail.product.specialTag)[j]%></span><%}%></h2>
+                    <p class="data"><span>通过率：<%=rate(detail.product.allowRate)%></span><span>申请人数：<%=detail.product.applyNum%></span></p>
+                </div>
+            </div>
+        <div class="gap"></div>
+        <div class="content content-fixedbottom">
+            <div class="tab-qudan">
+                <a  class="tab-title active">赚钱详情</a>
+                <a  class="tab-title ">贷款详情</a>
+            </div>
+            <div class="tab-content">
+                <h2 class="title">推广【<%=detail.product.productName%>】怎么赚钱？</h2>
+                <p><%=detail.product.howSettle%></p>
+                <div class="data-wrap">
+                    <div class="flex-item">
+                        <div class="btn linear-gradient-yellow"><%=detail.product.aLevelReward%>%</div>
+                        <p><%=detail.product.aBegin%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.aLimit%><%=detail.product.unit%></p>
+                    </div>
+                    <div class="flex-item">
+                        <div class="btn linear-gradient-blue"><%=detail.product.secondSummary%>%</div>
+                        <p><%=detail.product.bBegin%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.bLimit%><%=detail.product.unit%></p>
+                    </div>
+                    <div class="flex-item">
+                        <div class="btn linear-gradient-red"><%=detail.product.thirdSummary%>%</div>
+                        <p><%=detail.product.cStart%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.cLimit%><%=detail.product.unit%></p>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <h2 class="title"><%=detail.product.productName%>工资结算说明</h2>
+                    <h3 class="sub-title"><%=detail.config.title%></h3>
+                    <p><%=detail.config.content%></p>
+                </div>
+    
+            </div>
+            <div class="tab-content hidden">
+                <h2 class="title">申请条件</h2>
+                <p><%=detail.product.applyCondition%></p>
+                <h2 class="title">申请流程</h2>
+                <p class="apply-process"><img src="<%=detail.product.applyTpImg%>" alt=""></p>
+                <h2 class="title">注意事项</h2>
+                <p><%=detail.product.commissionStandard%></p>
+                
+            </div>
+        </div>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
+    <script>
+        var applyLoanBtn = document.getElementById("applyLoan-btn");
+        var goShareBtn = document.getElementById("goShare-btn");
+        var token = getCookie('token');
+        var tplMain = document.getElementById('tpl-main').innerHTML;
+        var detail;
+        var id = getQueryString('id');
+        var shareid = getQueryString('shareid');
+        AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100).toFixed(num);
+            str += "%";
+            return str;
+        });
+        template.registerFunction('_array', function (specialTag) {//template辅助方法：字符串转数组
+            var str = specialTag.split('，');
+            return str;
+        });
+        if(token!=''){
+            applyLoanBtn.setAttribute('href', 'applyLoan.html?id=' + id);
+        }else{
+            applyLoanBtn.setAttribute('href', 'login.html');
+        }
+        //如果是从分享二维码进入的此页面，则将shareid存储在本地，申请完成后清除此shareid
+        if(shareid!=null){
+            document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+        }
+        function getDetail(Data) {
+            if (Data.code == 200) {
+                detail = Data.data.detail;
+                var html = template(tplMain, detail);
+                document.getElementById('main').innerHTML = html;
+                //“文案素材”和“邀请贷款赚佣金”的跳转逻辑
+                var shareIndexBtn = document.getElementById('shareIndex-btn');
+                if (token != '') {
+                    shareIndexBtn.setAttribute('href', 'shareIndex.html?id=' + id + '&ptype=' + detail.product.productType);
+                    goShareBtn.setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + detail.product.productType);
+                } else if (token == '') {
+                    shareIndexBtn.setAttribute('href', 'login.html');
+                    goShareBtn.setAttribute('href', 'login.html');
+                }
+                //“赚钱详情”和“贷款详情”的切换
+                $(".tab-qudan a").click(function () {
+                    var index = $(this).index();
+                    $(this).addClass("active").siblings('a').removeClass('active');
+                    switch (index) {
+                        case 0:
+                            $(".tab-content").eq(0).removeClass('hidden');
+                            $(".tab-content").eq(1).addClass('hidden')
+                            break;
+                        case 1:
+                            $(".tab-content").eq(1).removeClass('hidden');
+                            $(".tab-content").eq(0).addClass('hidden');
+                            break;
+                    }
+
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>

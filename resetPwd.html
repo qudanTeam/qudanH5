@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>重置密码</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/login.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>重置密码</h1>
+    </header>
+    <div class="content content-register">
+        <div class="img-wrap">
+            <img src="images/default-head-img.png" alt="">
+        </div>
+        <div class="input-group">
+            <input type="number" placeholder="请输入手机号码" class="mobile">
+        </div>
+        <div class="input-group">
+            <input type="number" placeholder="请输入验证码" class="vcode">
+            <span class="fr text-blue text-right" id="getvCode">获取验证码</span>
+            <span class="fr time-wrap text-right" style="display:none;">重新获取(<i class="time">60</i>s)</span>
+        </div>
+        <div class="btn-submit-wrap">
+            <a class="btn btn-primary btn-submit">下一步</a>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        // layerMsg('您输入的账户不存在')
+        var btnGetVcode = document.getElementById("getvCode");
+        var btnSubmit = document.querySelector(".btn-submit");
+        var token,mobile,vCode;
+        //获取验证码
+        btnGetVcode.addEventListener("click", function () {
+            var _this = this;
+            getCode(_this,3,token);
+        })
+        //验证
+        btnSubmit.addEventListener("click", function () {
+             mobile = document.querySelector('.mobile').value;
+             vCode = document.querySelector('.vcode').value;
+            var data;
+            if (mobile == '') {
+                layerMsg('请输入手机号');
+                return false;
+            }
+            if (vCode == '') {
+                layerMsg('请输入验证码');
+                return false;
+            }
+            var data = JSON.stringify({
+                mobile: mobile,
+                validcode: vCode,
+                type:3
+            });
+            Ajax_token(IP + 'msqudan/api/validcode/verify',"POST",token,data, validate);
+        })
+        function validate(Data) {
+            if (Data.code == 200) {
+                window.location.href = "newPwd.html?type=3&vcode="+vCode+"&mobile="+mobile;
+            }
+        }
+        // layerConfirm('您的手机已注册', '立即登录',login);
+    </script>
+</body>
+
+</html>

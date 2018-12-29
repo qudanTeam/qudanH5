@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/goodslist.css?v=2018122701">
+    <style>
+        html,body{background-color: #fff;}
+        .search-records-content{position: absolute;width: 100%;z-index: 2;margin-left: -.14rem;padding: 0 .14rem;}
+        #wrapper{top:.9rem;bottom:0;}
+        .wrapper-son .no-more{background-color: #fff;}
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>趣单</h1>
+    </header>
+    <div class="content">
+        <div class="search-wrap">
+            <form action="">
+                <span class="icon-search"></span>
+                <input type="search" placeholder="搜索信用卡/贷款" autofocus="autofocus" id='searchInput'>
+                <span class="icon-clear hidden" id="icon-clear"></span>
+            </form>
+
+            <span class="search-right text-yellow" onclick='window.location.href="index.html"'>取消</span>
+        </div>
+        <!-- 历史搜索start -->
+        <div class="search-records-content" id="search-records-content">
+            <h2 class="title">历史搜索</h2>
+            <ul class="list">
+                <li><span class="keyword">招商信用卡</span><span class="remove-btn">删除</span></li>
+                <li><span class="keyword">招商信用卡</span><span class="remove-btn">删除</span></li>
+            </ul>
+            <div class="btn-wrap"><a class="btn" id="btn-removeall">清空历史数据</a></div>
+        </div>
+        <!-- 历史搜索end -->
+        <!-- 搜索结果列表start -->
+        <div class="goods-content search-result-content" id="wrapper">
+            <div class="wrapper-son">
+            </div>
+
+        </div>
+        <!-- 搜索结果列表end -->
+    </div>
+    <script id="tpl-goodslist" type="text/html">
+        <%if(goods.card.length!=0){%>
+            <h2 class="title">信用卡</h2>
+            <ul class="list goods-list">
+                <%for(var i = 0; i < goods.card.length; i++) {var one=goods.card[i]%>
+                <li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
+                    <img class="media-object fl" src="<%=one.logo%>" alt="">
+                    <div class="media-body">
+                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <p class="data"><span>通过率：<%=rate(one.allowRate,0)%></span><span>申请人数：<%=one.applyNum%></span></p>
+                        <p class="summary text-overflow"><%=one.specialTxt%></p>
+                        <a class="btn linear-gradient-red">赚<%=one.baseSalary%>元</a>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        <%}%>
+        <%if(goods.loan.length!=0){%>
+            <h2 class="title">贷款</h2>
+            <ul class="list goods-list loan-goods-list">
+                <%for(var i = 0; i < goods.loan.length; i++) {var one=goods.loan[i]%>
+                <li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
+                    <img class="media-object fl" src="<%=one.logo%>" alt="">
+                    <div class="media-body">
+                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <p class="data"><span>月利率：<%=rate(one.monthRate,1)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
+                        <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
+                        <p class="text-right">通过率：<%=rate(one.allowRate,0)%></p>
+                        <a class="btn linear-gradient-red">赚<%=rate(one.baseSalary,1)%></a>
+                    </div>
+                </li>
+                <%}%>
+            </ul>
+        <%}%>
+        
+    </script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/pullToRefresh.js"></script>
+    <script src="js/config.js"></script>
+    <script src="plugin/template.js"></script>
+    <script>
+        var tplGoodsList = document.getElementById("tpl-goodslist").innerHTML;
+        var searchInput = document.getElementsByTagName('input')[0];
+        var iconClear = document.getElementById("icon-clear");
+        var searchRecordsContent = document.getElementById('search-records-content');
+        var btnRemoveall = document.getElementById('btn-removeall');
+        var page = 1, per_page = 10, type = '', total, goods;
+        var keyword = searchInput.value;
+        var data = {
+            page: page,
+            per_page: per_page,
+            type: type,
+            keyword: keyword
+        }
+        //搜索框交互
+        $("#searchInput").on('keypress', function (e) {
+            iconClear.className = 'icon-clear';
+            var keycode = e.keyCode;
+            var searchName = $(this).val();
+            if (keycode == '13') {
+                e.preventDefault();
+                //请求搜索接口  
+                keyword = searchInput.value;
+                data = {
+                    page: page,
+                    per_page: per_page,
+                    type: type,
+                    keyword: keyword
+                }
+                searchRecordsContent.style.display = 'none';
+                Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+
+            }
+        })
+        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100).toFixed(num);
+            str += "%";
+            return str;
+        });
+        template.registerFunction('unit', function (amountLine) {//template辅助方法：换算‘万’单位
+            var str = Number(amountLine / 10000).toFixed(0);
+            str += "万";
+            return str;
+        });
+        template.registerFunction('_array', function (specialTag) {//template辅助方法：字符串转数组
+            var str = specialTag.split('，');
+            return str;
+        });
+        //清空input内容
+        iconClear.addEventListener("click", function () {
+            searchInput.value = '';
+            this.className = 'icon-clear hidden';
+            searchInput.focus();
+            document.querySelector('.wrapper-son').innerHTML = '';
+            searchRecordsContent.style.display = 'block';
+        })
+        //删除历史搜索和搜索历史关键字
+        searchRecordsContent.addEventListener('click', function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+            if (target.className.toLowerCase() == 'remove-btn') {
+                target.parentNode.parentNode.removeChild(target.parentNode);
+                console.log()
+                var lis = this.getElementsByTagName('li').length;
+                if (lis == 0) {
+                    this.innerHTML = '';
+                }
+
+            }
+            if (target.className.toLowerCase() == 'keyword') {
+                searchInput.focus();
+                searchInput.value = target.innerText;
+                iconClear.className = 'icon-clear';
+                pullDownAction();
+            }
+        })
+        btnRemoveall.addEventListener("click", function () {
+            searchRecordsContent.innerHTML = '';
+        })
+        //下拉刷新
+        function pullDownAction() {
+            page = 1;
+            keyword = searchInput.value;
+            data = {
+                page: page,
+                per_page: per_page,
+                type: type,
+                keyword: keyword
+            }
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+        }
+        // 上拉加载
+        function pullUpAction() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            page++;
+            console.log(page);
+            keyword = searchInput.value;
+            data = {
+                page: page,
+                per_page: per_page,
+                type: type,
+                keyword: keyword
+            }
+            console.log(total);
+            var div = document.createElement("div");
+            div.className = 'no-more';
+            div.innerHTML = '已经到底了哦～';
+            if (total < page) {
+                if (!document.querySelector('.no-more')) {
+                    document.querySelector('.wrapper-son').appendChild(div);
+                }
+                document.querySelector('.pullUpLabel').style.display = 'none';
+                myScroll.refresh();
+                return false;
+            } else {
+                Ajax(IP + 'msqudan/api/products/', data, getGoods);
+            }
+        }
+        function getGoods(Data) {
+            if (Data.code == 200) {
+                if (Data.data.total != 0) {
+                    total = (Data.data.total) / per_page;
+                    console.log(total);
+                    goods = Data.data;
+                    var html = template(tplGoodsList, goods);
+                    document.querySelector('.wrapper-son').innerHTML = html;
+                    myScroll.refresh();
+                } else {
+                    document.querySelector('.wrapper-son').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，换个条件试试~</p></div>';
+                }
+
+            }
+        }
+        function Ajax(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                data: data,
+                success: callback,
+                error: function () {
+                    alert("服务器繁忙，请稍候再试！")
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

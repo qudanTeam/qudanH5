@@ -1,0 +1,82 @@
+<html lang="en" style="font-size: 10px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>进度查询</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/progress.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>进度查询</h1>
+    </header>
+    <div class="content prodetail-content">
+        <div class="banner">
+            <img src="" alt="">
+        </div>
+        <div class="prodetail-main">
+            <h2 class="title">
+                <span class="logo-wrap">
+                    <img class="logo" src="images/icon-td.png" alt="">
+                </span>
+                <span class="product-name"></span>办卡进度
+            </h2>
+            <form action="" class="form-pro">
+                <div class="input-grow">
+                    <input type="text" placeholder="请输入申请人身份证">
+                </div>
+                <div class="input-grow input-grow-hasright input-grow-imgcode">
+                        <input type="text" placeholder="请输入图形验证码">
+                        <span class="btn-getcode"></span>
+                    </div>
+                <div class="input-grow input-grow-hasright">
+                    <input type="text" placeholder="请输入验证码">
+                    <span class="text-yellow btn-getcode">获取验证码</span>
+                </div>
+            </form>
+            <div class="btn-wrap">
+                <a class="btn linear-gradient-yellow">查询办卡进度</a>
+            </div>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var bannerImg = document.querySelector('.prodetail-content img');
+        var productLogo = document.querySelector('.logo');
+        var productName = document.querySelector('.product-name');
+         var id = getQueryString('id');
+        ajaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+        function getDetail(Data){
+            if(Data.code==200){
+                var product = Data.data.detail.product;
+                bannerImg.setAttribute('src',product.progressQueryImg);
+                productLogo.setAttribute('src',product.logo);
+                productName.innerHTML = product.productName;
+            }
+        }
+        function ajaxGet(url, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'json',
+                success: callback,
+                error: function () {
+                    alert("服务器繁忙，请稍候再试！")
+                }
+            })
+        }
+    </script>
+
+</body>
+
+</html>

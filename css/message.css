@@ -1,0 +1,71 @@
+html,body{
+    background-color: #fff;
+}
+/* 消息列表start */
+.message-list li{
+    padding:.16rem 0;
+    font-size: .16rem;
+    color: #000;
+}
+.message-list .text-overflow{
+    margin-top:.08rem;
+    font-size: .13rem;
+}
+.message-list li .navigate-right{
+    position: absolute;
+    top:.12rem;
+    right:0;
+    width: .24rem;
+    height:.24rem;
+    background:url(../images/icon-arrow.png) no-repeat;
+    background-size: contain;
+}
+
+.btn-wrap{
+    position: fixed;
+    width: 100%;
+    bottom: .5rem;
+    text-align: center;
+}
+.btn-wrap button{
+    width: 1.2rem;
+    height:.36rem;
+    font-size: .16rem;
+}
+.nomsg{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    text-align: center;
+}
+.nomsg img{
+    width: 53%;
+}
+.nomsg p{
+    font-size: .13rem;
+    color:#b5b5b5;
+}
+/* 消息列表end */
+/* 消息详情start */
+.message-title{
+    position: relative;
+    height: .44rem;
+    line-height: .44rem;
+}
+.message-title h2{
+font-size: .18rem;
+font-weight: normal;
+}
+.message-title  .remove{
+    position: absolute;
+    right: 0;
+    top: 0rem;
+    color: #ffbf00;
+    font-size: .16rem;
+}
+.message-content{
+    margin-top: .1rem;
+}
+/* 消息详情end */

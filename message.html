@@ -1,0 +1,64 @@
+<html lang="en" style="font-size: 10px;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>消息</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/message.css?v=2018122701">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>消息</h1>
+    </header>
+    <section class="bgcolor-white">
+        <div class="content">
+            <!-- <div class="nomsg">
+                <img src="images/noMessage.png" alt="">
+                <p>暂无消息～</p>
+            </div> -->
+            <ul class="list message-list">
+                <li onclick='window.location.href="messageDetail.html"'>
+                    招商信用卡办理通知<span class="navigate-right fr"></span>
+                    <p class="text-overflow">恭喜您，您的招商信用卡申请成功，请留意您的卡片物流请留意您的卡片物流</p>
+                </li>
+                <li>
+                    招商信用卡办理通知<span class="navigate-right fr"></span>
+                    <p class="text-overflow">恭喜您，您的招商信用卡申请成功，请留意您的卡片物流请留意您的卡片物流</p>
+                </li>
+            </ul>
+        </div>
+        <div class="btn-wrap"><button class="btn btn-primary btn-outlined" id="removeAll">清空</button></div>
+    </section>
+    <section class="bgcolor-white"></section>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        window.onload = function () {
+            //清空全部消息
+            var removeAllBtn = document.getElementById('removeAll');
+            removeAllBtn.addEventListener("click", function () {
+                layerConfirm('是否确认清空全部消息', '确定', removeAll());
+            });
+        }
+
+        function removeAll() {
+
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/login.css?v=2018122701">
+</head>
+
+<body>
+    <div class="content">
+        <div class="top">
+            <h1>您好，</h1>
+            <p>欢迎来到趣单，立即 <a href="register.html" class="text-yellow">注册</a></p>
+            <div class="img-wrap">
+                <img src="images/default-head-img.png" alt="">
+            </div>
+        </div>
+        <form action="" method="POST" id="login-form">
+            <div class="input-group">
+                <input type="number" placeholder="请输入手机号码" class="mobile" name="mobile">
+            </div>
+            <div class="input-group input-group-pwd">
+                <input type="password" placeholder="请输入密码" class="pwd" name="password">
+                <span class="fr forget-pwd text-right" id="newPwd">忘记密码？</span>
+
+            </div>
+            <div class="input-group input-group-code" style="display: none;">
+                <input type="number" placeholder="请输入验证码" class="code" name="validcode">
+                <span class="fr text-blue text-right" id="getVcode">获取验证码</span>
+                <span class="fr time-wrap text-right" style="display:none;">重新获取(<i class="time">60</i>s)</span>
+            </div>
+            <div class="login-btn-wrap">
+                <a class="login-type">验证码登录</a>
+                <a class="btn btn-primary btn-submit fr" type="submit">立即登录</a>
+            </div>
+        </form>
+        <div class="wechat-login"><a class="btn">微信登录</a></div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var loginType = document.querySelector(".login-type");
+        var inputPwd = document.querySelector('.input-group-pwd');
+        var inputCode = document.querySelector('.input-group-code');
+        var btnSubmit = document.querySelector('a[type="submit"]');
+        var btnGetVcode = document.getElementById('getVcode');
+        var btnWechatLogin = document.querySelector(".wechat-login");
+        var btnNewPwd = document.getElementById("newPwd");
+        var clickCount = 0;
+        var token;
+        //微信授权登录
+        btnWechatLogin.addEventListener("click",function(){
+            var REDIRECT_URI = encodeURIComponent(domain_test+'blank.html');
+            window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri="+REDIRECT_URI+"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+        })
+        //验证码登录和密码登录切换
+        loginType.addEventListener("click", function () {
+            if (clickCount == 0) {
+                this.innerText = '密码登录';
+                inputCode.style.display = 'block';
+                inputPwd.style.display = 'none';
+                clickCount = 1;
+            } else {
+                this.innerText = '验证码登录';
+                inputPwd.style.display = 'block';
+                inputCode.style.display = 'none';
+                clickCount = 0;
+            }
+
+        })
+        btnGetVcode.addEventListener("click", function () {
+            var _this = this;
+            getCode(_this,2,token);
+        })
+
+        //登录事件
+        btnSubmit.addEventListener('click', function () {
+            var mobile = document.querySelector('.mobile').value;
+            var pwd = document.querySelector('.pwd').value;
+            var vCode = document.querySelector('.code').value;
+            var data;
+            if (clickCount == 0) {
+                if (mobile == '') {
+                    layerMsg('请输入手机号');
+                    return false;
+                }
+                if (pwd == '') {
+                    layerMsg('请输入密码');
+                    return false;
+                }
+                data = JSON.stringify({
+                    mobile: mobile,
+                    password: pwd
+                });
+            }
+            if (clickCount == 1) {
+                if (mobile == '') {
+                    layerMsg('请输入手机号');
+                    return false;
+                }
+                if (vCode == '') {
+                    layerMsg('请输入验证码');
+                    return false;
+                }
+                data = JSON.stringify({
+                    mobile: mobile,
+                    validcode: vCode
+                });
+            }
+
+            Ajax_token(IP + 'msqudan/api/login', "POST", token, data, login);
+        })
+        //忘记密码
+        btnNewPwd.addEventListener("click", function () {
+            window.location.href = "resetPwd.html";
+        })
+        function login(Data) {
+            if (Data.code == 200) {
+                document.cookie = "token=" + Data.data.token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+                window.location.href = "index.html";
+            } else {
+                layerMsg(Data.error.message);
+            }
+        }
+
+    </script>
+</body>
+
+</html>

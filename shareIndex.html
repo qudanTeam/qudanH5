@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分享素材</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/qudan.css?v=2018122701">
+    <style>
+        body .layui-m-layer .layui-m-layer-msg.layer-msg{display: block;bottom: -150px;line-height: .44rem;height: .44rem;}
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>分享素材</h1>
+    </header>
+    <nav class="shareIndex-nav">
+        <a class="active"><span>文案素材</span></a>
+        <a class="sharePoster-btn"><span>分享海报</span></a>
+    </nav>
+    <div class="content shareIndex-content">
+        <div class="text" id="text1-wrap">
+
+        </div>
+
+        <div class="flex-wrap">
+            <div class="flex-item">
+                <button class='btn btn-outlined btn-primary' id="copy-btn1">一键复制</button>
+            </div>
+            <div class="flex-item">
+                <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
+            </div>
+        </div>
+    </div>
+    <div class="gap"></div>
+    <div class="content shareIndex-content">
+        <div id="text2-wrap">
+        </div>
+        <div class="flex-wrap">
+            <div class="flex-item">
+                <button class='btn btn-outlined btn-primary' id="copy-btn2">一键复制</button>
+            </div>
+            <div class="flex-item">
+                <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
+            </div>
+            <!-- <div class="flex-item">
+                <a class='btn btn-outlined btn-red' id="download-btn">保存图片</a>
+            </div> -->
+        </div>
+    </div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <!-- Background of PhotoSwipe. 
+             It's a separate element as animating opacity is faster than rgba(). -->
+        <div class="pswp__bg"></div>
+
+        <!-- Slides wrapper with overflow:hidden. -->
+        <div class="pswp__scroll-wrap">
+
+            <!-- Container that holds slides. 
+                PhotoSwipe keeps only 3 of them in the DOM to save memory.
+                Don't modify these 3 pswp__item elements, data is added later on. -->
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+
+            <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+            <div class="pswp__ui pswp__ui--hidden">
+
+                <div class="pswp__top-bar">
+
+                    <!--  Controls are self-explanatory. Order can be changed. -->
+
+                    <div class="pswp__counter"></div>
+
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                    <!-- element will get class pswp__preloader--active when preloader is running -->
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script id='tpl1' type="text/html">
+        <div class="text">
+            <%=detail.shares[0].content%>
+        </div>
+    </script>
+    <script id='tpl2' type="text/html">
+        <div class="text">
+            <%=detail.shares[0].content%>
+        </div>
+       
+        <div class="flex-wrap flex-wrap-img my-gallery" data-pswp-uid="1">
+            <!-- <figure class="flex-wrap">
+                <div class="">
+                    <a href="images/icon-srrecord.png"  data-size="106x108"><img src="images/icon-srrecord.png" alt="" class="downloadImg"></a>
+                </div>
+            </figure>
+            <figure class="flex-wrap">
+                <div class="">
+                    <a href="images/icon-td.png" data-size="106x108"><img src="images/icon-td.png" alt="" class="downloadImg"></a>
+                </div>
+            </figure> -->
+            <%for(var i=0;i<_array(detail.shares[0].shareImg).length;i++){%>
+            <figure class="flex-wrap">
+                <div class="">
+                    <a href="<%=_array(detail.shares[0].shareImg)[i]%>"  data-size="106x108">
+                        <img src="<%=_array(detail.shares[0].shareImg)[i]%>" alt="" >
+                    </a>
+                </div>
+            </figure>
+            <%}%>
+        </div>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <!-- <script src="plugin/fly-zomm-img.min.js"></script> -->
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="plugin/clipboard.js"></script>
+    <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
+    <link rel="stylesheet" href="plugin/photoswipe/photoswipe.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/photoswipe/default-skin/default-skin.css?v=2018122701">
+    <script src="plugin/photoswipe/photoswipe.min.js"></script>
+    <script src="plugin/photoswipe/photoswipe-ui-default.min.js"></script>
+    <script>
+
+        var tpl1 = document.getElementById('tpl1').innerHTML;
+        var tpl2 = document.getElementById('tpl2').innerHTML;
+        var text1Wrap = document.getElementById("text1-wrap");
+        var text2Wrap = document.getElementById("text2-wrap");
+        var sharePosterBtn = document.querySelector(".sharePoster-btn");
+        var makePosterBtns = document.querySelectorAll(".makePoster-btn");
+        var btnDownload = document.getElementById("download-btn");
+        var id = getQueryString('id');
+        var ptype = getQueryString('ptype');
+        var detail;
+        AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+        template.registerFunction('_array', function (shareImg) {//template辅助方法：字符串转数组
+            var str = shareImg.split('，');
+            return str;
+        });
+        sharePosterBtn.setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + ptype);
+        for (var i = 0; i < makePosterBtns.length; i++) {
+            makePosterBtns[i].setAttribute('href', 'makePoster.html?id=' + id + '&ptype=' + ptype);
+        }
+
+
+        function getDetail(Data) {
+            if (Data.code == 200) {
+                detail = Data.data.detail;
+                var html1 = template(tpl1, detail);
+                var html2 = template(tpl2, detail);
+                text1Wrap.innerHTML = html1;
+                text2Wrap.innerHTML = html2;
+                //一健复制
+                var clipboard1 = new ClipboardJS('#copy-btn1', {
+                    text: function () {
+                        return detail.shares[0].content;
+                    }
+                });
+                var clipboard2 = new ClipboardJS('#copy-btn2', {
+                    text: function () {
+                        return detail.shares[0].content;
+                    }
+                });
+
+                clipboard1.on('success', function (e) {
+                    layerMsg("复制成功！")
+                });
+
+                clipboard1.on('error', function (e) {
+                    layerMsg('请选择“拷贝”进行复制!')
+                });
+                clipboard2.on('success', function (e) {
+                    layerMsg("复制成功！")
+                });
+
+                clipboard2.on('error', function (e) {
+                    layerMsg('请选择“拷贝”进行复制!')
+                });
+                //图片预览
+                var initPhotoSwipeFromDOM = function (gallerySelector) {
+                    // 解析来自DOM元素幻灯片数据（URL，标题，大小...）
+                    var parseThumbnailElements = function (el) {
+                        var thumbElements = el.childNodes,
+                            numNodes = thumbElements.length,
+                            items = [],
+                            figureEl,
+                            linkEl,
+                            size,
+                            item,
+                            divEl;
+                        for (var i = 0; i < numNodes; i++) {
+                            figureEl = thumbElements[i]; // <figure> element
+                            // 仅包括元素节点
+                            if (figureEl.nodeType !== 1) {
+                                continue;
+                            }
+                            divEl = figureEl.children[0];
+                            linkEl = divEl.children[0]; // <a> element
+                            size = linkEl.getAttribute('data-size').split('x');
+                            // 创建幻灯片对象
+                            item = {
+                                src: linkEl.getAttribute('href'),
+                                w: parseInt(size[0], 10),
+                                h: parseInt(size[1], 10)
+                            };
+                            if (figureEl.children.length > 1) {
+                                item.title = figureEl.children[1].innerHTML;
+                            }
+                            if (linkEl.children.length > 0) {
+                                // <img> 缩略图节点, 检索缩略图网址
+                                item.msrc = linkEl.children[0].getAttribute('src');
+                            }
+                            item.el = figureEl; // 保存链接元素 for getThumbBoundsFn
+                            items.push(item);
+                        }
+                        return items;
+                    };
+
+                    // 查找最近的父节点
+                    var closest = function closest(el, fn) {
+                        return el && (fn(el) ? el : closest(el.parentNode, fn));
+                    };
+
+                    // 当用户点击缩略图触发
+                    var onThumbnailsClick = function (e) {
+                        e = e || window.event;
+                        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                        var eTarget = e.target || e.srcElement;
+                        var clickedListItem = closest(eTarget, function (el) {
+                            return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+                        });
+                        if (!clickedListItem) {
+                            return;
+                        }
+                        var clickedGallery = clickedListItem.parentNode,
+                            childNodes = clickedListItem.parentNode.childNodes,
+                            numChildNodes = childNodes.length,
+                            nodeIndex = 0,
+                            index;
+                        for (var i = 0; i < numChildNodes; i++) {
+                            if (childNodes[i].nodeType !== 1) {
+                                continue;
+                            }
+                            if (childNodes[i] === clickedListItem) {
+                                index = nodeIndex;
+                                break;
+                            }
+                            nodeIndex++;
+                        }
+                        if (index >= 0) {
+                            openPhotoSwipe(index, clickedGallery);
+                        }
+                        return false;
+                    };
+
+                    var photoswipeParseHash = function () {
+                        var hash = window.location.hash.substring(1),
+                            params = {};
+                        if (hash.length < 5) {
+                            return params;
+                        }
+                        var vars = hash.split('&');
+                        for (var i = 0; i < vars.length; i++) {
+                            if (!vars[i]) {
+                                continue;
+                            }
+                            var pair = vars[i].split('=');
+                            if (pair.length < 2) {
+                                continue;
+                            }
+                            params[pair[0]] = pair[1];
+                        }
+                        if (params.gid) {
+                            params.gid = parseInt(params.gid, 10);
+                        }
+                        return params;
+                    };
+
+                    var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+                        var pswpElement = document.querySelectorAll('.pswp')[0],
+                            gallery,
+                            options,
+                            items;
+                        items = parseThumbnailElements(galleryElement);
+                        // 这里可以定义参数
+                        options = {
+                            barsSize: {
+                                top: 100,
+                                bottom: 100
+                            },
+                            bgOpacity:0.5,
+                            tapToClose:true,
+                            shareEl:false,
+                            fullscreenEl: false,
+                            galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+                            getThumbBoundsFn: function (index) {
+                                var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                                    pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                                    rect = thumbnail.getBoundingClientRect();
+                                return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
+                            }
+                        };
+                        if (fromURL) {
+                            if (options.galleryPIDs) {
+                                for (var j = 0; j < items.length; j++) {
+                                    if (items[j].pid == index) {
+                                        options.index = j;
+                                        break;
+                                    }
+                                }
+                            } else {
+                                options.index = parseInt(index, 10) - 1;
+                            }
+                        } else {
+                            options.index = parseInt(index, 10);
+                        }
+                        if (isNaN(options.index)) {
+                            return;
+                        }
+                        if (disableAnimation) {
+                            options.showAnimationDuration = 0;
+                        }
+                        gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                        gallery.init();
+                    };
+
+                    var galleryElements = document.querySelectorAll(gallerySelector);
+                    for (var i = 0, l = galleryElements.length; i < l; i++) {
+                        galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+                        galleryElements[i].onclick = onThumbnailsClick;
+                    }
+                    var hashData = photoswipeParseHash();
+                    if (hashData.pid && hashData.gid) {
+                        openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
+                    }
+                };
+
+                initPhotoSwipeFromDOM('.my-gallery');
+            }
+        }
+
+       
+    </script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>

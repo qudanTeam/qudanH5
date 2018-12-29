@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>设置新密码</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/login.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>设置新密码</h1>
+    </header>
+    <div class="content content-register">
+        <div class="img-wrap">
+            <img src="images/default-head-img.png" alt="">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="请输入您的密码" class="pwd">
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="请再次确认您的新密码" class="pwd">
+        </div>
+        <div class="register-btn-wrap">
+            <a class="btn btn-primary btn-submit">保存</a>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token;
+        var shareid = getCookie("shareid");
+        var type = getQueryString("type");
+        var vCode = getQueryString("vcode");
+        var mobile = getQueryString("mobile");
+        var pwds = document.querySelectorAll(".pwd");
+        var btnSubmit = document.querySelector(".btn-submit");
+        // 验证密码是否一致
+        btnSubmit.addEventListener("click", function () {
+            if ((pwds[0].value) == (pwds[1].value)) {
+                console.log(pwds[0].value);
+                btnSubmit.setAttribute("disabled", "");
+            } else {
+                layerMsg("两次密码输入不一致");
+                btnSubmit.setAttribute("disabled", "disabled");
+                return false;
+            }
+            var data = JSON.stringify({
+                "mobile": mobile,
+                "validcode": vCode,
+                "password": pwds[0].value
+            });
+            var data_reg = JSON.stringify({
+                "mobile": mobile,
+                "validcode": vCode,
+                "password": pwds[0].value,
+                "shareid": shareid
+            });
+            if (type == 1) {//注册设置新密码
+                _AjaxReg(IP + "msqudan/api/register", data_reg, register)
+            }
+            if (type == 3) {//重置密码
+                _AjaxReset(IP + "msqudan/api/forget", data, resetPwd)
+            }
+
+        })
+        function register(Data) {
+            if (Data.code == 200) {
+                window.location.href = "registerSuc.html";
+                //清除shareid
+                document.cookie = "shareid='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                //存储token
+                document.cookie = "token=" + Data.data.token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+            }
+        }
+        function resetPwd(Data) {
+            if (Data.code == 200) {
+                layerMsg("重置成功");
+                setTimeout("window.location.href='login.html'", 3000);
+            }
+        }
+        function _AjaxReg(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                data: data,
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    window.location.href = "registerFail.html";
+                }
+            })
+        }
+        function _AjaxReset(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                contentType: 'application/json;charset=utf-8',
+                data: data,
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                }
+            })
+        }        
+    </script>
+</body>
+
+</html>

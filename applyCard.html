@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我要办卡</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/qudan.css?v=2018122701">
+</head>
+
+<body class="apply apply-card">
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>我要办卡</h1>
+    </header>
+    <div class="banner">
+        <img src="" alt="">
+    </div>
+
+    <div class="btn-wrap fixed-bottom-btn">
+        <a class="btn linear-gradient-red" id='btn-applycard'>申请办卡</a>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token = getCookie('token');
+        var btnApplyCard = document.getElementById("btn-applycard");
+        var bannerImg = document.querySelector(".banner img");
+        var clickcount = 0;
+        var id = getQueryString('id');
+        var status;
+        var html = '<h2 class="title">信息填写</h2>\
+                    <form action="">\
+                        <div class="input-grow">\
+                            <input type="text" placeholder="请输入您的姓名" class="name">\
+                        </div>\
+                        <div class="input-grow">\
+                            <input type="number" placeholder="请输入您的手机号" class="mobile">\
+                        </div>\
+                        <div class="input-grow">\
+                            <input type="number" placeholder="请输入您的身份证号码" class="idNo">\
+                        </div>\
+                        <div class="input-grow ">\
+                            <input type="number" placeholder="请输入短信验证码" class="vcode">\
+                            <span class="text-yellow fr get-code">获取验证码</span>\
+                            <div class="time-wrap" style="display:none;">重新获取(<span class="time">60</span>s)</div>\
+                        </div>\
+                    </form>\
+                    <div class="tips">\
+                        <p class="protocol"><span class="radio checked" onclick="check(this)"></span><input type="radio"/>阅读并同意<a class="text-yellow" href="protocolService.html">《趣单平台服务协议》</a></p>\
+                        <p>1、请务必填写本人真实个人信息；</p>\
+                        <p>2、银行审核通知将以短信形式直接发送到手机。</p>\
+                    </div>\
+                    <div class="btn-wrap"><a class="btn linear-gradient-yellow btn-submit">立即申请</a></div>\
+                    <span class="icon-close"></span>';
+        //获取用户信息，判断是否实名
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
+        AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+        btnApplyCard.addEventListener("click", function () {
+            setTimeout(function () {
+                if (status != 3) {//未实名
+                    notRealName();
+                } else {
+                    layerHtml('', html);
+                    //获取验证码
+                    var btnGetVcode = document.querySelector('.get-code');
+                    btnGetVcode.addEventListener("click", function () {
+                        var _this = this;
+                        getCode(_this, 4, token);
+                    })
+                    var btnSubmit = document.querySelector(".btn-submit");
+                    //提交申请
+                    btnSubmit.addEventListener("click", function () {
+                        apply();
+                    })
+                }
+            }, 200)
+        })
+
+        function getDetail(Data) {
+            if (Data.code == 200) {
+                bannerImg.setAttribute('src', Data.data.detail.product.cardLongImg);
+            }
+        }
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                status = Data.data.user.status;
+            }
+        }
+        function notRealName() {
+            var html = '<div class="img-wrap"></div>\
+                    <h3>身份尚未认证</h3>\
+                    <p>为保证您的资金安全，您需要先通过认证。</p>\
+                    <a class="btn linear-gradient-yellow btn-identify" href="userInfo.html">去认证</a>\
+                    <span class="icon-close"></span>';
+            layerHtml('cash-html', html);
+        }
+        function apply() {
+            var name = document.querySelector(".name").value;
+            var mobile = document.querySelector(".mobile").value;
+            var idNo = document.querySelector(".idNo").value;
+            var vCode = document.querySelector(".vcode").value;
+            var shareid = getCookie("shareid");
+            if (name == '') {
+                layerMsg('请输入姓名');
+                return false;
+            }
+            if (mobile == '') {
+                layerMsg('请输入手机号');
+                return false;
+            }
+            if (!(/^1[34578]\d{9}$/.test(mobile))) {
+                layerMsg("请输入正确的手机号");
+                return false;
+            }
+            if (idNo == '') {
+                layerMsg('请输入身份证号码');
+                return false;
+            }
+            if (idNo != "") {
+                // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if (reg.test(idNo) === false) {
+                    layerMsg("身份证输入不合法");
+                    return false;
+                }
+            }
+            if (vCode == '') {
+                layerMsg('请输入验证码');
+                return false;
+            }
+
+            var data = JSON.stringify({
+                productId: id,
+                inviteCode: '',
+                shareid: shareid,
+                name: name,
+                mobile: mobile,
+                idNo: idNo,
+                validcode: vCode
+            });
+            AjaxToken(IP + "msqudan/api/user/apply/card", "POST", token, data, applyCard)
+        }
+        function applyCard(Data) {
+            if (Data.code == 200) {
+                layerMsg("提交成功，请等待审核");
+                setTimeout("layer.closeAll()", 2000);
+                //清除shareid
+                document.cookie = "shareid='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            }
+        }
+        function check(e) {//勾选协议
+            if (clickcount == 1) {
+                e.setAttribute("checked", "checked");
+                e.className = 'radio checked';
+                clickcount = 0;
+            } else if (clickcount == 0) {
+                e.setAttribute("checked", "");
+                e.className = 'radio';
+                clickcount = 1;
+            }
+        }
+        function AjaxToken(url, type, token, data, callback) {
+            $.ajax({
+                url: url,
+                type: type,
+                dataType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': token
+                },
+                data: data,
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                    setTimeout("layer.closeAll()", 2000);
+                }
+            })
+        }
+
+    </script>
+</body>
+
+</html>

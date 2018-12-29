@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>提现记录</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>提现记录</h1>
+    </header>
+    <div class="content">
+        <div class="tab tab-record">
+            <a class="btn tab-title active">待审核</a>
+            <a class="btn  tab-title ">已完成</a>
+            <a class="btn  tab-title ">审核未通过</a>
+        </div>
+        <ul class="list cash-list">
+            <li>
+                <div class="media-body">
+                    <h3 class="title">余额提现</h3>
+                    <p class="date">09-06 12:00:43</p>
+                    <p class="top-right text-red">待审核</p>
+                    <p class="bottom-right data">＋125</p>
+                </div>
+            </li>
+            <li>
+                <div class="media-body">
+                    <h3 class="title">余额提现</h3>
+                    <p class="date">09-06 12:00:43</p>
+                    <p class="top-right ">已完成</p>
+                    <p class="bottom-right text-red">＋125</p>
+                </div>
+            </li>
+            <li>
+                <div class="media-body">
+                    <h3 class="title">余额提现</h3>
+                    <p class="date">09-06 12:00:43</p>
+                    <p class="top-right text-red">审核未通过</p>
+                    <p class="bottom-right">＋125</p>
+                    <p class="text-red tips">拒绝理由：您提交的金额须在50-5000元之间才能提现。</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(".tab a").click(function () {
+            $(this).addClass("active").siblings('a').removeClass('active');
+        })
+    </script>
+
+</body>
+
+</html>

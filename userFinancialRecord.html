@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>财务记录</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+    <style>
+        html,
+        body {
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>财务记录</h1>
+    </header>
+    <div class="banner-finacial">
+
+    </div>
+    <div class="content content-finacial">
+        <div class="module flex-wrap">
+            <div class="flex-item flex-wrap" onclick="window.location.href='userIncomeRecord.html'">
+                <div class="img-wrap"></div>
+                <div class="title">收入记录</div>
+            </div>
+            <div class="flex-item flex-wrap" onclick="window.location.href='userCashRecord.html'">
+                <div class="img-wrap"></div>
+                <div class="title">提现记录</div>
+            </div>
+        </div>
+        <div class="btn-wrap">
+            <a class="btn btn-primary btn-cash">立即提现</a>
+        </div>
+        <div class="cash-rule">
+            <h3>提现规则说明</h3>
+            <div><span class="index">1</span>
+                <p>提现时间说明：周一到周六，9：00-21：00，超过以上时段，T+1工作日处理，节假日顺延正常工作日处理。</p>
+            </div>
+            <div><span class="index">2</span>
+                <p>提现到账说明：提现申请处理审核完成后48小时打款，到账时间以支付宝到账时间为准。。</p>
+            </div>
+            <div><span class="index">3</span>
+                <p>申请提现必须满足实名认证，支付宝绑定本人真实信息，手机号绑定；每日提现不得超过三次，单次提现金额50-5000元；提现时平台不收取手续费。</p>
+            </div>
+            <div><span class="index">4</span>
+                <p>如有任何问题，请联系客服。</p>
+            </div>
+        </div>
+    </div>
+    <script id="tpl" type="text/html">
+        <h2>¥<%=user.blance%></h2>
+        <p class="title">我的余额(元)</p>
+        <div class="flex-wrap">
+            <div class="flex-item flex-wrap">
+                <div class="data"><%=user.txGoing%></div>
+                <div class="title">正在提现中(元)</div>
+            </div>
+            <div class="flex-item flex-wrap">
+                <div class="data"><%=user.allowTx%></div>
+                <div class="title">可提现余额(元)</div>
+            </div>
+            <div class="flex-item flex-wrap">
+                <div class="data"><%=user.waitSettle%></div>
+                <div class="title">待结算(元)</div>
+            </div>
+        </div>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/template.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var token = getCookie('token');
+        var tpl = document.getElementById("tpl").innerHTML;
+        var bannerFinacial = document.querySelector(".banner-finacial");
+        var btnCash = document.querySelector(".btn-cash");
+        var isFinance;
+        var noFinance = '<div class="img-wrap"></div>\
+                    <h3>身份尚未认证</h3>\
+                    <p>为保证您的资金安全，您需要先通过认证。</p>\
+                    <a class="btn linear-gradient-yellow btn-identify" href="userRealName.html">去认证</a>\
+                    <span class="icon-close"></span>';
+
+
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                user = Data.data.user;
+                isFinance = user.financeStatus;
+                var html = template(tpl, user);
+                bannerFinacial.innerHTML = html;
+                btnCash.addEventListener("click", function () {
+                    if(isFinance==3){
+                        window.location.href="userApplyCash.html";
+                    }else{
+                        layerHtml('cash-html', noFinance);
+                    }
+                    
+                })
+            }
+        }
+    </script>
+</body>
+
+</html>

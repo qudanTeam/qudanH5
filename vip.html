@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VIP</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/vip.css?v=2018122701">
+</head>
+<body>
+    <!-- <header id="header">
+        <a class='icon-back'></a>
+        <h1>VIP中心</h1>
+    </header> -->
+    <ul class="nav">
+        <li><a href="index.html"> <i class="icon icon-home"></i>首页</a> </li>
+        <li><a href="qudanIndex.html"><i class="icon icon-qd"></i>趣单</a> </li>
+        <li class="active"><a class="vip"><i class="icon icon-vip"></i>VIP</a></li>
+        <li><a class="usermain"><i class="icon icon-user"></i>我的</a></li>
+    </ul>
+    <div class="content-fixedbottom">
+        <div class="user-info">
+
+        </div>
+        <div class="main">
+            <div class="title-wrap">
+                <h2 class="title">趣单套餐</h2>
+                <span class="sub-title">购买VIP让收益高额叠加</span>
+                <a class="btn-vipxplain">VIP说明</a>
+            </div>
+            <div id="vip-level-wrap"></div>
+
+        </div>
+    </div>
+    <script id="tpl-userinfo" type="text/html">
+        <div class="media-object fl">
+            <%if(userInfo.userface==''){%>
+            <img src="images/default-head-img.png" alt="" class=" ">
+            <%}else{%>
+            <img src="<%=userInfo.userface%>" alt="" class=" ">
+            <%}%>
+        </div>
+        <%if(userInfo.isVip){%>
+        <div class="media-body">
+            <%if(userInfo.username==''){%>
+            <h2><%=des(userInfo.registerMobile)%> 
+            <%}else{%>
+            <h2><%=userInfo.username%> 
+            <%}%>
+            <%if(userInfo.vipLevel){%>
+                <i class="icon-vip-level level<%=userInfo.vipLevel%>"></i>
+            <%}%>
+            </h2>
+            <p>趣单id：<%=user.id%></p>
+            <p class="date">有效期至<%=userInfo.vip.vipExpireDate%></p>
+        </div>
+        <span class="btn btn-primary">享受佣金加成<%=rate(userInfo.vip.vipRate)%></span>
+        <%}else if(!userInfo.isVip){%>
+        <div class="media-body">
+            <%if(userInfo.username==''){%>
+            <h2><%=des(userInfo.registerMobile)%> </h2>
+            <%}else{%>
+            <h2><%=userInfo.username%> </h2>
+            <%}%>
+            <p style="margin-top:.06rem;">趣单id：<%=userInfo.id%></p>
+        </div>
+        <span class="btn btn-not-vip">暂无佣金加成</span>
+        <%}%>
+    </script>
+    <script id="tpl-main" type="text/html">
+        <%for(var i = 0; i < _vips.vips.length; i++) {%>
+        <div class="vipLevel vipLevel<%=i+1%>">
+            <div class="flex-wrap">
+                <div class="media-object">
+                    <img src="images/VIP<%=i+1%>@2x.png" alt="">
+                    <a class="btn btn-vip1">享佣金加成<%=rate(_vips.vips[i].addRate)%></a>
+                </div>
+                <div class="media-body">
+                    <p>服务周期<span class="data"><%=_vips.vips[i].serviceDays%>天</span></p>
+                    <p class="data"><%=_vips.vips[i].vipPrice%>元</p>
+                    <a class="btn btn<%=i+1%>">立即开通</a>
+                </div>
+            </div>
+            <div class="tips">注：为了您的账户资金安全及VIP套餐服务，请查看“<span class="btn-vipxplain">VIP说明</span>”</div>
+        </div>
+        <div class="gap"></div>
+        <%}%> 
+        <div class="vip-privilege-wrap">
+            <h2 class="title">VIP特权</h2>
+            <div class="vip-privilege">
+                <div><span class="index">1</span>
+                    <p>VIP独特标识；</p>
+                </div>
+                <div><span class="index">2</span>
+                    <p>VIP推广任务佣金加成；VIP1佣金加成<%=rate(_vips.vips[0].addRate)%>，<br>VIP2佣金加成<%=rate(_vips.vips[1].addRate)%>；VIP佣金加成<%=rate(_vips.vips[2].addRate)%>；</p>
+                </div>
+                <div><span class="index">3</span>
+                    <p>提现优先通道；</p>
+                </div>
+                <div><span class="index">4</span>
+                    <p>高佣金任务优先推送。</p>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
+    <script>
+        var main = document.querySelector(".main");
+        var tplMain = document.getElementById("tpl-main").innerHTML;
+        var vipLevelWrap = document.getElementById("vip-level-wrap");
+        var tplUserInfo = document.getElementById("tpl-userinfo").innerHTML;
+        var userInfoWrap = document.querySelector(".user-info");
+        var userInfo, _vips, userVipLevel, layerContent,qudanId;
+        var token = getCookie('token');
+
+        main.addEventListener("click", function (e) {
+            var e = e || window.event;
+            var target = e.target || e.srcElement;
+            if (target.className.toLowerCase() == 'btn-vipxplain') {//vip说明弹框
+                layerHtml('', vipExplain());
+            }
+            if (target.className.toLowerCase() == 'btn btn1') {//立即开通弹框:vip1
+                layerHtml('applyVip-html', layerVip(0));
+            }
+            if (target.className.toLowerCase() == 'btn btn2') {//立即开通弹框:vip2
+                layerHtml('applyVip-html', layerVip(1));
+            }
+            if (target.className.toLowerCase() == 'btn btn3') {//立即开通弹框:vip3
+                layerHtml('applyVip-html', layerVip(2));
+            }
+        });
+        //获取用户信息
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
+        //获取vip等级
+        AjaxGet(IP + 'msqudan/api/vips', getVipContent);
+        template.registerFunction('rate', function (point) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100);
+            str += "%";
+            return str;
+        });
+
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
+        template.registerFunction("userVipLevel", function (level) {
+            return flag;
+        })
+        function getVipContent(Data) {
+            if (Data.code == 200) {
+                _vips = Data.data;
+                var html = template(tplMain, _vips);
+                vipLevelWrap.innerHTML = html;
+                var index;
+                layerContent = _vips;
+            }
+        }
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                userInfo = Data.data.user;
+                userVipLevel = userInfo.vipLevel;
+                qudanId = userInfo.id;
+                var html = template(tplUserInfo, userInfo);
+                userInfoWrap.innerHTML = html;
+                if (userVipLevel == 1) {
+                    document.querySelector(".vipLevel1 .media-body .btn").innerText = '立即续费';
+                }
+                if (userVipLevel == 2) {
+                    document.querySelector(".vipLevel2 .media-body .btn").innerText = '立即续费';
+                }
+                if (userVipLevel == 3) {
+                    document.querySelector(".vipLevel3 .media-body .btn").innerText = '立即续费';
+                }
+            }
+        }
+        //开通vip弹框
+        function layerVip(i) {
+            var num = i + 1;
+            var str;
+            str = '<div class="banner banner' + num + '"></div>\
+                        <div class="main"><ul>\
+                            <li><p>趣单id<span class="data fr">'+qudanId+'</span></p></li><li><p>服务周期<span class="data fr">'+ layerContent.vips[i].serviceDays + '天</span></p></li>\
+                            <li><p>佣金加成比例<span class="data fr">'+ Number(layerContent.vips[i].addRate*100)+ '%</span></p></li>\
+                        </ul><div class="money">'+ layerContent.vips[i].vipPrice + '元</div><div class="flex-wrap"><a class="btn linear-gradient-blue">支付宝支付</a><a class="btn linear-gradient-red">微信支付</a></div></div><span class="icon-close"></span>'
+            return str;
+        }
+        //vip说明
+        function vipExplain() {
+            var html = '<h2 class="title">VIP说明</h2>\
+                    <div class="vip-privilege">\
+                        <div> <span class="index">1</span>\
+                        <p>为增加用户收益率趣单平台特地推出VIP套餐服务，用户可开通相应的VIP套餐等级去赚取更多的工资以及佣金。</p>\
+                        </div >\
+                        <div><span class="index">2</span>\
+                            <p>用户在VIP1等级时开通了VIP2的服务，那VIP1的服务周期及佣金加成将重新变更为VIP2的服务周期及佣金加成。<br>如：您的VIP1服务周期还剩余3天，您又开通了VIP2的服务，那您VIP1的服务周期及佣金加成将失效，您的标识将变为VIP2，服务周期为'+layerContent.vips[1].serviceDays +'天，佣金加成比例为'+Number(layerContent.vips[1].addRate*100)+'%。</p>\
+                        </div>\
+                        <div><span class="index">3</span>\
+                            <p>如有疑问请联系客服。</p>\
+                        </div>\
+                        <div><span class="index">4</span>\
+                            <p>最终解释权归趣单平台所有。</p>\
+                        </div>\
+                    </div>\
+                    <span class="icon-close"></span>';
+            return html;
+        }
+    </script>
+</body>
+
+</html>

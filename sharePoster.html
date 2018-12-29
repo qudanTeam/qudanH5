@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分享海报</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/qudan.css">
+</head>
+
+<body class="poster">
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>商品推广海报</h1>
+    </header>
+    <div class="content-poster content-poster-share">
+        <img alt="" class="qr-code">
+    </div>
+    <div class="btn-wrap fixed-bottom-btn">
+        <a onclick="history.back(-1);" class="btn btn-back">返回</a>
+        <a class="btn linear-gradient-blue" id="btn-saveImg">分享海报</a>
+        <button class="btn linear-gradient-red" id="copy-btn">复制链接</button>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <script src="plugin/clipboard.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/share.js"></script>
+    <script>
+        var btnSaveImg = document.getElementById("btn-saveImg");
+        var qrCode = document.querySelector('.qr-code');
+        var token = getCookie('token');
+        var pid = getQueryString('id');
+        var ptype = getQueryString('ptype');
+        var loadingUrl;//分享出去的落地页
+        if (ptype == 1) {
+            loadingUrl = domain_test + "creditCardDetail.html?id=" + pid
+        }
+        if (ptype == 2) {
+            loadingUrl = domain_test + "loanDetail.html?id=" + pid
+        }
+        var data = JSON.stringify({
+            shareType: 1,
+            pid: pid,
+            loadingUrl: loadingUrl
+        });
+        var shareid, link;
+        Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
+        btnSaveImg.addEventListener("click", function () {
+            layerShare();
+            shareid = document.body.getAttribute("data-shareid");
+            link = window.location.href + "&shareid=" + shareid;
+            var wechat = document.querySelector("div.wechat");
+            var pyq = document.querySelector("div.pyq");
+            var qq = document.querySelector("div.qq");
+            var qqZone = document.querySelector("div.qq-zone");
+            wechat.addEventListener("click", appMsg);
+            pyq.addEventListener("click", timeline);
+            qq.addEventListener("click", appMsg);
+            qqZone.addEventListener("click", timeline);
+        })
+        function getQrcode(Data) {
+            if (Data.code == 200) {
+                qrCode.setAttribute('src', Data.data.qrCodeImgUrl);
+                document.body.setAttribute("data-shareid", Data.data.shareid);
+                var wxjsapi_data = location.href.split('#').toString();
+                ajaxWxjsapi(domain_test2 + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+                //复制链接
+                var clipboard = new ClipboardJS('#copy-btn', {
+                    text: function () {
+                        return Data.data.url;
+                    }
+                });
+
+                clipboard.on('success', function (e) {
+                    layerMsg("复制成功！")
+                });
+
+                clipboard.on('error', function (e) {
+                    layerMsg('请选择“拷贝”进行复制!')
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

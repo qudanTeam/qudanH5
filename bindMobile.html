@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定手机</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/login.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>绑定手机</h1>
+    </header>
+    <div class="content content-register">
+        <div class="img-wrap">
+            <img src="images/default-head-img.png" alt="">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="请输入手机号码" class="mobile">
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="请输入验证码" class="code">
+            <span class="fr text-blue text-right" id="getVcode">获取验证码</span>
+            <span class="fr time-wrap text-right" style="display:none;">重新获取(<i class="time">60</i>s)</span>
+        </div>
+        <div class="btn-submit-wrap">
+            <a class="btn btn-primary btn-submit">提交绑定</a>
+        </div>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        var btnGetVcode = document.getElementById('getVcode');
+        var btnSubmit = document.querySelector(".btn-submit");
+        var shareid = getQueryString("shareid");
+        var code = getQueryString("code");
+        var token;
+        var type = getQueryString("type");
+        var data = {
+            code: code,
+            type: type
+        };
+
+        ajaxGet(domain_test2 + "wechat/oauth", data, getWechatCode);
+        //获取验证码
+        btnGetVcode.addEventListener("click", function () {
+            var _this = this;
+            getCode(_this, 5, token);
+        })
+
+
+        function getWechatCode(Data) {
+            if (Data.code == 200) {
+                var wutid = Data.data.wutid;
+                token = Data.data.token;
+                console.log(token)
+                if (token) {
+                    document.cookie = "token=" + token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+                }
+                //提交绑定
+                btnSubmit.addEventListener("click", function () {
+                    var mobile = document.querySelector('.mobile').value;
+                    var validcode = document.querySelector('.code').value;
+                    var data;
+                    if (mobile == '') {
+                        layerMsg('请输入手机号');
+                        return false;
+                    }
+                    if (validcode == '') {
+                        layerMsg('请输入验证码');
+                        return false;
+                    }
+                    data = JSON.stringify({
+                        mobile: mobile,
+                        validcode: validcode,
+                        shareid: shareid,
+                        wutid: wutid
+                    });
+                    ajaxPost(domain_test2 + "msqudan/api/register/wx", data, wechatBind)
+                })
+            }
+        }
+        function wechatBind(Data) {
+            if (Data.code == 200) {
+                document.cookie = "token=" + Data.data.token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+                window.location.href = "index.html";
+            }
+        }
+        function ajaxPost(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json",
+                data: data,
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                }
+            })
+        }
+        function ajaxGet(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: data,
+                dataType: 'json',
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

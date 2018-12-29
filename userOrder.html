@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的订单</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>我的订单</h1>
+    </header>
+    <div class="content">
+        <div class="tab tab-record">
+            <a class="btn tab-title active">信用卡</a>
+            <a class="btn  tab-title ">贷款</a>
+        </div>
+        <ul class="sub-tab">
+            <li class="active"><a class="sub-tab-title">待查询</a></li>
+            <li><a class="sub-tab-title">已通过</a></li>
+            <li><a class="sub-tab-title">未通过</a></li>
+            <li><a class="sub-tab-title">审核中</a></li>
+        </ul>
+        <ul class="list order-list">
+            <li>
+                <img class="media-object fl" src="images/bg-dl.png" alt="">
+                <div class="media-body">
+                    <h3 class="title">浦发信用卡白金卡</h3>
+                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
+                    <p class="order-num">订单号：322222</p>
+                    <p class="text-blue top-right">待查询</p>
+                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
+                </div>
+            </li>
+            <li>
+                <img class="media-object fl" src="images/bg-dl.png" alt="">
+                <div class="media-body">
+                    <h3 class="title">浦发信用卡白金卡</h3>
+                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
+                    <p class="order-num">订单号：322222</p>
+                    <p class="text-blue top-right">非首次申请</p>
+                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
+                </div>
+            </li>
+            <li>
+                <img class="media-object fl" src="images/bg-dl.png" alt="">
+                <div class="media-body">
+                    <h3 class="title">浦发信用卡白金卡</h3>
+                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
+                    <p class="order-num">订单号：322222</p>
+                    <p class="text-blue top-right">已通过</p>
+                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
+                </div>
+            </li>
+            <li>
+                <img class="media-object fl" src="images/bg-dl.png" alt="">
+                <div class="media-body">
+                    <h3 class="title">浦发信用卡白金卡</h3>
+                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
+                    <p class="order-num">订单号：322222</p>
+                    <p class="text-blue top-right">申请被拒</p>
+                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        $(".tab a").click(function () {
+            $(this).addClass("active").siblings("a").removeClass("active");
+        })
+        $(".sub-tab li").click(function () {
+            $(this).addClass("active").siblings("li").removeClass("active");
+        })
+    </script>
+</body>
+
+</html>

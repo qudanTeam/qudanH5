@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>消息详情</title>
+    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <script src="js/rem.js"></script>
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
+    <link rel="stylesheet" href="css/message.css?v=2018122701">
+    <script>
+
+    </script>
+</head>
+
+<body>
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>消息</h1>
+    </header>
+    <div class="content" id="content">
+        <div class="message-title">
+            <h2>招商信用卡办理通知</h2><span class="remove">删除</span>
+        </div>
+        <div class="message-content">
+            <p>您好，您的招商信用卡办理申请已通过，请留意您的卡片物流信息哦～</p>
+        </div>
+    </div>
+
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        //删除消息
+        var content = document.getElementById("content");
+        content.addEventListener("click", function (event) {
+            var e = event || window.event;
+            var target = e.target || e.srcElement;
+            console.log(target);
+            if (target.className.toLowerCase() == 'remove') {
+                layerConfirm('是否确认删除该条消息','确定', remove());
+            }
+        }, false);
+
+        function remove() {
+
+        }
+
+    </script>
+</body>
+
+</html>
