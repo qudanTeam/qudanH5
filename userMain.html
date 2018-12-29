@@ -33,61 +33,6 @@
         <div class="bgcolor-white content agent-ranking">
             <h2>全网代理发放排行（月）</h2>
             <ul class="list">
-                <li>
-                    <span class="index">1</span>
-                    <div class="media">
-                        <img src="images/default-head-img.png" alt="" class="media-object">
-                        <div class="media-body">
-                            张家辉
-                            <span class="fr">¥3322.00</span>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <span class="index">2</span>
-                    <div class="media">
-                        <img src="images/default-head-img.png" alt="" class="media-object">
-                        <div class="media-body">
-                            张家辉
-                            <span class="fr">¥3322.00</span>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <span class="index">3</span>
-                    <div class="media">
-                        <img src="images/default-head-img.png" alt="" class="media-object">
-                        <div class="media-body">
-                            张家辉
-                            <span class="fr">¥3322.00</span>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <span class="index">4</span>
-                    <div class="media">
-                        <img src="images/default-head-img.png" alt="" class="media-object">
-                        <div class="media-body">
-                            张家辉
-                            <span class="fr">¥3322.00</span>
-                        </div>
-                    </div>
-
-                </li>
-                <li>
-                    <span class="index">5</span>
-                    <div class="media">
-                        <img src="images/default-head-img.png" alt="" class="media-object">
-                        <div class="media-body">
-                            张家辉
-                            <span class="fr">¥3322.00</span>
-                        </div>
-                    </div>
-
-                </li>
             </ul>
         </div>
     </div>
@@ -173,11 +118,11 @@
    <div class="not-agent-data flex-wrap">
         <div class="left flex-wrap">
             <a class="btn">累计发放工资</a>
-            <p class="data">¥53535.00</p>
+            <p class="data"></p>
         </div>
         <div class="right flex-wrap">
             <a class="btn">服务代理数</a>
-            <p class="data">88888</p>
+            <p class="data"></p>
         </div>
     </div>
     <div class="agent-btn-wrap">
@@ -185,6 +130,20 @@
     </div> 
     <%}%>
     
+</script>
+    <script id="tpl-ranks" type="text/html">
+    <%for(var i = 0; i < ranksData.ranks.length; i++) {%>
+    <li>
+        <span class="index"><%=(i+1)%></span>
+        <div class="media">
+            <div  class="media-object"><img src="<%=ranksData.ranks[i].logo%>" alt=""></div>
+            <div class="media-body">
+                <%=ranksData.ranks[i].name%>
+                <span class="fr">¥<%=ranksData.ranks[i].revenue%></span>
+            </div>
+        </div>
+    </li>
+    <%}%>
 </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
@@ -195,9 +154,12 @@
         var token = getCookie('token');
         var tplTop = document.getElementById("tpl-top").innerHTML;
         var topWrap = document.getElementById("top");
-        var user;
+        var tplRanks = document.getElementById("tpl-ranks").innerHTML;
+        var ranksWrap = document.querySelector(".list");
+        var user, ranksData;
         Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
-       
+        AjaxGet(IP + "msqudan/api/ranks", getRank);//代理发放排行榜
+
         template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
             var ary = phone.split("");
             ary.splice(3, 4, "****");
@@ -249,6 +211,20 @@
                     <p>企业QQ群：23435364645</p>\
                     <span class="icon-close"></span>';
             layerHtml('service-html', html);
+        }
+        function getRank(Data) {
+            if (Data.code == 200) {
+                ranksData = Data.data;
+                var html = template(tplRanks, ranksData);
+                ranksWrap.innerHTML = html;
+                setTimeout(function () {
+                    var notAgentWrap = document.querySelector(".not-agent-data");
+                    var notAgent_div = notAgentWrap.querySelectorAll(".data");
+                    notAgent_div[0].innerText = Data.data.allRevenue;
+                    notAgent_div[1].innerText = Data.data.all;
+                }, 100);
+
+            }
         }
     </script>
 </body>

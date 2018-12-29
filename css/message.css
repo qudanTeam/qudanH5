@@ -1,6 +1,13 @@
 html,body{
     background-color: #fff;
 }
+#wrapper{
+    position: absolute;
+    bottom: 0;
+    top: .44rem;
+    margin-right: 0;
+    margin-left: 0;
+}
 /* 消息列表start */
 .message-list li{
     padding:.16rem 0;
@@ -33,15 +40,16 @@ html,body{
     font-size: .16rem;
 }
 .nomsg{
-    position: absolute;
+    /* position: absolute;
     top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
-    -webkit-transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%); */
+    margin-top: 50%;
     text-align: center;
 }
 .nomsg img{
-    width: 53%;
+    width: .98rem;
 }
 .nomsg p{
     font-size: .13rem;

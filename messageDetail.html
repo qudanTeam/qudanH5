@@ -14,10 +14,8 @@
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=2018122701">
     <link rel="stylesheet" href="css/message.css?v=2018122701">
     <script>
-
     </script>
 </head>
-
 <body>
     <header id="header">
         <a class='icon-back'></a>
@@ -25,18 +23,27 @@
     </header>
     <div class="content" id="content">
         <div class="message-title">
-            <h2>招商信用卡办理通知</h2><span class="remove">删除</span>
+            <h2></h2><span class="remove">删除</span>
         </div>
         <div class="message-content">
-            <p>您好，您的招商信用卡办理申请已通过，请留意您的卡片物流信息哦～</p>
+            <p></p>
         </div>
     </div>
-
-
+    <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script>
+        var id = getQueryString('id');
+        var msgTitle = document.querySelector(".message-title h2");
+        var msgContent = document.querySelector(".message-content p");
+        Ajax_token(IP + 'msqudan/api/user/message/'+id, "GET", token, '', getDetail);
+        function getDetail(Data){
+            if(Data.code==200){
+                msgTitle.innerText = Data.data.msgTitle;
+                msgContent.innerText = Data.data.msgContent;
+            }
+        }
         //删除消息
         var content = document.getElementById("content");
         content.addEventListener("click", function (event) {
@@ -44,12 +51,17 @@
             var target = e.target || e.srcElement;
             console.log(target);
             if (target.className.toLowerCase() == 'remove') {
-                layerConfirm('是否确认删除该条消息','确定', remove());
+                layerConfirm('是否确认删除该条消息','确定', remove);
             }
         }, false);
 
         function remove() {
-
+            Ajax_token(IP + 'msqudan/api/user/message/'+id, "DELETE", token, '', clear);
+        }
+        function clear(Data){
+            if(Data.code==200){
+                window.location.href="message.html";
+            }
         }
 
     </script>

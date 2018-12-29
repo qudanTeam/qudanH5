@@ -22,40 +22,104 @@
         <h1>消息</h1>
     </header>
     <section class="bgcolor-white">
-        <div class="content">
-            <!-- <div class="nomsg">
-                <img src="images/noMessage.png" alt="">
-                <p>暂无消息～</p>
-            </div> -->
-            <ul class="list message-list">
-                <li onclick='window.location.href="messageDetail.html"'>
-                    招商信用卡办理通知<span class="navigate-right fr"></span>
-                    <p class="text-overflow">恭喜您，您的招商信用卡申请成功，请留意您的卡片物流请留意您的卡片物流</p>
-                </li>
-                <li>
-                    招商信用卡办理通知<span class="navigate-right fr"></span>
-                    <p class="text-overflow">恭喜您，您的招商信用卡申请成功，请留意您的卡片物流请留意您的卡片物流</p>
-                </li>
-            </ul>
+        <div id="wrapper">
+            <div class="content">
+            </div>
         </div>
-        <div class="btn-wrap"><button class="btn btn-primary btn-outlined" id="removeAll">清空</button></div>
+        <div class="btn-wrap" style="display:none;"><button class="btn btn-primary btn-outlined" id="removeAll">清空</button></div>
     </section>
-    <section class="bgcolor-white"></section>
-
+    <script id="tpl-msglist" type="text/html">
+        <ul class="list message-list">
+        <%for(var i = 0; i < msgList.rows.length; i++) {%>
+            <li onclick='window.location.href="messageDetail.html?id=<%=msgList.rows[i].id%>"'>
+                    <%=msgList.rows[i].msgTitle%><span class="navigate-right fr"></span>
+                <p class="text-overflow"><%=msgList.rows[i].msgContent%></p>
+            </li>
+        <%}%>
+        </ul>
+       
+    </script>
+    <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/pullToRefresh.js"></script>
     <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
     <script>
-        window.onload = function () {
-            //清空全部消息
-            var removeAllBtn = document.getElementById('removeAll');
-            removeAllBtn.addEventListener("click", function () {
-                layerConfirm('是否确认清空全部消息', '确定', removeAll());
-            });
+        var token = getCookie("token");
+        var removeAllBtnWrap = document.querySelector(".btn-wrap");
+        var msgList;
+        var page = 1, per_page = 10, total;
+        var tplMsgList = document.getElementById("tpl-msglist").innerHTML;
+        var msgListWrap = document.querySelector(".content");
+        var data = {
+            page: page,
+            per_page: per_page
+        };
+        Ajax_token(IP + 'msqudan/api/user/messages', "GET", token, data, getMsglist);
+        function getMsglist(Data) {
+            if (Data.code == 200) {
+                if (Data.data.total != 0) {
+                    total = Math.floor((Data.data.total) / per_page);
+                    console.log(total);
+                    msgList = Data.data;
+                    var html = template(tplMsgList, msgList);
+                    msgListWrap.innerHTML = html;
+                    removeAllBtnWrap.style.display="block";
+                    myScroll.refresh();
+                    //清空全部消息
+                    var removeAllBtn = document.getElementById('removeAll');
+                    removeAllBtn.addEventListener("click", function () {
+                        layerConfirm('是否确认清空全部消息', '确定', removeAll);
+                    });
+                } else {
+                    removeAllBtnWrap.style.display="none";
+                    msgListWrap.innerHTML = '<div class="nomsg"><img src="images/noMessage.png" alt=""><p>暂无消息～</p></div>';
+                    myScroll.refresh();
+                    return false;
+                }
+            }
         }
-
+        //下啦刷新
+        function pullDownAction() {
+            page = 1;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page
+            }
+            Ajax_token(IP + 'msqudan/api/user/messages', "GET", token, data, getMsglist);
+        }
+        // 上拉加载
+        function pullUpAction() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            page++;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page
+            }
+            console.log(total);
+            var div = document.createElement("div");
+            div.className = 'no-more';
+            div.innerHTML = '已经到底了哦～';
+            if (total < page) {
+                if (!document.querySelector('.no-more')) {
+                    msgListWrap.appendChild(div);
+                }
+                myScroll.refresh();
+                return false;
+            }
+            Ajax_token(IP + 'msqudan/api/user/messages', "GET", token, data, getMsglist);
+        }
         function removeAll() {
-
+            Ajax_token(IP + 'msqudan/api/user/message/clear', "POST", token, '', clearAll);
+        }
+        function clearAll(Data){
+            if(Data.code==200){
+                location.reload();
+            }
         }
     </script>
 

@@ -195,7 +195,7 @@
         }
         function getGoods(Data) {
             if (Data.code == 200) {
-                if (Data.total != 0) {
+                if (Data.data.total != 0) {
                     total = Math.floor((Data.data.total) / per_page);
                     console.log(total);
                     goods = Data.data;
@@ -204,6 +204,8 @@
                     myScroll.refresh();
                 } else {
                     document.getElementById('goods-list').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+                    myScroll.refresh();
+                    return false;
                 }
             }
         }

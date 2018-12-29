@@ -12,6 +12,12 @@
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="css/common.css?v=2018122701">
     <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+    <style>
+        #wrapper {
+            bottom: 0;
+            top: 1.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,66 +30,197 @@
             <a class="btn tab-title active">信用卡</a>
             <a class="btn  tab-title ">贷款</a>
         </div>
-        <ul class="sub-tab">
+        <ul class="sub-tab sub-tab-card">
             <li class="active"><a class="sub-tab-title">待查询</a></li>
             <li><a class="sub-tab-title">已通过</a></li>
             <li><a class="sub-tab-title">未通过</a></li>
             <li><a class="sub-tab-title">审核中</a></li>
         </ul>
-        <ul class="list order-list">
-            <li>
-                <img class="media-object fl" src="images/bg-dl.png" alt="">
-                <div class="media-body">
-                    <h3 class="title">浦发信用卡白金卡</h3>
-                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
-                    <p class="order-num">订单号：322222</p>
-                    <p class="text-blue top-right">待查询</p>
-                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
-                </div>
-            </li>
-            <li>
-                <img class="media-object fl" src="images/bg-dl.png" alt="">
-                <div class="media-body">
-                    <h3 class="title">浦发信用卡白金卡</h3>
-                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
-                    <p class="order-num">订单号：322222</p>
-                    <p class="text-blue top-right">非首次申请</p>
-                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
-                </div>
-            </li>
-            <li>
-                <img class="media-object fl" src="images/bg-dl.png" alt="">
-                <div class="media-body">
-                    <h3 class="title">浦发信用卡白金卡</h3>
-                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
-                    <p class="order-num">订单号：322222</p>
-                    <p class="text-blue top-right">已通过</p>
-                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
-                </div>
-            </li>
-            <li>
-                <img class="media-object fl" src="images/bg-dl.png" alt="">
-                <div class="media-body">
-                    <h3 class="title">浦发信用卡白金卡</h3>
-                    <p class="card-info"><span>姓名：张韶涵</span><span>手机号：145****4564</span></p>
-                    <p class="order-num">订单号：322222</p>
-                    <p class="text-blue top-right">申请被拒</p>
-                    <a class="btn linear-gradient-red bottom-right">进度查询</a>
-                </div>
-            </li>
-
+        <ul class="sub-tab sub-tab-loan" style="display:none;">
+            <li class="active"><a class="sub-tab-title">更新中</a></li>
+            <li><a class="sub-tab-title">未通过</a></li>
+            <li><a class="sub-tab-title">已通过</a></li>
         </ul>
+        <div id="wrapper">
+            <div class="ul-box">
+
+            </div>
+        </div>
+
     </div>
+    <script id="tpl" type="text/html">
+        <ul class="list order-list">
+            <%for(var i=0;i < list.row.length;i++){%>
+            <li>
+                <img class="media-object fl" src="<%=list.row[i].productLogo%>" alt="">
+                <div class="media-body">
+                    <h3 class="title"><%=list.row[i].productName%></h3>
+                    <p class="card-info"><span>姓名：<%=list.row[i].applyName%></span><span>手机号：<%=list.row[i].mobile%></span></p>
+                    <p class="order-num">订单号：<%=list.row[i].orderNo%></p>
+                    <%if(list.row[i].officialStatus==0){%>
+                    <p class="text-blue top-right">待查询</p>
+                    <%if(list.row[i].officialStatus==1){%>
+                    <p class="text-blue top-right">审核中</p>
+                    <%if(list.row[i].officialStatus==2){%>
+                    <p class="text-blue top-right">已通过</p>
+                    <%if(list.row[i].officialStatus==3){%>
+                    <p class="text-blue top-right">申请被拒</p>
+                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?orderNo=<%=list.row[i].orderNo%>">进度查询</a>
+                </div>
+            </li>
+            <%}%>
+        </ul>
+    </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/iscroll.js"></script>
+    <script src="js/pullToRefresh.js"></script>
     <script src="js/common.js"></script>
+    <script src="plugin/template.js"></script>
     <script>
+        var token = getCookie('token');
+        var ulBox = document.querySelector(".ul-box");
+        var tpl = document.getElementById("tpl").innerHTML;
+        var list;
+        var page = 1, per_page = 10, total;
+        var product_type = 1;//产品类型 1-信用卡， 2-贷款
+        var official_status = 0;//信用卡查询状态 0-待查询，1-审核中，2审核通过，3-退回
+        var apply_status = 1;//贷款查询状态 1-审核中，2审核通过，3-退回
+        var data = {
+            Page: page,
+            PerPage: per_page,
+            ProductType: product_type,
+            OfficialStatus: official_status,
+            ApplyStatus: apply_status
+        };
+        Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
         $(".tab a").click(function () {
             $(this).addClass("active").siblings("a").removeClass("active");
+            var index = $(this).index();
+            switch (index) {
+                case 0:
+                    product_type = 1;
+                    $(".sub-tab-card").show();
+                    $(".sub-tab-loan").hide();
+                    break;
+                case 1:
+                    product_type = 2;
+                    $(".sub-tab-card").hide();
+                    $(".sub-tab-loan").show();
+                    break;
+            }
+
+            data = {
+                Page: page,
+                PerPage: per_page,
+                product_type: product_type,
+                official_status: official_status,
+                apply_status: apply_status
+            };
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
         })
-        $(".sub-tab li").click(function () {
+        $(".sub-tab-card li").click(function () {
             $(this).addClass("active").siblings("li").removeClass("active");
+            var index = $(this).index();
+            switch (index) {
+                case 0:
+                    official_status = 0;
+                    break;
+                case 1:
+                    official_status = 1;
+                    break;
+                case 2:
+                    official_status = 2;
+                    break;
+                case 3:
+                    official_status = 3;
+                    break;
+            }
+            page = 1;
+            data = {
+                Page: page,
+                PerPage: per_page,
+                product_type: product_type,
+                official_status: official_status,
+                apply_status: apply_status
+            };
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获收入记录列表
         })
+        $(".sub-tab-loan li").click(function () {
+            $(this).addClass("active").siblings("li").removeClass("active");
+            var index = $(this).index();
+            switch (index) {
+                case 0:
+                    apply_status = 1;
+                    break;
+                case 1:
+                    apply_status = 2;
+                    break;
+                case 1:
+                    apply_status = 3;
+                    break;
+            }
+            page = 1;
+            data = {    
+                Page: page,
+                PerPage: per_page,
+                product_type: product_type,
+                official_status: official_status,
+                apply_status: apply_status
+            };
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获收入记录列表
+        })
+        function getlist(Data) {
+            if (Data.code == 200) {
+                if (Data.data.total != 0) {
+                    total = Math.floor((Data.data.total) / per_page);
+                    console.log(total);
+                    list = Data.data;
+                    var html = template(tpl, list);
+                    ulBox.innerHTML = html;
+                    myScroll.refresh();
+                } else {
+                    ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+                    myScroll.refresh();
+                    return false;
+                }
+            }
+        }
+        //下啦刷新
+        function pullDownAction() {
+            page = 1;
+            console.log(page);
+            data = {
+                Page: page,
+                PerPage: per_page,
+                status: status
+            }
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
+        }
+        // 上拉加载
+        function pullUpAction() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            page++;
+            console.log(page);
+            data = {
+                Page: page,
+                PerPage: per_page,
+                status: status
+            }
+            console.log(total);
+            var div = document.createElement("div");
+            div.className = 'no-more';
+            div.innerHTML = '已经到底了哦～';
+            if (total < page) {
+                if (!document.querySelector('.no-more')) {
+                    incomeList.appendChild(div);
+                }
+                myScroll.refresh();
+                return false;
+            }
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
+        }
     </script>
 </body>
 

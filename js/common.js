@@ -164,7 +164,7 @@ function getCode(_this, type, token) {
 
 function getVcode(Data) {
   if (Data.code == 200) {
-    console.log("获取验证码成功！");
+    layerMsg("短信验证码已发送！");
   }
 }
 //微信内打开二级页面，不显示标题栏
