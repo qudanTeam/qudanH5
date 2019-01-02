@@ -50,6 +50,69 @@
             </div>
             <div id="wrapper">
                 <div id="goods-list">
+
+                        <ul class="list goods-list loan-goods-list">
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=2&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/logo2" alt="">
+                                <div class="media-body">
+                                    <h3 class="title">贷款1<span class="tag linear-gradient-blue">特色标签1</span><span class="tag linear-gradient-blue">特色标签2</span></h3>
+                                    <p class="data"><span>月利率：0.22%</span><span>贷款期限：1-10个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">50万</span></p>
+                                    <p class="text-right">通过率：0.65%</p> <a class="btn linear-gradient-red">赚0.1%</a>
+                                </div>
+                            </li>
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=3&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/e4833a45-7d21-49f0-9183-aeb6df309d0d_logo.jpg"
+                                    alt="">
+                                <div class="media-body">
+                                    <h3 class="title">hello<span class="tag linear-gradient-blue">123123</span></h3>
+                                    <p class="data"><span>月利率：0.12%</span><span>贷款期限：12313-123123个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
+                                    <p class="text-right">通过率：0.34%</p> <a class="btn linear-gradient-red">赚12.23%</a>
+                                </div>
+                            </li>
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=5&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/6fdd8dcf-b1de-49dd-ae87-faf32fe02e6e_下载 (1).jpg"
+                                    alt="">
+                                <div class="media-body">
+                                    <h3 class="title">来钱贷<span class="tag linear-gradient-blue">就是快</span></h3>
+                                    <p class="data"><span>月利率：10%</span><span>贷款期限：1-10个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">10万</span></p>
+                                    <p class="text-right">通过率：90%</p> <a class="btn linear-gradient-red">赚10%</a>
+                                </div>
+                            </li>
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=6&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/7ff7dac0-adc2-4def-96e5-b35c4433d8c0_th_2.jpg"
+                                    alt="">
+                                <div class="media-body">
+                                    <h3 class="title">测试商品一<span class="tag linear-gradient-blue">hello</span></h3>
+                                    <p class="data"><span>月利率：12%</span><span>贷款期限：123-123个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
+                                    <p class="text-right">通过率：12%</p> <a class="btn linear-gradient-red">赚123%</a>
+                                </div>
+                            </li>
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=5&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/6fdd8dcf-b1de-49dd-ae87-faf32fe02e6e_下载 (1).jpg"
+                                    alt="">
+                                <div class="media-body">
+                                    <h3 class="title">来钱贷<span class="tag linear-gradient-blue">就是快</span></h3>
+                                    <p class="data"><span>月利率：10%</span><span>贷款期限：1-10个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">10万</span></p>
+                                    <p class="text-right">通过率：90%</p> <a class="btn linear-gradient-red">赚10%</a>
+                                </div>
+                            </li>
+                            <li onclick="window.location.href=&quot;loanDetail.html?id=6&quot;"> <img class="media-object fl"
+                                    src="http://pj7lk9wjg.bkt.clouddn.com/7ff7dac0-adc2-4def-96e5-b35c4433d8c0_th_2.jpg"
+                                    alt="">
+                                <div class="media-body">
+                                    <h3 class="title">测试商品一<span class="tag linear-gradient-blue">hello</span></h3>
+                                    <p class="data"><span>月利率：12%</span><span>贷款期限：123-123个月</span></p>
+                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
+                                    <p class="text-right">通过率：12%</p> <a class="btn linear-gradient-red">赚123%</a>
+                                </div>
+                            </li>
+                        </ul>
+
                 </div>
             </div>
 
@@ -150,7 +213,7 @@
         }
         Ajax(IP + 'msqudan/api/banners', '', getSwiper);//获取banner
 
-        Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+        // Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
         template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
             var str = Number(point * 100).toFixed(num);
             str += "%";
@@ -228,7 +291,7 @@
                 per_page: per_page,
                 type: type
             }
-            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+            // Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         // 上拉加载
         function pullUpAction() {
@@ -251,9 +314,9 @@
                 document.querySelector('.pullUpLabel').style.display = 'none';
                 myScroll.refresh();
                 return false;
-            }else{
+            } else {
 
-                Ajax(IP + 'msqudan/api/products/', data, getGoods);
+                // Ajax(IP + 'msqudan/api/products/', data, getGoods);
             }
 
         }
@@ -269,7 +332,7 @@
                 }
             })
         }
-        
+
     </script>
 </body>
 

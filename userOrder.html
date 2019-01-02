@@ -50,22 +50,23 @@
     </div>
     <script id="tpl" type="text/html">
         <ul class="list order-list">
-            <%for(var i=0;i < list.row.length;i++){%>
+            <%for(var i=0;i < list.rows.length;i++){%>
             <li>
-                <img class="media-object fl" src="<%=list.row[i].productLogo%>" alt="">
+                <img class="media-object fl" src="<%=list.rows[i].productLogo%>" alt="">
                 <div class="media-body">
-                    <h3 class="title"><%=list.row[i].productName%></h3>
-                    <p class="card-info"><span>姓名：<%=list.row[i].applyName%></span><span>手机号：<%=list.row[i].mobile%></span></p>
-                    <p class="order-num">订单号：<%=list.row[i].orderNo%></p>
-                    <%if(list.row[i].officialStatus==0){%>
+                    <h3 class="title"><%=list.rows[i].productName%></h3>
+                    <p class="card-info"><span>姓名：<%=list.rows[i].applyName%></span><span>手机号：<%=des(list.rows[i].mobile)%></span></p>
+                    <p class="order-num">订单号：<%=list.rows[i].orderNo%></p>
+                    <%if(list.rows[i].officialStatus==0){%>
                     <p class="text-blue top-right">待查询</p>
-                    <%if(list.row[i].officialStatus==1){%>
+                    <%}else if(list.rows[i].officialStatus==1){%>
                     <p class="text-blue top-right">审核中</p>
-                    <%if(list.row[i].officialStatus==2){%>
+                    <%}else if(list.rows[i].officialStatus==2){%>
                     <p class="text-blue top-right">已通过</p>
-                    <%if(list.row[i].officialStatus==3){%>
+                    <%}else if(list.rows[i].officialStatus==3){%>
                     <p class="text-blue top-right">申请被拒</p>
-                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?orderNo=<%=list.row[i].orderNo%>">进度查询</a>
+                    <%}%>
+                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?orderNo=<%=list.rows[i].orderNo%>">进度查询</a>
                 </div>
             </li>
             <%}%>
@@ -178,6 +179,7 @@
                     console.log(total);
                     list = Data.data;
                     var html = template(tpl, list);
+                    console.log(html)
                     ulBox.innerHTML = html;
                     myScroll.refresh();
                 } else {
@@ -187,6 +189,11 @@
                 }
             }
         }
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
         //下啦刷新
         function pullDownAction() {
             page = 1;
@@ -218,7 +225,7 @@
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
                 if (!document.querySelector('.no-more')) {
-                    incomeList.appendChild(div);
+                    ulBox.appendChild(div);
                 }
                 document.querySelector('.pullUpLabel').style.display = 'none';
                 myScroll.refresh();

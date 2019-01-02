@@ -40,7 +40,7 @@
     <script id="tpl" type="text/html">
         <ul class="list cash-list">
             <%for(var i=0;i < list.rows.length;i++){%>
-            <li>
+            <li onclick="window.location.href='userCash.html?'">
                 <div class="media-body">
                     <h3 class="title">余额提现</h3>
                     <p class="date"><%=list.row[i].txDate%></p>

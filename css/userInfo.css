@@ -470,6 +470,10 @@ body{
 .income-list .media-body{
     margin-left: .14rem;
 }
+.cash-list .media-body{
+    overflow: hidden;
+    white-space: nowrap;
+}
 .cash-list .media-body .title{
     margin-bottom: .08rem;
     font-weight: normal;
@@ -503,6 +507,9 @@ body{
     font-size: .13rem;
     line-height: .18rem;
     margin-top: .08rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 /* 收入记录end */
 .content-form{
