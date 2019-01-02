@@ -582,3 +582,15 @@ body .layui-m-layer .layui-m-layer-msg.layer-msg{
     line-height: .4rem;
     font-size: .18rem;
 }
+/* 分享引导蒙层start */
+.share-shade{
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(31, 28, 28, 0.82);
+    text-align: center;
+}
+/* 分享引导蒙层end */

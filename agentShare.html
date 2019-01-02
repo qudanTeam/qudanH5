@@ -33,6 +33,7 @@
         <!-- <a href="" class="btn linear-gradient-blue">保存图片</a> -->
         <button id="copy-btn" class="btn linear-gradient-red">复制链接</button>
     </div>
+    <div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
@@ -61,14 +62,10 @@
         ajaxWxjsapi(domain_test2 + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
         btnShare.addEventListener("click", function () {
             layerShare();
-            var wechat = document.querySelector("div.wechat");
-            var pyq = document.querySelector("div.pyq");
-            var qq = document.querySelector("div.qq");
-            var qqZone = document.querySelector("div.qq-zone");
-            wechat.addEventListener("click", _appMsg);
-            pyq.addEventListener("click", _timeline);
-            qq.addEventListener("click", _appMsg);
-            qqZone.addEventListener("click", _timeline);
+            var shareBtn = document.querySelector(".share-btn");
+            var cancelShareBtn = document.querySelector(".cancel-share");
+            shareBtn.addEventListener("click", goShare);
+            cancelShareBtn.addEventListener("click", cancelShare);
         })
         function getQrcode(Data) {
             if (Data.code == 200) {
@@ -94,7 +91,7 @@
                         title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
                         desc: '日进斗金的生财之道等你来看', // 分享描述
                         link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                        imgUrl: protocol + '//' + host + '/images/bg-dl2.png', // 分享图标
+                        imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
                         success: function () {
                             // // 设置成功
                             var data = JSON.stringify({
@@ -146,6 +143,13 @@
                     layerMsg($.parseJSON(e.responseText).error.message);
                 }
             })
+        }
+        function goShare() {
+            document.querySelector(".share-shade").style.display = 'block';
+        }
+        function cancelShare() {
+            document.querySelector(".share-shade").style.display = 'none';
+            layer.closeAll();
         }
     </script>
 </body>

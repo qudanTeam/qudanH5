@@ -397,7 +397,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share{
 
 }
 body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont{
-    padding: 0; 
+    padding: 0 0 .25rem; 
     border-radius: 0;    
 }
 .my-footer-share .layui-m-layercont>.flex-wrap{
@@ -423,7 +423,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont{
     line-height: .34rem;
     margin-bottom: .2rem;
 }
-.layui-m-layer-footer.my-footer-share .layui-m-layerbtn span[yes]{
+.layui-m-layer-footer.my-footer-share .cancel-share{
     width: 1.51rem;
     line-height: .34rem;
     display: inline-block;

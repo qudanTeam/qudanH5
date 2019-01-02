@@ -73,8 +73,18 @@
                 <%}%>
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
-                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
-                        <p class="data"><span>通过率：<%=rate(one.allowRate,0)%></span><span>申请人数：<%=one.applyNum%></span></p>
+                        <h3 class="title"><%=one.productName%>
+                            <%if(_array(one.specialTag).length>=2){%>
+                            <%for(var j = 0; j < 2; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}else{%>
+                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}%>
+                        </h3>
+                        <p class="data"><span>通过率：<%=one.allowRate%>%</span><span>申请人数：<%=one.applyNum%></span></p>
                         <p class="summary text-overflow"><%=one.specialTxt%></p>
                         <a class="btn linear-gradient-red">赚<%=one.baseSalary%>元</a>
                     </div>
@@ -92,10 +102,10 @@
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
                         <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
-                        <p class="data"><span>月利率：<%=rate(one.monthRate,1)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
+                        <p class="data"><span>月利率：<%=one.monthRate%>%</span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
                         <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
-                        <p class="text-right">通过率：<%=rate(one.allowRate,0)%></p>
-                        <a class="btn linear-gradient-red">赚<%=rate(one.baseSalary,1)%></a>
+                        <p class="text-right">通过率：<%=one.allowRate%>%</p>
+                        <a class="btn linear-gradient-red">赚<%=one.baseSalary%>%</a>
                     </div>
                 </li>
                 <%}%>

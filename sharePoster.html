@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="css/reset.css">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/qudan.css">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/qudan.css?v=2018122701">
 </head>
 
 <body class="poster">
@@ -28,6 +28,7 @@
         <a class="btn linear-gradient-blue" id="btn-saveImg">分享海报</a>
         <button class="btn linear-gradient-red" id="copy-btn">复制链接</button>
     </div>
+    <div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
@@ -57,16 +58,10 @@
         Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
         btnSaveImg.addEventListener("click", function () {
             layerShare();
-            shareid = document.body.getAttribute("data-shareid");
-            link = window.location.href + "&shareid=" + shareid;
-            var wechat = document.querySelector("div.wechat");
-            var pyq = document.querySelector("div.pyq");
-            var qq = document.querySelector("div.qq");
-            var qqZone = document.querySelector("div.qq-zone");
-            wechat.addEventListener("click", appMsg);
-            pyq.addEventListener("click", timeline);
-            qq.addEventListener("click", appMsg);
-            qqZone.addEventListener("click", timeline);
+            var shareBtn = document.querySelector(".share-btn");
+            var cancelShareBtn = document.querySelector(".cancel-share");
+            shareBtn.addEventListener("click", goShare);
+            cancelShareBtn.addEventListener("click", cancelShare);
         })
         function getQrcode(Data) {
             if (Data.code == 200) {
@@ -89,6 +84,13 @@
                     layerMsg('请选择“拷贝”进行复制!')
                 });
             }
+        }
+        function goShare() {
+            document.querySelector(".share-shade").style.display = 'block';
+        }
+        function cancelShare() {
+            document.querySelector(".share-shade").style.display = 'none';
+            layer.closeAll();
         }
     </script>
 </body>

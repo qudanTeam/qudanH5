@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>搜索</title>
     <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <link href="plugin/layer_mobile/need/layer.css">
+    </link>
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="css/common.css?v=2018122701">
     <link rel="stylesheet" href="css/goodslist.css?v=2018122701">
@@ -29,7 +31,7 @@
         <div class="search-wrap">
             <form action="">
                 <span class="icon-search"></span>
-                <input type="search" placeholder="搜索信用卡/贷款" autofocus="autofocus" id='searchInput'>
+                <input type="search" placeholder="搜索信用卡/贷款" autofocus="autofocus" id='searchInput' onkeypress="goSearch(event)">
                 <span class="icon-clear hidden" id="icon-clear"></span>
             </form>
 
@@ -89,11 +91,13 @@
         <%}%>
         
     </script>
+    <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/iscroll.js"></script>
     <script src="js/pullToRefresh.js"></script>
-    <script src="js/config.js"></script>
     <script src="plugin/template.js"></script>
+    <script src="js/common.js"></script>
     <script>
         var tplGoodsList = document.getElementById("tpl-goodslist").innerHTML;
         var searchInput = document.getElementsByTagName('input')[0];
@@ -109,14 +113,22 @@
             keyword: keyword
         }
         //搜索框交互
-        $("#searchInput").on('keypress', function (e) {
-            iconClear.className = 'icon-clear';
-            var keycode = e.keyCode;
-            var searchName = $(this).val();
+        $("#searchInput").trigger("click").focus();
+        $("#searchInput").on("input", function (e) {
+            goSearch(e);
+        })
+        function goSearch(event) {
+            var keycode = event.keyCode;
+            console.log(searchInput.value.split("").join("").length)
+            if (searchInput.value.split("").join("").length != 0) {
+                iconClear.className = 'icon-clear';
+            } else {
+                iconClear.className = 'icon-clear hidden';
+            }
             if (keycode == '13') {
-                e.preventDefault();
+                event.preventDefault();
                 //请求搜索接口  
-                keyword = searchInput.value;
+                keyword = event.target.value;
                 data = {
                     page: page,
                     per_page: per_page,
@@ -124,10 +136,10 @@
                     keyword: keyword
                 }
                 searchRecordsContent.style.display = 'none';
-                Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+                _ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
 
             }
-        })
+        }
         template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
             var str = Number(point * 100).toFixed(num);
             str += "%";
@@ -183,7 +195,7 @@
                 type: type,
                 keyword: keyword
             }
-            Ajax(IP + 'msqudan/api/products/', data, getGoods);
+            _ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         // 上拉加载
         function pullUpAction() {
@@ -209,7 +221,7 @@
                 myScroll.refresh();
                 return false;
             } else {
-                Ajax(IP + 'msqudan/api/products/', data, getGoods);
+                _ajax(IP + 'msqudan/api/products/', data, getGoods);
             }
         }
         function getGoods(Data) {
@@ -227,15 +239,15 @@
 
             }
         }
-        function Ajax(url, data, callback) {
+        function _ajax(url, data, callback) {
             $.ajax({
                 url: url,
                 type: "GET",
                 dataType: 'json',
                 data: data,
                 success: callback,
-                error: function () {
-                    alert("服务器繁忙，请稍候再试！")
+                error: function (e) {
+                    layerMsg($.parseJSON(e.responseText).error.message);
                 }
             })
         }

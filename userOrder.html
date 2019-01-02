@@ -88,11 +88,11 @@
         var official_status = 0;//信用卡查询状态 0-待查询，1-审核中，2审核通过，3-退回
         var apply_status = 1;//贷款查询状态 1-审核中，2审核通过，3-退回
         var data = {
-            Page: page,
-            PerPage: per_page,
-            ProductType: product_type,
-            OfficialStatus: official_status,
-            ApplyStatus: apply_status
+            page: page,
+            per_page: per_page,
+            product_type: product_type,
+            official_status: official_status,
+            apply_status: apply_status
         };
         Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
         $(".tab a").click(function () {
@@ -112,8 +112,8 @@
             }
 
             data = {
-                Page: page,
-                PerPage: per_page,
+                page: page,
+                per_page: per_page,
                 product_type: product_type,
                 official_status: official_status,
                 apply_status: apply_status
@@ -139,8 +139,8 @@
             }
             page = 1;
             data = {
-                Page: page,
-                PerPage: per_page,
+                page: page,
+                per_page: per_page,
                 product_type: product_type,
                 official_status: official_status,
                 apply_status: apply_status
@@ -162,9 +162,9 @@
                     break;
             }
             page = 1;
-            data = {    
-                Page: page,
-                PerPage: per_page,
+            data = {
+                page: page,
+                per_page: per_page,
                 product_type: product_type,
                 official_status: official_status,
                 apply_status: apply_status
@@ -192,9 +192,11 @@
             page = 1;
             console.log(page);
             data = {
-                Page: page,
-                PerPage: per_page,
-                status: status
+                page: page,
+                per_page: per_page,
+                product_type: product_type,
+                official_status: official_status,
+                apply_status: apply_status
             }
             Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
         }
@@ -204,9 +206,11 @@
             page++;
             console.log(page);
             data = {
-                Page: page,
-                PerPage: per_page,
-                status: status
+                page: page,
+                per_page: per_page,
+                product_type: product_type,
+                official_status: official_status,
+                apply_status: apply_status
             }
             console.log(total);
             var div = document.createElement("div");

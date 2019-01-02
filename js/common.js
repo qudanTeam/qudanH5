@@ -45,13 +45,9 @@ function layerHtml(className, content) {
 //底部分享
 function layerShare() {
   layer.open({
-    content: '<div class="flex-wrap"><div class="flex-wrap wechat"><img class="wechat" src="images/icon-wechat2.png"/><div class="text">微信好友</div></div><div class="flex-wrap pyq"><img class="wechat" src="images/icon-pyq.png"/><div class="text">朋友圈</div></div><div class="flex-wrap qq"><img class="wechat" src="images/qqicon@2x.png"/><div class="text">QQ好友</div></div><div class="flex-wrap qq-zone"><img class="wechat" src="images/qq-zone.png"/><div class="text">QQ空间</div></div></div>',
+    content: '<div class="flex-wrap share-btn"><div class="flex-wrap wechat"><img class="wechat" src="images/icon-wechat2.png"/><div class="text">微信好友</div></div><div class="flex-wrap pyq"><img class="wechat" src="images/icon-pyq.png"/><div class="text">朋友圈</div></div><div class="flex-wrap qq"><img class="wechat" src="images/qqicon@2x.png"/><div class="text">QQ好友</div></div><div class="flex-wrap qq-zone"><img class="wechat" src="images/qq-zone.png"/><div class="text">QQ空间</div></div></div><span class="cancel-share">取消</span>',
     className: "my-footer-share"
-    , btn: ['取消']
     , skin: 'footer'
-    , no: function (index) {
-      layer.open({ content: '执行删除操作' })
-    }
   });
 }
 
@@ -62,6 +58,13 @@ function layerMsg(content) {
     className: "layer-msg",
     skin: 'msg'
     , time: 2 //2秒后自动关闭
+  })
+}
+function layerLogin(content) {
+  layer.open({
+    content: content,
+    className: "layer-msg",
+    skin: 'msg'
   })
 }
 function Ajax(url, data, callback) {
@@ -101,8 +104,12 @@ function Ajax_token(url, type, token, data, callback) {
     data: data,
     success: callback,
     error: function (e) {
-      console.log($.parseJSON(e.responseText));
-      layerMsg($.parseJSON(e.responseText).error.message);
+      console.log($.parseJSON(e.responseText))
+      if ($.parseJSON(e.responseText).code == 401) {
+        layerLogin("您的登录信息已过期，请<a href='login.html' class='text-yellow'>重新登录</a>");
+      } else {
+        layerMsg($.parseJSON(e.responseText).error.message);
+      }
     }
   })
 }

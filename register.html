@@ -56,6 +56,7 @@
         var clickcount = 0;
         var token,mobile,vCode;
         var shareid = getQueryString('shareid');
+        var raido = document.querySelector(".protocol .radio");
         //如果是从分享二维码进入的此页面，则将shareid存储在本地，注册完成后清除此shareid
         if(shareid!=null){
             document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";
@@ -69,6 +70,7 @@
         btnSubmit.addEventListener("click", function () {
              mobile = document.querySelector('.mobile').value;
              vCode = document.querySelector('.vcode').value;
+             aProtocol = raido.getAttribute("checked");
             var data;
             if (mobile == '') {
                 layerMsg('请输入手机号');
@@ -76,6 +78,10 @@
             }
             if (vCode == '') {
                 layerMsg('请输入验证码');
+                return false;
+            }
+            if(aProtocol==""){
+                layerMsg('请勾选同意协议，才能进行下一步哦');
                 return false;
             }
             var data = JSON.stringify({
@@ -91,20 +97,14 @@
             }
         }
         function check(e) {//勾选协议
-            if (clickcount == 0) {
+            if (clickcount == 1) {
                 e.setAttribute("checked", "checked");
                 e.className = 'radio checked';
-                clickcount = 1;
-            } else if (clickcount == 1) {
+                clickcount = 0;
+            } else if (clickcount == 0) {
                 e.setAttribute("checked", "");
                 e.className = 'radio';
-                clickcount = 0;
-            }
-        }
-        // layerConfirm('您的手机已注册', '立即登录',login);
-        function getVcode(Data) {
-            if (Data.code == 200) {
-
+                clickcount = 1;
             }
         }
     </script>

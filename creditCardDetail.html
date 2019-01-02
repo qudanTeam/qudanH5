@@ -33,12 +33,12 @@
             <img src="<%=detail.product.detailHeaderImg%>" alt="">
             <div class="btn-wrap">
                 <a href="progressDetail.html?id=<%=detail.product.id%>" class="btn linear-gradient-red">进度查询</a>
-                <a  class="btn  btn-outlined btn-blue" id="shareIndex-btn">分享素材</a>
+                <a  class="btn btn-outlined btn-blue shareIndex-btn" id="shareIndex-btn">分享素材</a>
             </div>
         </div>
         <div class="goods-summary">
                 <h2 class="title"><%=detail.product.productName%></h2>
-                <p class="data"><span>通过率：<%=rate(detail.product.allowRate)%></span><span>申请人数：<%=detail.product.applyNum%></span></p>
+                <p class="data"><span>通过率：<%=detail.product.allowRate%>%</span><span>申请人数：<%=detail.product.applyNum%></span></p>
                 <p class="sub-title"><%=detail.product.specialTxt%></p>
             </div>
             <div class="tab-qudan">
@@ -51,21 +51,23 @@
                 <div class="data-wrap">
                     <div class="flex-item">
                         <div class="btn linear-gradient-yellow"><%=detail.product.aLevelReward%>元</div>
-                        <p><%=detail.product.aBegin%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.aLimit%><%=detail.product.unit%></p>
+                        <p><%=detail.product.aBegin%><%=detail.product.unit%>&ltQ≤<%=detail.product.aLimit%><%=detail.product.unit%></p>
                     </div>
                     <div class="flex-item">
                         <div class="btn linear-gradient-blue"><%=detail.product.secondSummary%>元</div>
-                        <p><%=detail.product.bBegin%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.bLimit%><%=detail.product.unit%></p>
+                        <p><%=detail.product.bBegin%><%=detail.product.unit%>&ltQ≤<%=detail.product.bLimit%><%=detail.product.unit%></p>
                     </div>
                     <div class="flex-item">
                         <div class="btn linear-gradient-red"><%=detail.product.thirdSummary%>元</div>
-                        <p><%=detail.product.cStart%><%=detail.product.unit%>&ltQ&lt=<%=detail.product.cLimit%><%=detail.product.unit%></p>
+                        <p><%=detail.product.cStart%><%=detail.product.unit%>&ltQ≤<%=detail.product.cLimit%><%=detail.product.unit%></p>
                     </div>
                 </div>
                 <div class="bottom-info">
                     <h2 class="title"><%=detail.product.productName%>工资结算说明</h2>
+                    <%if(detail.config){%>
                     <h3 class="sub-title"><%=detail.config.title%></h3>
                     <p><%=detail.config.content%></p>
+                    <%}%>
                 </div>
     
             </div>
@@ -87,6 +89,7 @@
         var applyCardBtn = document.getElementById('applyCard-btn');
         var goShareBtn = document.getElementById("goShare-btn");
         var token = getCookie('token');
+        var main = document.getElementById('main');
         var tplMain = document.getElementById('tpl-main').innerHTML;
         var detail;
         var shareid = getQueryString('shareid');
@@ -97,13 +100,13 @@
             str += "%";
             return str;
         });
-        if(token!=''){
+        if (token != '') {
             applyCardBtn.setAttribute('href', 'applyCard.html?id=' + id);
-        }else{
+        } else {
             applyCardBtn.setAttribute('href', 'login.html');
         }
         //如果是从分享二维码进入的此页面，则将shareid存储在本地，申请完成后清除此shareid
-        if(shareid!=null){
+        if (shareid != null) {
             document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
         }
         function getDetail(Data) {
@@ -111,14 +114,24 @@
 
                 detail = Data.data.detail;
                 var html = template(tplMain, detail);
-                document.getElementById('main').innerHTML = html;
+                main.innerHTML = html;
                 //‘文案素材’和‘邀请办卡赚钱’的跳转逻辑
-                var shareIndexBtn = document.getElementById('shareIndex-btn');
                 if (token != '') {
-                    shareIndexBtn.setAttribute('href', 'shareIndex.html?id=' + id + '&ptype=' + detail.product.productType);
+                    main.addEventListener("click", function (e) {
+                        var target = e.srcElement || e.target;
+                        if (target.className.toLowerCase() == "btn btn-outlined btn-blue shareindex-btn") {
+                            window.location.href = 'shareIndex.html?id=' + id + '&ptype=' + detail.product.productType;
+                        }
+                    })
+                    // shareIndexBtn.setAttribute('href', 'shareIndex.html?id=' + id + '&ptype=' + detail.product.productType);
                     goShareBtn.setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + detail.product.productType);
                 } else if (token == '') {
-                    shareIndexBtn.setAttribute('href', 'login.html');
+                    main.addEventListener("click", function (e) {
+                        var target = e.srcElement || e.target;
+                        if (target.className.toLowerCase() == "btn btn-outlined btn-blue shareindex-btn") {
+                            window.location.href = 'login.html';
+                        }
+                    })
                     goShareBtn.setAttribute('href', 'login.html');
                 }
                 //‘赚钱详情’和‘办卡详情’的切换

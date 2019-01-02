@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
     <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/qudan.css">
+    <link rel="stylesheet" href="css/common.css?v=2018122701">
+    <link rel="stylesheet" href="css/qudan.css?v=2018122701">
     <style>
         .fixed-bottom-btn {
             justify-content: space-around;
@@ -47,6 +47,7 @@
         <!-- <a href="" class="btn linear-gradient-blue">保存图片</a> -->
         <a class="btn linear-gradient-red btn-goshare">去分享</a>
     </div>
+    <div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
@@ -79,16 +80,10 @@
 
         btnGoshare.addEventListener("click", function () {
             layerShare();
-            shareid = document.body.getAttribute("data-shareid");
-            link = window.location.href + "&shareid=" + shareid;
-            var wechat = document.querySelector("div.wechat");
-            var pyq = document.querySelector("div.pyq");
-            var qq = document.querySelector("div.qq");
-            var qqZone = document.querySelector("div.qq-zone");
-            wechat.addEventListener("click", appMsg);
-            pyq.addEventListener("click", timeline);
-            qq.addEventListener("click", appMsg);
-            qqZone.addEventListener("click", timeline);
+            var shareBtn = document.querySelector(".share-btn");
+            var cancelShareBtn = document.querySelector(".cancel-share");
+            shareBtn.addEventListener("click", goShare);
+            cancelShareBtn.addEventListener("click", cancelShare);
         })
         function getQrcode(Data) {
             if (Data.code == 200) {
@@ -103,6 +98,13 @@
             if (Data.code == 200) {
                 textWrap.innerText = Data.data.detail.shares[0].content;
             }
+        }
+        function goShare() {
+            document.querySelector(".share-shade").style.display = 'block';
+        }
+        function cancelShare() {
+            document.querySelector(".share-shade").style.display = 'none';
+            layer.closeAll();
         }
     </script>
 </body>

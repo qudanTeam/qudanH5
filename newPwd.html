@@ -48,14 +48,19 @@
         var btnSubmit = document.querySelector(".btn-submit");
         // 验证密码是否一致
         btnSubmit.addEventListener("click", function () {
-            if ((pwds[0].value) == (pwds[1].value)) {
-                console.log(pwds[0].value);
-                btnSubmit.setAttribute("disabled", "");
-            } else {
+            if (pwds[0].value == '') {
+                layerMsg("请输入密码");
+                return false;
+            }
+            if (pwds[1].value == '') {
+                layerMsg("请输入密码");
+                return false;
+            }
+            if ((pwds[0].value) != (pwds[1].value)) {
                 layerMsg("两次密码输入不一致");
                 btnSubmit.setAttribute("disabled", "disabled");
                 return false;
-            }
+            } 
             var data = JSON.stringify({
                 "mobile": mobile,
                 "validcode": vCode,

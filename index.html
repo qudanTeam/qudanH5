@@ -16,9 +16,10 @@
     <link rel="stylesheet" href="css/index.css?v=2018122701">
     <link rel="stylesheet" href="css/goodslist.css?v=2018122701">
     <script>
-        
+
     </script>
 </head>
+
 <body>
     <!-- <header id="header">
         <a class='icon-back'></a>
@@ -138,11 +139,23 @@
                 <div class="media-body">
                     <h3 class="title"><%=one.productName%></h3>
                     <p>已被推广<span><%=one.recommendCount%>次</span></p>
+                    <%if(one.salaryAmount==null){%>
+                    <p>发放工资<span>0元</span></p>
+                    <%}else{%>
                     <p>发放工资<span><%=one.salaryAmount%>元</span></p>
-                    <%if (one.productType==1) {%>
-                    <p class="text-right">赚<span><%=one.salary%></span>元</p>
-                    <%}else if(one.productType==2){%>
-                    <p class="text-right">赚<span><%=one.salary%></span>%</p>
+                    <%}%>
+                    <%if(one.salary==null){%>
+                        <%if (one.productType==1) {%>
+                        <p class="text-right">赚<span>0</span>元</p>
+                        <%}else if(one.productType==2){%>
+                        <p class="text-right">赚<span>0</span>%</p>
+                        <%}%>
+                    <%}else{%>
+                        <%if (one.productType==1) {%>
+                        <p class="text-right">赚<span><%=one.salary%></span>元</p>
+                        <%}else if(one.productType==2){%>
+                        <p class="text-right">赚<span><%=one.salary%></span>%</p>
+                        <%}%>
                     <%}%>
                     <a class="btn linear-gradient-yellow" data-id="<%=one.productId%>" data-ptype="<%=one.productType%>">立即推广</a>
                 </div>
@@ -203,6 +216,18 @@
                     window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
                 }
             }
+        })
+        // 头条轮播
+        var swiperHeadline = new Swiper('.swiper-container-headline', {
+            direction: 'vertical', // 切换方向选项
+            autoplay: true, // 循环模式选项
+            loop: true
+
+        })
+        //跳转搜索
+        var searchInput = document.getElementById("search-input");
+        searchInput.addEventListener('click', function () {
+            window.location.href = 'search.html';
         })
         //热门商品类别切换
         $(".tab a").click(function () {
@@ -281,20 +306,6 @@
                 }
             })
         }
-    </script>
-    <script>
-
-        // 头条轮播
-        var swiperHeadline = new Swiper('.swiper-container-headline', {
-            direction: 'vertical', // 切换方向选项
-            autoplay: true, // 循环模式选项
-            loop: true
-
-        })
-        var searchInput = document.getElementById("search-input");
-        searchInput.addEventListener('focus', function () {
-            window.location.href = 'search.html';
-        })
     </script>
 </body>
 

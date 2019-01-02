@@ -110,40 +110,42 @@
                 content.innerHTML = html;
                 //实名认证
                 var btnSubmit = document.querySelector(".btn-submit");
-                btnSubmit.addEventListener("click", function () {
-                    var name = document.querySelector(".name").value;
-                    var idNo = document.querySelector(".idNo").value;
-                    var mobile = document.querySelector(".mobile").text;
-                    if (name == '') {
-                        layerMsg("请输入真实姓名");
-                        return false;
-                    }
-                    if (name != "") {
-                        var regName = /^[\u4e00-\u9fa5]{2,4}$/i;
-                        if (!regName.test(name)) {
-                            layerMsg('真实姓名填写有误');
+                if (btnSubmit) {
+                    btnSubmit.addEventListener("click", function () {
+                        var name = document.querySelector(".name").value;
+                        var idNo = document.querySelector(".idNo").value;
+                        var mobile = document.querySelector(".mobile").text;
+                        if (name == '') {
+                            layerMsg("请输入真实姓名");
                             return false;
                         }
-                    }
-                    if (idNo == '') {
-                        layerMsg("请输入身份证号码");
-                        return false;
-                    }
-                    if (idNo != "") {
-                        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
-                        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-                        if (reg.test(idNo) === false) {
-                            layerMsg("身份证号码有误<br>请重新输入");
+                        if (name != "") {
+                            var regName = /^[\u4e00-\u9fa5]{2,4}$/i;
+                            if (!regName.test(name)) {
+                                layerMsg('真实姓名填写有误');
+                                return false;
+                            }
+                        }
+                        if (idNo == '') {
+                            layerMsg("请输入身份证号码");
                             return false;
                         }
-                    }
-                    var data = JSON.stringify({
-                        realname: name,
-                        idNo: idNo,
-                        mobile: mobile
-                    });
-                    Ajax_token(IP + "msqudan/api/user/realname", "POST", token, data, realName);
-                })
+                        if (idNo != "") {
+                            // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+                            var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                            if (reg.test(idNo) === false) {
+                                layerMsg("身份证号码有误<br>请重新输入");
+                                return false;
+                            }
+                        }
+                        var data = JSON.stringify({
+                            realname: name,
+                            idNo: idNo,
+                            mobile: mobile
+                        });
+                        Ajax_token(IP + "msqudan/api/user/realname", "POST", token, data, realName);
+                    })
+                }
             }
         }
         function realName(Data) {

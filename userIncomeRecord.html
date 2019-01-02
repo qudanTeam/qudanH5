@@ -67,12 +67,12 @@
         var ulBox = document.querySelector(".ul-box");
         var tpl = document.getElementById("tpl").innerHTML;
         var list;
-        var page = 1, per_page = 10, sendStatus = 2, total;
+        var page = 1, per_page = 10, send_status = 2, total;
         var data = {
-            Page: page,
-            PerPage: per_page,
-            SendStatus: sendStatus
-        }
+            page: page,
+            per_page: per_page,
+            send_status: send_status
+        };
         $(".tab a").click(function () {
             $(this).addClass("active").siblings('a').removeClass('active');
             var index = $(this).index();
@@ -86,10 +86,10 @@
             }
             page = 1;
             data = {
-                Page: page,
-                PerPage: per_page,
-                SendStatus: sendStatus
-            }
+                page: page,
+                per_page: per_page,
+                send_status: send_status
+            };
             console.log(page);
             Ajax_token(IP + 'msqudan/api/user/revenues', "GET", token, data, getlist);
         })
@@ -115,10 +115,10 @@
             page = 1;
             console.log(page);
             data = {
-                Page: page,
-                PerPage: per_page,
-                SendStatus: sendStatus
-            }
+                page: page,
+                per_page: per_page,
+                send_status: send_status
+            };
             Ajax_token(IP + 'msqudan/api/user/revenues', "GET", token, data, getlist);
         }
         // 上拉加载
@@ -127,10 +127,10 @@
             page++;
             console.log(page);
             data = {
-                Page: page,
-                PerPage: per_page,
-                SendStatus: sendStatus
-            }
+                page: page,
+                per_page: per_page,
+                send_status: send_status
+            };
             console.log(total);
             var div = document.createElement("div");
             div.className = 'no-more';

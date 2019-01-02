@@ -16,6 +16,10 @@
 </head>
 
 <body class="apply">
+    <header id="header">
+        <a class='icon-back'></a>
+        <h1>申请贷款</h1>
+    </header>
     <div id="main">
 
     </div>
@@ -24,15 +28,11 @@
         <a class="btn linear-gradient-blue" id='btn-applyloan'>去申请</a>
     </div>
     <script id='tpl-main' type='text/html'>
-        <header id="header">
-            <a class='icon-back'></a>
-            <h1>申请<%=detail.product.productName%></h1>
-        </header>
         <div class="apply-loan-summary">
                 <img class="media-object fl" src="<%=detail.product.logo%>" alt="">
                 <div class="media-body">
                     <h3 class="title"><%=detail.product.productName%></h3>
-                    <p class="data">期限范围：<%=detail.product.expireBegin%>-<%=detail.product.expireEnd%>期/月利率：<%=detail.product.monthRate%>%/通过率：<%=rate(detail.product.allowRate)%></p>
+                    <p class="data">期限范围：<%=detail.product.expireBegin%>-<%=detail.product.expireEnd%>期/月利率：<%=detail.product.monthRate%>%/通过率：<%=detail.product.allowRate%></p>
                     <p class="limit">最高<%=unit(detail.product.amountLine)%>借款额度</p>
                     <p class="data fr">申请人数：<%=detail.product.applyNum%></p>
                 </div>
