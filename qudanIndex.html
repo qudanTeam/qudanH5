@@ -248,11 +248,14 @@
                 if (!document.querySelector('.no-more')) {
                     document.getElementById('goods-list').appendChild(div);
                 }
+                document.querySelector('.pullUpLabel').style.display = 'none';
                 myScroll.refresh();
                 return false;
+            }else{
+
+                Ajax(IP + 'msqudan/api/products/', data, getGoods);
             }
 
-            Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         function Ajax(url, data, callback) {
             $.ajax({

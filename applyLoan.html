@@ -32,7 +32,7 @@
                 <img class="media-object fl" src="<%=detail.product.logo%>" alt="">
                 <div class="media-body">
                     <h3 class="title"><%=detail.product.productName%></h3>
-                    <p class="data">期限范围：<%=detail.product.expireBegin%>-<%=detail.product.expireEnd%>期/月利率：<%=detail.product.monthRate%>%/通过率：<%=detail.product.allowRate%></p>
+                    <p class="data">期限范围：<%=detail.product.expireBegin%>-<%=detail.product.expireEnd%>期/月利率：<%=detail.product.monthRate%>%/通过率：<%=detail.product.allowRate%>%</p>
                     <p class="limit">最高<%=unit(detail.product.amountLine)%>借款额度</p>
                     <p class="data fr">申请人数：<%=detail.product.applyNum%></p>
                 </div>
@@ -88,6 +88,8 @@
                     </div>\
                     <div class="btn-wrap"><a class="btn linear-gradient-yellow btn-submit">立即申请</a></div>\
                     <span class="icon-close"></span>';
+        //获取用户信息，判断是否实名
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
         AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
         btnApplyLoan.addEventListener("click", function () {
             setTimeout(function () {
@@ -158,6 +160,7 @@
             var idNo = document.querySelector(".idNo").value;
             var vCode = document.querySelector(".vcode").value;
             var shareid = getCookie("shareid");
+            var aProtocol = document.querySelector(".protocol .radio").getAttribute("checked");
             if (name == '') {
                 layerMsg('请输入姓名');
                 return false;
@@ -186,7 +189,10 @@
                 layerMsg('请输入验证码');
                 return false;
             }
-
+            if(aProtocol==""){
+                layerMsg('请勾选同意协议，才能进行下一步哦');
+                return false;
+            }
             var data = JSON.stringify({
                 productId: id,
                 inviteCode: '',

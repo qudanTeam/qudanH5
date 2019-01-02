@@ -10,9 +10,32 @@
     <title>我的团队</title>
     <link rel="stylesheet" href="css/reset.css?v=2018122701">
     <script src="js/rem.js"></script>
+    <!-- <link rel="stylesheet" href="Mdate/needcss/Mdate.css"> -->
     <link rel="stylesheet" href="css/common.css?v=2018122701">
     <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
-    <style>#wrapper{top:2.37rem;bottom:0;}</style>
+    <style>
+        #wrapper {
+            top: 2.37rem;
+            bottom: 0;
+        }
+        #dateShowBtn{
+            background-color: transparent;
+            text-align: center;
+            color: #666;
+        }
+        #dateShowBtn-box{
+            position: relative;
+        }
+        .icon-date-arrow{
+            position: absolute;
+            right: .2rem;
+            width: .12rem;
+            height: .17rem;
+            background: url(images/Rectangle@2x.png) no-repeat;
+            background-size: .12rem .07rem;
+            background-position: center center;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,57 +46,142 @@
     <div class="content content-myTeam">
         <div class="flex-wrap top">
             <div class="flex-wrap">
-                <h2>204人</h2>
+                <h2 class="total-people"></h2>
                 <p>团队有业绩</p>
             </div>
             <div class="flex-wrap">
-                <h2>204元</h2>
-                <p>2018年10月</p>
+                <h2 class="total-revenue"></h2>
+                <p id="dateShowBtn-box"><input type="text" id="dateShowBtn" value="" data-year="" data-month=""><i class="icon icon-date-arrow"></i></p>
             </div>
         </div>
         <h3 class="title">团队成员</h3>
         <div id="wrapper">
             <div class="ul-box">
-                <ul class="list list-myTeam">
-                    <li class="flex-wrap">
-                        <div class="flex-item left">
-                            <h4 class="title">张家辉</h4>
-                            <p>156******333</p>
-                            <p>推荐人：平台</p>
-                        </div>
-                        <div class="flex-item right">
-                            <p class="top-right">注册于2018-09-09</p>
-                            <p>提成</p>
-                            <p class="data text-red">200.00元</p>
-                        </div>
-                    </li>
-                    <li class="flex-wrap">
-                        <div class="flex-item left">
-                            <h4 class="title">张家辉</h4>
-                            <p>156******333</p>
-                            <p>推荐人：平台</p>
-                        </div>
-                        <div class="flex-item right">
-                            <p class="top-right">注册于2018-09-09</p>
-                            <p>提成</p>
-                            <p class="data text-red">200.00元</p>
-                        </div>
-                    </li>
 
-                </ul>
             </div>
 
         </div>
 
     </div>
+    <script id="tpl" type="text/html">
+        <ul class="list list-myTeam">
+        <%for(var i=0;i < list.rows.length;i++){%>
+            <li class="flex-wrap">
+                <div class="flex-item left">
+                    <h4 class="title"><%=list.row[i].name%></h4>
+                    <p><%=des(list.row[i].mobile)%></p>
+                    <p>推荐人：<%=list.row[i].recommendName%></p>
+                </div>
+                <div class="flex-item right">
+                    <p class="top-right">注册于<%=list.row[i].registerTime%></p>
+                    <p>提成</p>
+                    <p class="data text-red"><%=list.row[i].revenue%>元</p>
+                </div>
+            </li>
+        <%}%>
+        </ul>
+    </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/iscroll.js"></script>
     <script src="js/pullToRefresh.js"></script>
+    <script src="Mdate/Mdate.js"></script>
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
     <script>
+        var token = getCookie('token');
+        var ulBox = document.querySelector(".ul-box");
+        var tpl = document.getElementById("tpl").innerHTML;
+        var list, totalPeople, totalRevenue;
+        var page = 1, per_page = 10, ym = '2018-10', total;
+        var data = {
+            page: page,
+            per_page: per_page,
+            ym: '2018-10'
+        };
+        //初始化日期
+        new Mdate("dateShowBtn-box", {
+            //"dateShowBtn"为你点击触发Mdate的id，必填项
+            acceptId: "dateShowBtn",
+            //此项为你要显示选择后的日期的input，不填写默认为上一行的"dateShowBtn"
+            // beginYear: "2002",
+            // //此项为Mdate的初始年份，不填写默认为2000
+            // beginMonth: "10",
+            // //此项为Mdate的初始月份，不填写默认为1
+            // beginDay: "24",
+            // //此项为Mdate的初始日期，不填写默认为1
+            // endYear: "2017",
+            // //此项为Mdate的结束年份，不填写默认为当年
+            // endMonth: "1",
+            // //此项为Mdate的结束月份，不填写默认为当月
+            // endDay: "1",
+            // //此项为Mdate的结束日期，不填写默认为当天
+            format: "-"
+            //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
+        })
+        Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);//获取我的团队列表
+        function getlist(Data) {
+            if (Data.code == 200) {
+                if (Data.data.total != 0) {
+                    total = Math.floor((Data.data.total) / per_page);
+
+                    list = Data.data;
+                    var html = template(tpl, list);
+                    ulBox.innerHTML = html;
+                    console.log(list.totalPeople);
+                    document.querySelector(".total-people").innerHTML = list.totalPeople + "人";
+                    document.querySelector(".total-revenue").innerHTML = list.totalRevenue + "元";
+                    myScroll.refresh();
+                } else {
+                    ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+                    document.querySelector(".total-people").innerHTML = "0人";
+                    document.querySelector(".total-revenue").innerHTML = "0元";
+                    myScroll.refresh();
+                    return false;
+                }
+            }
+        }
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
+        //下啦刷新
+        function pullDownAction() {
+            page = 1;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page,
+                ym: ym
+            };
+            Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);
+        }
+        // 上拉加载
+        function pullUpAction() {
+            //业务逻辑代码，比如通过ajax从服务器获取新数据；
+            page++;
+            console.log(page);
+            data = {
+                page: page,
+                per_page: per_page,
+                ym: ym
+            };
+            console.log(total);
+            var div = document.createElement("div");
+            div.className = 'no-more';
+            div.innerHTML = '已经到底了哦～';
+            if (total < page) {
+                if (!document.querySelector('.no-more')) {
+                    incomeList.appendChild(div);
+                }
+                document.querySelector('.pullUpLabel').style.display = 'none';
+                myScroll.refresh();
+                return false;
+            }
+            Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);
+        }
 
     </script>
 </body>

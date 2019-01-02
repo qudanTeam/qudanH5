@@ -109,6 +109,7 @@
             var mobile = document.querySelector(".mobile").value;
             var idNo = document.querySelector(".idNo").value;
             var vCode = document.querySelector(".vcode").value;
+            var aProtocol = document.querySelector(".protocol .radio").getAttribute("checked");
             var shareid = getCookie("shareid");
             if (name == '') {
                 layerMsg('请输入姓名');
@@ -136,6 +137,10 @@
             }
             if (vCode == '') {
                 layerMsg('请输入验证码');
+                return false;
+            }
+            if(aProtocol==""){
+                layerMsg('请勾选同意协议，才能进行下一步哦');
                 return false;
             }
 

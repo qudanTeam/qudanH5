@@ -124,12 +124,16 @@
     </div>
     <script id='tpl1' type="text/html">
         <div class="text">
+            <%if(detail.shares.length!=0){%>
             <%=detail.shares[0].content%>
+            <%}%>
         </div>
     </script>
     <script id='tpl2' type="text/html">
         <div class="text">
+            <%if(detail.shares.length!=0){%>
             <%=detail.shares[0].content%>
+            <%}%>
         </div>
        
         <div class="flex-wrap flex-wrap-img my-gallery" data-pswp-uid="1">
@@ -143,14 +147,16 @@
                     <a href="images/icon-td.png" data-size="106x108"><img src="images/icon-td.png" alt="" class="downloadImg"></a>
                 </div>
             </figure> -->
-            <%for(var i=0;i<_array(detail.shares[0].shareImg).length;i++){%>
-            <figure class="flex-wrap">
-                <div class="">
-                    <a href="<%=_array(detail.shares[0].shareImg)[i]%>"  data-size="106x108">
-                        <img src="<%=_array(detail.shares[0].shareImg)[i]%>" alt="" >
-                    </a>
-                </div>
-            </figure>
+            <%if(detail.shares.length!=0){%>
+                <%for(var i=0;i < _array(detail.shares[0].shareImg).length;i++){%>
+                <figure class="flex-wrap">
+                    <div class="">
+                        <a href="<%=_array(detail.shares[0].shareImg)[i]%>"  data-size="106x108">
+                            <img src="<%=_array(detail.shares[0].shareImg)[i]%>" alt="" >
+                        </a>
+                    </div>
+                </figure>
+                <%}%>
             <%}%>
         </div>
     </script>
@@ -333,9 +339,9 @@
                                 top: 100,
                                 bottom: 100
                             },
-                            bgOpacity:0.5,
-                            tapToClose:true,
-                            shareEl:false,
+                            bgOpacity: 0.5,
+                            tapToClose: true,
+                            shareEl: false,
                             fullscreenEl: false,
                             galleryUID: galleryElement.getAttribute('data-pswp-uid'),
                             getThumbBoundsFn: function (index) {
@@ -384,7 +390,7 @@
             }
         }
 
-       
+
     </script>
     <script type="text/javascript">
 
