@@ -95,6 +95,11 @@
             official_status: official_status,
             apply_status: apply_status
         };
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
         $(".tab a").click(function () {
             $(this).addClass("active").siblings("a").removeClass("active");
@@ -158,7 +163,7 @@
                 case 1:
                     apply_status = 2;
                     break;
-                case 1:
+                case 2:
                     apply_status = 3;
                     break;
             }
@@ -181,10 +186,10 @@
                     var html = template(tpl, list);
                     console.log(html)
                     ulBox.innerHTML = html;
-                    myScroll.refresh();
+                    wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-                    myScroll.refresh();
+                    wrapper.refresh();
                     return false;
                 }
             }
@@ -224,11 +229,14 @@
             div.className = 'no-more';
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
-                if (!document.querySelector('.no-more')) {
-                    ulBox.appendChild(div);
-                }
-                document.querySelector('.pullUpLabel').style.display = 'none';
-                myScroll.refresh();
+                wrapper.refresh();
+                // if (!document.querySelector('.no-more')) {
+                //     document.getElementById('goods-list').appendChild(div);
+                // }
+
+                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                // document.querySelector('.pullUpLabel').style.display = 'none';
+
                 return false;
             }
             Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);

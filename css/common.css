@@ -117,9 +117,12 @@
     font-size: .16rem;
     color:#000;
 }
-.tag{    
+.tag-box{
     display: inline-block;
     margin-left: .1rem;
+}
+.tag{    
+    display: inline-block;
     vertical-align: middle;
     height: .15rem;
     line-height: .15rem;

@@ -77,6 +77,11 @@
             per_page: per_page,
             status: status
         }
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         $(".tab a").click(function () {
             $(this).addClass("active").siblings('a').removeClass('active');
             var index = $(this).index();
@@ -109,10 +114,10 @@
                     list = Data.data;
                     var html = template(tpl, list);
                     ulBox.innerHTML = html;
-                    myScroll.refresh();
+                    wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-                    myScroll.refresh();
+                    wrapper.refresh();
                     return false;
                 }
             }
@@ -143,11 +148,14 @@
             div.className = 'no-more';
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
-                if (!document.querySelector('.no-more')) {
-                    incomeList.appendChild(div);
-                }
-                document.querySelector('.pullUpLabel').style.display = 'none';
-                myScroll.refresh();
+                wrapper.refresh();
+                // if (!document.querySelector('.no-more')) {
+                //     document.getElementById('goods-list').appendChild(div);
+                // }
+
+                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                // document.querySelector('.pullUpLabel').style.display = 'none';
+
                 return false;
             }
             Ajax_token(IP + 'msqudan/api/user/txrecords', "GET", token, data, getlist);

@@ -50,69 +50,6 @@
             </div>
             <div id="wrapper">
                 <div id="goods-list">
-
-                        <ul class="list goods-list loan-goods-list">
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=2&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/logo2" alt="">
-                                <div class="media-body">
-                                    <h3 class="title">贷款1<span class="tag linear-gradient-blue">特色标签1</span><span class="tag linear-gradient-blue">特色标签2</span></h3>
-                                    <p class="data"><span>月利率：0.22%</span><span>贷款期限：1-10个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">50万</span></p>
-                                    <p class="text-right">通过率：0.65%</p> <a class="btn linear-gradient-red">赚0.1%</a>
-                                </div>
-                            </li>
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=3&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/e4833a45-7d21-49f0-9183-aeb6df309d0d_logo.jpg"
-                                    alt="">
-                                <div class="media-body">
-                                    <h3 class="title">hello<span class="tag linear-gradient-blue">123123</span></h3>
-                                    <p class="data"><span>月利率：0.12%</span><span>贷款期限：12313-123123个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
-                                    <p class="text-right">通过率：0.34%</p> <a class="btn linear-gradient-red">赚12.23%</a>
-                                </div>
-                            </li>
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=5&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/6fdd8dcf-b1de-49dd-ae87-faf32fe02e6e_下载 (1).jpg"
-                                    alt="">
-                                <div class="media-body">
-                                    <h3 class="title">来钱贷<span class="tag linear-gradient-blue">就是快</span></h3>
-                                    <p class="data"><span>月利率：10%</span><span>贷款期限：1-10个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">10万</span></p>
-                                    <p class="text-right">通过率：90%</p> <a class="btn linear-gradient-red">赚10%</a>
-                                </div>
-                            </li>
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=6&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/7ff7dac0-adc2-4def-96e5-b35c4433d8c0_th_2.jpg"
-                                    alt="">
-                                <div class="media-body">
-                                    <h3 class="title">测试商品一<span class="tag linear-gradient-blue">hello</span></h3>
-                                    <p class="data"><span>月利率：12%</span><span>贷款期限：123-123个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
-                                    <p class="text-right">通过率：12%</p> <a class="btn linear-gradient-red">赚123%</a>
-                                </div>
-                            </li>
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=5&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/6fdd8dcf-b1de-49dd-ae87-faf32fe02e6e_下载 (1).jpg"
-                                    alt="">
-                                <div class="media-body">
-                                    <h3 class="title">来钱贷<span class="tag linear-gradient-blue">就是快</span></h3>
-                                    <p class="data"><span>月利率：10%</span><span>贷款期限：1-10个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">10万</span></p>
-                                    <p class="text-right">通过率：90%</p> <a class="btn linear-gradient-red">赚10%</a>
-                                </div>
-                            </li>
-                            <li onclick="window.location.href=&quot;loanDetail.html?id=6&quot;"> <img class="media-object fl"
-                                    src="http://pj7lk9wjg.bkt.clouddn.com/7ff7dac0-adc2-4def-96e5-b35c4433d8c0_th_2.jpg"
-                                    alt="">
-                                <div class="media-body">
-                                    <h3 class="title">测试商品一<span class="tag linear-gradient-blue">hello</span></h3>
-                                    <p class="data"><span>月利率：12%</span><span>贷款期限：123-123个月</span></p>
-                                    <p class="summary">贷款额度：<span class="text-red">1万</span></p>
-                                    <p class="text-right">通过率：12%</p> <a class="btn linear-gradient-red">赚123%</a>
-                                </div>
-                            </li>
-                        </ul>
-
                 </div>
             </div>
 
@@ -137,15 +74,17 @@
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
                         <h3 class="title"><%=one.productName%>
-                            <%if(_array(one.specialTag).length>=2){%>
-                            <%for(var j = 0; j < 2; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}else{%>
-                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}%>
+                            <div class="tag-box">
+                                <%if(_array(one.specialTag).length>=2){%>
+                                <%for(var j = 0; j < 2; j++) {%>
+                                <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                                <%}%>
+                                <%}else{%>
+                                <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+                                <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                                <%}%>
+                                <%}%>
+                            </div>
                         </h3>
                         <p class="data"><span>通过率：<%=one.allowRate%>%</span><span>申请人数：<%=one.applyNum%></span></p>
                         <p class="summary text-overflow"><%=one.specialTxt%></p>
@@ -164,7 +103,19 @@
                 <%}%>
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
-                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <h3 class="title"><%=one.productName%>
+                            <div class="tag-box">
+                                    <%if(_array(one.specialTag).length>=2){%>
+                                    <%for(var j = 0; j < 2; j++) {%>
+                                    <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                                    <%}%>
+                                    <%}else{%>
+                                    <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+                                    <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                                    <%}%>
+                                    <%}%>
+                                </div>
+                            </h3>
                         <p class="data"><span>月利率：<%=one.monthRate%>%</span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
                         <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
                         <p class="text-right">通过率：<%=one.allowRate%>%</p>
@@ -191,6 +142,11 @@
         var tabTitle = tab.querySelectorAll('.tab-title');
         var bannerList, goods;
         var page = 1, per_page = 10, type, total;
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         if (getQueryString('type')) {//从首页模块入口进来的商品列表页,判断商品类型
             type = parseInt(getQueryString('type'));
         } else {//从底部一级菜单进来
@@ -212,8 +168,8 @@
                 break;
         }
         Ajax(IP + 'msqudan/api/banners', '', getSwiper);//获取banner
-
-        // Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+        Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
+        //  myScroll.refresh();
         template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
             var str = Number(point * 100).toFixed(num);
             str += "%";
@@ -249,6 +205,8 @@
             }
             console.log(page);
             Ajax(IP + 'msqudan/api/products/', data, getGoods);
+            wrapper.refresh();
+
         })
         function getSwiper(Data) {
             if (Data.code == 200) {
@@ -274,11 +232,10 @@
                     goods = Data.data;
                     var html = template(tplGoodsList, goods);
                     document.getElementById('goods-list').innerHTML = html;
-                    myScroll.refresh();
+                    wrapper.refresh();
                 } else {
                     document.getElementById('goods-list').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-                    myScroll.refresh();
-                    return false;
+                    // myScroll.refresh();
                 }
             }
         }
@@ -291,7 +248,8 @@
                 per_page: per_page,
                 type: type
             }
-            // Ajax(IP + 'msqudan/api/products/', data, getGoods);
+           
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         // 上拉加载
         function pullUpAction() {
@@ -308,17 +266,18 @@
             div.className = 'no-more';
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
-                if (!document.querySelector('.no-more')) {
-                    document.getElementById('goods-list').appendChild(div);
-                }
-                document.querySelector('.pullUpLabel').style.display = 'none';
-                myScroll.refresh();
+                wrapper.refresh();
+                // if (!document.querySelector('.no-more')) {
+                //     document.getElementById('goods-list').appendChild(div);
+                // }
+
+                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                // document.querySelector('.pullUpLabel').style.display = 'none';
+               
                 return false;
-            } else {
-
-                // Ajax(IP + 'msqudan/api/products/', data, getGoods);
             }
-
+            
+            Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         function Ajax(url, data, callback) {
             $.ajax({
@@ -332,7 +291,6 @@
                 }
             })
         }
-
     </script>
 </body>
 
