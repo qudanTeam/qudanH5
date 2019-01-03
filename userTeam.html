@@ -8,11 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>我的团队</title>
-    <link rel="stylesheet" href="css/reset.css?v=2018122701">
+    <link rel="stylesheet" href="css/reset.css?v=20190103001">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <script src="js/rem.js"></script>
-    <!-- <link rel="stylesheet" href="Mdate/needcss/Mdate.css"> -->
-    <link rel="stylesheet" href="css/common.css?v=2018122701">
-    <link rel="stylesheet" href="css/userInfo.css?v=2018122701">
+    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/userInfo.css?v=20190103001">
     <style>
         #wrapper {
             top: 2.37rem;
@@ -120,6 +120,11 @@
             format: "-"
             //此项为Mdate需要显示的格式，可填写"/"或"-"或".",不填写默认为年月日
         })
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);//获取我的团队列表
         function getlist(Data) {
             if (Data.code == 200) {
@@ -132,12 +137,12 @@
                     console.log(list.totalPeople);
                     document.querySelector(".total-people").innerHTML = list.totalPeople + "人";
                     document.querySelector(".total-revenue").innerHTML = list.totalRevenue + "元";
-                    myScroll.refresh();
+                    wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
                     document.querySelector(".total-people").innerHTML = "0人";
                     document.querySelector(".total-revenue").innerHTML = "0元";
-                    myScroll.refresh();
+                    wrapper.refresh();
                     return false;
                 }
             }
@@ -173,11 +178,14 @@
             div.className = 'no-more';
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
-                if (!document.querySelector('.no-more')) {
-                    incomeList.appendChild(div);
-                }
-                document.querySelector('.pullUpLabel').style.display = 'none';
-                myScroll.refresh();
+                wrapper.refresh();
+                // if (!document.querySelector('.no-more')) {
+                //     document.getElementById('goods-list').appendChild(div);
+                // }
+
+                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                // document.querySelector('.pullUpLabel').style.display = 'none';
+
                 return false;
             }
             Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);
