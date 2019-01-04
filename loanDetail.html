@@ -10,7 +10,7 @@
     <title>贷款详情</title>
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/qudan.css?v=20190103001">
 </head>
 
@@ -32,7 +32,7 @@
                     <a  class="btn btn-outlined btn-blue shareIndex-btn" id="shareIndex-btn">分享素材</a>
                 </div>
                 <div class="goods-summary loan-summary">
-                    <h2 class="title"><%=detail.product.productName%><%for(var j = 0; j < _array(detail.product.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(detail.product.specialTag)[j]%></span><%}%></h2>
+                    <h2 class="title"><%=detail.product.productName%><div class="tag-box"><%for(var j = 0; j < _array(detail.product.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(detail.product.specialTag)[j]%></span><%}%></div></h2>
                     <p class="data"><span>通过率：<%=detail.product.allowRate%>%</span><span>申请人数：<%=detail.product.applyNum%></span></p>
                 </div>
             </div>

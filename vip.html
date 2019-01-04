@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
-    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/vip.css?v=20190103001">
 </head>
+
 <body>
     <!-- <header id="header">
         <a class='icon-back'></a>
@@ -112,6 +113,10 @@
     </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <!--微信jssdk-->
+    <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.min.js"></script>
+    <!--支付宝jsapi -->
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
@@ -121,9 +126,21 @@
         var vipLevelWrap = document.getElementById("vip-level-wrap");
         var tplUserInfo = document.getElementById("tpl-userinfo").innerHTML;
         var userInfoWrap = document.querySelector(".user-info");
-        var userInfo, _vips, userVipLevel, layerContent,qudanId;
+        var userInfo, _vips, userVipLevel, layerContent, qudanId;
         var token = getCookie('token');
-
+        var openid = "12345", total_fee;
+        var trade_type;
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            trade_type = 'JSAPI';
+        } else {
+            trade_type = 'MWEB';
+        };
+        var dataWechatPay = {
+            total_fee: total_fee,
+            trade_type: trade_type,
+        };
+        alert(trade_type);
         main.addEventListener("click", function (e) {
             var e = e || window.event;
             var target = e.target || e.srcElement;
@@ -132,12 +149,40 @@
             }
             if (target.className.toLowerCase() == 'btn btn1') {//立即开通弹框:vip1
                 layerHtml('applyVip-html', layerVip(0));
+                //唤起微信支付
+                dataWechatPay = {
+                    total_fee: layerContent.vips[0].vipPrice,
+                    trade_type: trade_type
+                }
+                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                    alert(JSON.stringify(dataWechatPay))
+                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+
+                })
             }
             if (target.className.toLowerCase() == 'btn btn2') {//立即开通弹框:vip2
                 layerHtml('applyVip-html', layerVip(1));
+                //唤起微信支付
+                dataWechatPay = {
+                    total_fee: layerContent.vips[1].vipPrice,
+                    trade_type: trade_type
+                }
+                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+
+                })
             }
             if (target.className.toLowerCase() == 'btn btn3') {//立即开通弹框:vip3
                 layerHtml('applyVip-html', layerVip(2));
+                //唤起微信支付
+                dataWechatPay = {
+                    total_fee: layerContent.vips[2].vipPrice,
+                    trade_type: trade_type
+                }
+                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+
+                })
             }
         });
         //获取用户信息
@@ -191,9 +236,9 @@
             var str;
             str = '<div class="banner banner' + num + '"></div>\
                         <div class="main"><ul>\
-                            <li><p>趣单id<span class="data fr">'+qudanId+'</span></p></li><li><p>服务周期<span class="data fr">'+ layerContent.vips[i].serviceDays + '天</span></p></li>\
-                            <li><p>佣金加成比例<span class="data fr">'+ Number(layerContent.vips[i].addRate*100)+ '%</span></p></li>\
-                        </ul><div class="money">'+ layerContent.vips[i].vipPrice + '元</div><div class="flex-wrap"><a class="btn linear-gradient-blue">支付宝支付</a><a class="btn linear-gradient-red">微信支付</a></div></div><span class="icon-close"></span>'
+                            <li><p>趣单id<span class="data fr">'+ qudanId + '</span></p></li><li><p>服务周期<span class="data fr">' + layerContent.vips[i].serviceDays + '天</span></p></li>\
+                            <li><p>佣金加成比例<span class="data fr">'+ Number(layerContent.vips[i].addRate * 100) + '%</span></p></li>\
+                        </ul><div class="money">'+ layerContent.vips[i].vipPrice + '元</div><div class="flex-wrap"><a class="btn linear-gradient-blue" id="alipay-btn">支付宝支付</a><a class="btn linear-gradient-red" id="wechat-pay-btn">微信支付</a></div></div><span class="icon-close"></span>'
             return str;
         }
         //vip说明
@@ -204,7 +249,7 @@
                         <p>为增加用户收益率趣单平台特地推出VIP套餐服务，用户可开通相应的VIP套餐等级去赚取更多的工资以及佣金。</p>\
                         </div >\
                         <div><span class="index">2</span>\
-                            <p>用户在VIP1等级时开通了VIP2的服务，那VIP1的服务周期及佣金加成将重新变更为VIP2的服务周期及佣金加成。<br>如：您的VIP1服务周期还剩余3天，您又开通了VIP2的服务，那您VIP1的服务周期及佣金加成将失效，您的标识将变为VIP2，服务周期为'+layerContent.vips[1].serviceDays +'天，佣金加成比例为'+Number(layerContent.vips[1].addRate*100)+'%。</p>\
+                            <p>用户在VIP1等级时开通了VIP2的服务，那VIP1的服务周期及佣金加成将重新变更为VIP2的服务周期及佣金加成。<br>如：您的VIP1服务周期还剩余3天，您又开通了VIP2的服务，那您VIP1的服务周期及佣金加成将失效，您的标识将变为VIP2，服务周期为'+ layerContent.vips[1].serviceDays + '天，佣金加成比例为' + Number(layerContent.vips[1].addRate * 100) + '%。</p>\
                         </div>\
                         <div><span class="index">3</span>\
                             <p>如有疑问请联系客服。</p>\
@@ -216,6 +261,65 @@
                     <span class="icon-close"></span>';
             return html;
         }
+        var wxjsapi_data = location.href.split('#').toString();
+        ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+        function wxConfig(Data) {
+            // 通过config接口注入权限验证配置
+            if (Data.code == 200) {
+                wx.config({
+                    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: Data.data.appId, // 必填，公众号的唯一标识
+                    timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
+                    signature: Data.data.signature,// 必填，签名
+                    jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
+                });
+            }
+        }
+        function wechatPayPopup(Data) {
+            if (Data.status == 200) {
+                wx.chooseWXPay({
+                    timestamp: Data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: Data.data.noncestr, // 支付签名随机串，不长于 32 位
+                    package: "prepay_id=" + Data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+                    signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: Data.data.sign, // 支付签名
+                    success: function (res) {
+                        // 支付成功后的回调函数
+                        window.location.reload();
+                    },
+                    fail: function (res) {
+                        layerMsg($.parseJSON(res));
+                    }
+                });
+            }
+        }
+        function ajaxWxjsapi(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: { url: data },
+                dataType: 'json',
+                success: callback,
+                error: function (e) {
+                    console.log($.parseJSON(e.responseText));
+                    layerMsg($.parseJSON(e.responseText).error.message);
+                }
+            })
+        }
+        function isWexin() {
+            var trade_type;
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                trade_type = 'JSAPI';
+            } else {
+                trade_type = 'MWEB';
+            }
+            return trade_type;
+        }
+    </script>
+    <script>
+    //微信支付
     </script>
 </body>
 

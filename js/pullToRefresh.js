@@ -56,6 +56,8 @@ var refresher = {
 	scrollIt: function(parameter, pullDownEl, pullDownOffset, pullUpEl, pullUpOffset) {
 		eval(parameter.id + "= new iScroll(parameter.id, {useTransition: true,vScrollbar: true,topOffset: pullDownOffset,onRefresh: function () {refresher.onRelease(pullDownEl,pullUpEl);},onScrollMove: function () {refresher.onScrolling(this,pullDownEl,pullUpEl,pullUpOffset);},onScrollEnd: function () {refresher.onPulling(pullDownEl,parameter.pullDownAction,pullUpEl,parameter.pullUpAction);},})");
 		pullDownEl.querySelector('.pullDownLabel').innerHTML = '';
+		console.log(1);
+		pullUpEl.querySelector('.pullUpLabel').innerHTML = '';
 		document.addEventListener('touchmove', function(e) {
 			e.preventDefault();
 		}, false);

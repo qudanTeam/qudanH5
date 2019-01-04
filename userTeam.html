@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/userInfo.css?v=20190103001">
     <style>
         #wrapper {
@@ -94,11 +94,11 @@
         var ulBox = document.querySelector(".ul-box");
         var tpl = document.getElementById("tpl").innerHTML;
         var list, totalPeople, totalRevenue;
-        var page = 1, per_page = 10, ym = '2018-10', total;
+        var page = 1, per_page = 10, ym = new Date().getFullYear()+'-'+new Date().getMonth() + 1, total;
         var data = {
             page: page,
             per_page: per_page,
-            ym: '2018-10'
+            ym: ym
         };
         //初始化日期
         new Mdate("dateShowBtn-box", {

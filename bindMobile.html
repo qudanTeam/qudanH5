@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
-    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/login.css?v=20190103001">
 </head>
 
@@ -52,7 +52,7 @@
             type: type
         };
 
-        ajaxGet(domain_test2 + "wechat/oauth", data, getWechatCode);
+        ajaxGet(domain_test_server + "wechat/oauth", data, getWechatCode);
         //获取验证码
         btnGetVcode.addEventListener("click", function () {
             var _this = this;
@@ -87,7 +87,7 @@
                         shareid: shareid,
                         wutid: wutid
                     });
-                    ajaxPost(domain_test2 + "msqudan/api/register/wx", data, wechatBind)
+                    ajaxPost(domain_test_server + "msqudan/api/register/wx", data, wechatBind)
                 })
             }
         }

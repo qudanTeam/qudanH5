@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
     <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="css/common.css?v=20190103001">
+    <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/qudan.css?v=20190103001">
     <style>
         .fixed-bottom-btn {
@@ -90,7 +90,7 @@
                 qrCode.setAttribute("src", Data.data.qrCodeImgUrl);
                 document.body.setAttribute("data-shareid", Data.data.shareid);
                 var wxjsapi_data = location.href.split('#').toString();
-                ajaxWxjsapi(domain_test2 + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+                ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
             }
 
         }

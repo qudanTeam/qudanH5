@@ -25,7 +25,7 @@
             code: code,
             type: 1
         };
-        ajaxGet(domain_test2 + "wechat/oauth", data, getWutid);
+        ajaxGet(domain_test_server + "wechat/oauth", data, getWutid);
         function getWutid(Data) {
             if (Data.code == 200) {
                 wutid = Data.data.wutid;

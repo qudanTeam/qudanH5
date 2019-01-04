@@ -120,10 +120,13 @@
 .tag-box{
     display: inline-block;
     margin-left: .1rem;
+    font-size: 0;
+    vertical-align: middle;
 }
 .tag{    
     display: inline-block;
     vertical-align: middle;
+    margin-right: .05rem;
     height: .15rem;
     line-height: .15rem;
     padding:0 .08rem;
