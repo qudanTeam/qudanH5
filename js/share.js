@@ -53,7 +53,10 @@ function getDetail(Data) {
   if (Data.code == 200) {
     detail = Data.data.detail;
     //设置商品海报图片
-    document.querySelector(".content-poster-share").style.backgroundImage = 'url('+detail.product_poster+')';
+    var proPoster = document.querySelector(".content-poster-share");
+    if(proPoster){
+      document.querySelector(".content-poster-share").style.backgroundImage = 'url('+detail.product_poster+')';
+    }
   }
 }
 

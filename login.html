@@ -59,10 +59,17 @@
         var btnNewPwd = document.getElementById("newPwd");
         var clickCount = 0;
         var token;
+        //浏览器内不显示“微信登陆”按钮
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            btnWechatLogin.style.display = "block"
+        } else {
+            btnWechatLogin.style.display = "none"
+        }
         //微信授权登录
-        btnWechatLogin.addEventListener("click",function(){
-            var REDIRECT_URI = encodeURIComponent(domain_test+'blank.html');
-            window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri="+REDIRECT_URI+"&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+        btnWechatLogin.addEventListener("click", function () {
+            var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html');
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
         })
         //验证码登录和密码登录切换
         loginType.addEventListener("click", function () {
@@ -81,7 +88,7 @@
         })
         btnGetVcode.addEventListener("click", function () {
             var _this = this;
-            getCode(_this,2,token);
+            getCode(_this, 2, token);
         })
 
         //登录事件
