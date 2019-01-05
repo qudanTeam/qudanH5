@@ -119,7 +119,7 @@
                         <p class="data"><span>月利率：<%=rate(one.monthRate,2)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
                         <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
                         <p class="text-right">通过率：<%=rate(one.allowRate,2)%></p>
-                        <a class="btn linear-gradient-red">最高<%=one.baseSalary%>%</a>
+                        <a class="btn linear-gradient-red">最高<%=rate(one.baseSalary,2)%></a>
                     </div>
                 </li>
                 <%}%>
