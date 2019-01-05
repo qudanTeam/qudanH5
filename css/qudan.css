@@ -280,7 +280,7 @@ html,body{
     overflow: scroll;
 }
 .content-poster-share{
-    background: url(../images/bg-poster2.png) no-repeat;
+    background-repeat:  no-repeat;
     background-size: contain;
     background-position: center .24rem;
 }
