@@ -17,10 +17,10 @@ function wxConfig(Data) {
   });
   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
     if (ptype == 1) {
-      link = protocol + '//' + host + '/creditCardDetail.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
+      link = protocol + '//' + host + '/applyCardShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
     if (ptype == 2) {
-      link = protocol + '//' + host + '/loanDetail.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
+      link = protocol + '//' + host + '/applyLoanShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
     var shareData = {
       title: detail.product.productName, // 分享标题
@@ -52,6 +52,8 @@ AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
 function getDetail(Data) {
   if (Data.code == 200) {
     detail = Data.data.detail;
+    //设置商品海报图片
+    document.querySelector(".content-poster-share").style.backgroundImage = 'url('+detail.product_poster+')';
   }
 }
 
