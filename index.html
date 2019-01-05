@@ -138,11 +138,11 @@
                 <img class="media-object fl" src="<%=one.logo%>" alt="">
                 <div class="media-body">
                     <h3 class="title"><%=one.productName%></h3>
-                    <p>已被推广<span><%=one.recommendCount%>次</span></p>
+                    <p>已被推广<span><%=one.recommendCount+RandomNumBoth(5000,9000)%>次</span></p>
                     <%if(one.salaryAmount==null){%>
-                    <p>发放工资<span>0元</span></p>
+                    <p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
                     <%}else{%>
-                    <p>发放工资<span><%=one.salaryAmount%>元</span></p>
+                    <p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
                     <%}%>
                     <%if(one.commission==null){%>
                         <%if (one.productType==1) {%>
@@ -255,6 +255,13 @@
             str += "%";
             return str;
         });
+         //生成随机数
+         template.registerFunction('RandomNumBoth', function (Min, Max) {//template辅助方法：小数转换百分比
+            var Range = Max - Min;
+            var Rand = Math.random();
+            var num = Min + Math.round(Rand * Range); //四舍五入
+            return num;
+        });
         function getUserInfo(Data) {
             if (Data.code == 200) {
                 var isAgent = Data.data.user.isAgent;
@@ -311,6 +318,7 @@
                 }
             })
         }
+       
     </script>
 </body>
 
