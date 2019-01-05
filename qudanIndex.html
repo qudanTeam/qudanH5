@@ -88,7 +88,7 @@
                         </h3>
                         <p class="data"><span>通过率：<%=rate(one.allowRate,2)%></span><span>申请人数：<%=one.applyNum%></span></p>
                         <p class="summary text-overflow"><%=one.specialTxt%></p>
-                        <a class="btn linear-gradient-red">最高<%=one.baseSalary%>元</a>
+                        <a class="btn linear-gradient-red">最高赚<%=one.commission%>元</a>
                     </div>
                 </li>
                 <%}%>
@@ -119,7 +119,7 @@
                         <p class="data"><span>月利率：<%=rate(one.monthRate,2)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
                         <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
                         <p class="text-right">通过率：<%=rate(one.allowRate,2)%></p>
-                        <a class="btn linear-gradient-red">最高<%=rate(one.baseSalary,2)%></a>
+                        <a class="btn linear-gradient-red">最高赚<%=rate(one.commission,2)%></a>
                     </div>
                 </li>
                 <%}%>
