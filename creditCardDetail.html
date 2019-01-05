@@ -38,7 +38,7 @@
         </div>
         <div class="goods-summary">
                 <h2 class="title"><%=detail.product.productName%></h2>
-                <p class="data"><span>通过率：<%=detail.product.allowRate%>%</span><span>申请人数：<%=detail.product.applyNum%></span></p>
+                <p class="data"><span>通过率：<%=rate(detail.product.allowRate,2)%></span><span>申请人数：<%=detail.product.applyNum%></span></p>
                 <p class="sub-title"><%=detail.product.specialTxt%></p>
             </div>
             <div class="tab-qudan">

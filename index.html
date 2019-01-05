@@ -146,15 +146,15 @@
                     <%}%>
                     <%if(one.salary==null){%>
                         <%if (one.productType==1) {%>
-                        <p class="text-right">赚<span>0</span>元</p>
+                        <p class="text-right">最高<span>0</span>元</p>
                         <%}else if(one.productType==2){%>
-                        <p class="text-right">赚<span>0</span>%</p>
+                        <p class="text-right">最高<span>0</span>%</p>
                         <%}%>
                     <%}else{%>
                         <%if (one.productType==1) {%>
-                        <p class="text-right">赚<span><%=one.salary%></span>元</p>
+                        <p class="text-right">最高<span><%=one.salary%></span>元</p>
                         <%}else if(one.productType==2){%>
-                        <p class="text-right">赚<span><%=one.salary%></span>%</p>
+                        <p class="text-right">最高<span><%=one.salary%></span>%</p>
                         <%}%>
                     <%}%>
                     <a class="btn linear-gradient-yellow" data-id="<%=one.productId%>" data-ptype="<%=one.productType%>">立即推广</a>
