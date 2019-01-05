@@ -96,7 +96,8 @@
         }
         function getText(Data) {
             if (Data.code == 200) {
-                textWrap.innerText = Data.data.detail.shares[0].content;
+                var index=getQueryString("index");
+                textWrap.innerText = Data.data.detail.shares[index].content;
             }
         }
         function goShare() {

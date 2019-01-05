@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
     <style>
+        html,body{background-color: #f5f5f5;}
         body .layui-m-layer .layui-m-layer-msg.layer-msg{display: block;bottom: -150px;line-height: .44rem;height: .44rem;}
     </style>
 </head>
@@ -27,35 +28,8 @@
         <a class="active"><span>文案素材</span></a>
         <a class="sharePoster-btn"><span>分享海报</span></a>
     </nav>
-    <div class="content shareIndex-content">
-        <div class="text" id="text1-wrap">
+    <div class="shareIndex-content ">
 
-        </div>
-
-        <div class="flex-wrap">
-            <div class="flex-item">
-                <button class='btn btn-outlined btn-primary' id="copy-btn1">一键复制</button>
-            </div>
-            <div class="flex-item">
-                <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
-            </div>
-        </div>
-    </div>
-    <div class="gap"></div>
-    <div class="content shareIndex-content">
-        <div id="text2-wrap">
-        </div>
-        <div class="flex-wrap">
-            <div class="flex-item">
-                <button class='btn btn-outlined btn-primary' id="copy-btn2">一键复制</button>
-            </div>
-            <div class="flex-item">
-                <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
-            </div>
-            <!-- <div class="flex-item">
-                <a class='btn btn-outlined btn-red' id="download-btn">保存图片</a>
-            </div> -->
-        </div>
     </div>
     <!-- Root element of PhotoSwipe. Must have class pswp. -->
     <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
@@ -122,43 +96,40 @@
         </div>
 
     </div>
-    <script id='tpl1' type="text/html">
-        <div class="text">
-            <%if(detail.shares.length!=0){%>
-            <%=detail.shares[0].content%>
-            <%}%>
-        </div>
-    </script>
-    <script id='tpl2' type="text/html">
-        <div class="text">
-            <%if(detail.shares.length!=0){%>
-            <%=detail.shares[0].content%>
-            <%}%>
-        </div>
-       
-        <div class="flex-wrap flex-wrap-img my-gallery" data-pswp-uid="1">
-            <!-- <figure class="flex-wrap">
-                <div class="">
-                    <a href="images/icon-srrecord.png"  data-size="106x108"><img src="images/icon-srrecord.png" alt="" class="downloadImg"></a>
-                </div>
-            </figure>
-            <figure class="flex-wrap">
-                <div class="">
-                    <a href="images/icon-td.png" data-size="106x108"><img src="images/icon-td.png" alt="" class="downloadImg"></a>
-                </div>
-            </figure> -->
-            <%if(detail.shares.length!=0){%>
-                <%for(var i=0;i < _array(detail.shares[0].shareImg).length;i++){%>
-                <figure class="flex-wrap">
-                    <div class="">
-                        <a href="<%=_array(detail.shares[0].shareImg)[i]%>"  data-size="106x108">
-                            <img src="<%=_array(detail.shares[0].shareImg)[i]%>" alt="" >
-                        </a>
-                    </div>
-                </figure>
+
+    <script id='tpl' type="text/html">
+
+        <%for(var j=0;j < detail.shares.length;j++){%>
+    <div class="box">
+        <div id="text-wrap">
+            <div class="text">
+                <%=detail.shares[j].content%>
+            </div>
+            <div class="flex-wrap flex-wrap-img my-gallery" data-pswp-uid="1">
+                <%if(detail.shares[j].shareImg){%>
+                    <%for(var i=0;i < _array(detail.shares[j].shareImg).length;i++){%>
+                    <figure class="flex-wrap">
+                        <div class="">
+                            <a href="<%=_array(detail.shares[j].shareImg)[i]%>"  data-size="106x108">
+                                <img src="<%=_array(detail.shares[j].shareImg)[i]%>" alt="" >
+                            </a>
+                        </div>
+                    </figure>
+                    <%}%>
                 <%}%>
-            <%}%>
+            </div>
         </div>
+        <div class="flex-wrap">
+            <div class="flex-item">
+                <button class='btn btn-outlined btn-primary' id="copy-btn<%=j%>">一键复制</button>
+            </div>
+            <div class="flex-item">
+                <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
+            </div>
+        </div>
+    </div>
+    <div class="gap"></div>
+        <%}%>
     </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
@@ -173,12 +144,9 @@
     <script src="plugin/photoswipe/photoswipe-ui-default.min.js"></script>
     <script>
 
-        var tpl1 = document.getElementById('tpl1').innerHTML;
-        var tpl2 = document.getElementById('tpl2').innerHTML;
-        var text1Wrap = document.getElementById("text1-wrap");
-        var text2Wrap = document.getElementById("text2-wrap");
-        var sharePosterBtn = document.querySelector(".sharePoster-btn");
-        var makePosterBtns = document.querySelectorAll(".makePoster-btn");
+        var tpl = document.getElementById('tpl').innerHTML;
+        var textWrap = document.querySelector(".shareIndex-content");
+
         var btnDownload = document.getElementById("download-btn");
         var id = getQueryString('id');
         var ptype = getQueryString('ptype');
@@ -188,45 +156,45 @@
             var str = shareImg.split('，');
             return str;
         });
-        sharePosterBtn.setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + ptype);
-        for (var i = 0; i < makePosterBtns.length; i++) {
-            makePosterBtns[i].setAttribute('href', 'makePoster.html?id=' + id + '&ptype=' + ptype);
-        }
+
 
 
         function getDetail(Data) {
             if (Data.code == 200) {
                 detail = Data.data.detail;
-                var html1 = template(tpl1, detail);
-                var html2 = template(tpl2, detail);
-                text1Wrap.innerHTML = html1;
-                text2Wrap.innerHTML = html2;
+                var html = template(tpl, detail);
+                textWrap.innerHTML = html;
+                // console.log(html)
+                console.log(detail.shares)
+                //生成海报
+                var sharePosterBtns = document.querySelectorAll(".sharePoster-btn");
+                var makePosterBtns = document.querySelectorAll(".makePoster-btn");
+                for (var i = 0; i < sharePosterBtns.length; i++) {
+                    sharePosterBtns[i].setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + ptype);
+                }
+                for (var i = 0; i < makePosterBtns.length; i++) {
+                    makePosterBtns[i].setAttribute('href', 'makePoster.html?id=' + id + '&ptype=' + ptype+'&index='+i);
+                }
                 //一健复制
-                var clipboard1 = new ClipboardJS('#copy-btn1', {
-                    text: function () {
-                        return detail.shares[0].content;
-                    }
-                });
-                var clipboard2 = new ClipboardJS('#copy-btn2', {
-                    text: function () {
-                        return detail.shares[0].content;
-                    }
-                });
+                var clipboard;
+                for (var i = 0; i < detail.shares.length; i++) {
+                    var index = i;
+                    console.log(index)
+                    clipboard = new ClipboardJS('#copy-btn' + index, {
+                        text: function () {
+                            return detail.shares[index].content;
+                        }
+                    });
+                    console.log(clipboard)
+                    clipboard.on('success', function (e) {
+                        layerMsg("复制成功！")
+                    });
 
-                clipboard1.on('success', function (e) {
-                    layerMsg("复制成功！")
-                });
+                    clipboard.on('error', function (e) {
+                        layerMsg('请选择“拷贝”进行复制!')
+                    });
+                }
 
-                clipboard1.on('error', function (e) {
-                    layerMsg('请选择“拷贝”进行复制!')
-                });
-                clipboard2.on('success', function (e) {
-                    layerMsg("复制成功！")
-                });
-
-                clipboard2.on('error', function (e) {
-                    layerMsg('请选择“拷贝”进行复制!')
-                });
                 //图片预览
                 var initPhotoSwipeFromDOM = function (gallerySelector) {
                     // 解析来自DOM元素幻灯片数据（URL，标题，大小...）

@@ -186,6 +186,7 @@ html,body{
 }
 /* 分享素材start */
 .shareIndex-nav{
+    background-color: #fff;
     position: relative;
     width: 100%;
     height: .5rem;
@@ -228,14 +229,15 @@ html,body{
     right: 0;
     background-color: #ffbf00;
 }
-.shareIndex-content {
-    padding-bottom: .18rem;
+.shareIndex-content .box{
+    background-color: #fff;
+    padding: 0 .14rem .18rem;
 }
 .shareIndex-content .text{
     font-size: .14rem;
     line-height: .2rem;
     color: #666;
-    margin:.2rem 0;
+    padding:.2rem 0;
 }
 .shareIndex-content .flex-wrap{
     display: flex;
