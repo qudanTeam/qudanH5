@@ -121,7 +121,7 @@
         </div>
         <div class="flex-wrap">
             <div class="flex-item">
-                <button class='btn btn-outlined btn-primary' id="copy-btn<%=j%>">一键复制</button>
+                <button class='btn btn-outlined btn-primary' id="copy-btn<%=j%>" aria-label="<%=detail.shares[j].content%>">一键复制</button>
             </div>
             <div class="flex-item">
                 <a class='btn btn-outlined btn-blue makePoster-btn'>生成海报</a>
@@ -173,7 +173,7 @@
                     sharePosterBtns[i].setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + ptype);
                 }
                 for (var i = 0; i < makePosterBtns.length; i++) {
-                    makePosterBtns[i].setAttribute('href', 'makePoster.html?id=' + id + '&ptype=' + ptype+'&index='+i);
+                    makePosterBtns[i].setAttribute('href', 'makePoster.html?id=' + id + '&ptype=' + ptype + '&index=' + i);
                 }
                 //一健复制
                 var clipboard;
@@ -181,11 +181,11 @@
                     var index = i;
                     console.log(index)
                     clipboard = new ClipboardJS('#copy-btn' + index, {
-                        text: function () {
-                            return detail.shares[index].content;
+                        text: function (trigger) {
+                            return trigger.getAttribute('aria-label');
                         }
                     });
-                    console.log(clipboard)
+
                     clipboard.on('success', function (e) {
                         layerMsg("复制成功！")
                     });
