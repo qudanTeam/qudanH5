@@ -65,8 +65,10 @@
                 <div class="bottom-info">
                     <h2 class="title"><%=detail.product.productName%>工资结算说明</h2>
                     <%if(detail.config){%>
-                    <h3 class="sub-title"><%=detail.config.title%></h3>
-                    <p><%=detail.config.content%></p>
+                    <%for(var i=0;i < detail.config.length;i++){%>
+                    <h3 class="sub-title"><%=detail.config[i].title%></h3>
+                    <p><%=detail.config[i].content%></p>
+                    <%}%>
                     <%}%>
                 </div>
     

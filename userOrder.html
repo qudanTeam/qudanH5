@@ -64,7 +64,14 @@
                     <%}else if(list.rows[i].officialStatus==2){%>
                     <p class="text-blue top-right">已通过</p>
                     <%}else if(list.rows[i].officialStatus==3){%>
-                    <p class="text-blue top-right">申请被拒</p>
+                    <p class="text-blue top-right">未通过</p>
+                    <%}%>
+                    <%if(list.rows[i].status==1){%>
+                    <p class="text-blue top-right">申请中</p>
+                    <%}else if(list.rows[i].status==2){%>
+                    <p class="text-blue top-right">已通过</p>
+                    <%}else if(list.rows[i].status==3){%>
+                    <p class="text-blue top-right">未通过</p>
                     <%}%>
                     <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?orderNo=<%=list.rows[i].orderNo%>">进度查询</a>
                 </div>

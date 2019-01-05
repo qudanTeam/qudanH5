@@ -282,7 +282,7 @@
         }
         function getHotGoods(Data) {
             if (Data.code == 200) {
-                if (Data.total != 0) {
+                if (Data.data.hots.length != 0) {
                     hotGoods = Data.data;
                     var html = template(tplHotGoods, hotGoods);
                     hotGoodsWrap.innerHTML = html;

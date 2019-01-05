@@ -57,6 +57,11 @@
             page: page,
             per_page: per_page
         };
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         Ajax_token(IP + 'msqudan/api/user/messages', "GET", token, data, getMsglist);
         function getMsglist(Data) {
             if (Data.code == 200) {
@@ -66,17 +71,17 @@
                     msgList = Data.data;
                     var html = template(tplMsgList, msgList);
                     msgListWrap.innerHTML = html;
-                    removeAllBtnWrap.style.display="block";
-                    myScroll.refresh();
+                    removeAllBtnWrap.style.display = "block";
+                    wrapper.refresh();
                     //清空全部消息
                     var removeAllBtn = document.getElementById('removeAll');
                     removeAllBtn.addEventListener("click", function () {
                         layerConfirm('是否确认清空全部消息', '确定', removeAll);
                     });
                 } else {
-                    removeAllBtnWrap.style.display="none";
+                    removeAllBtnWrap.style.display = "none";
                     msgListWrap.innerHTML = '<div class="nomsg"><img src="images/noMessage.png" alt=""><p>暂无消息～</p></div>';
-                    myScroll.refresh();
+                    wrapper.refresh();
                     return false;
                 }
             }
@@ -108,7 +113,7 @@
                 if (!document.querySelector('.no-more')) {
                     msgListWrap.appendChild(div);
                 }
-                myScroll.refresh();
+                wrapper.refresh();
                 return false;
             }
             Ajax_token(IP + 'msqudan/api/user/messages', "GET", token, data, getMsglist);
@@ -116,8 +121,8 @@
         function removeAll() {
             Ajax_token(IP + 'msqudan/api/user/message/clear', "POST", token, '', clearAll);
         }
-        function clearAll(Data){
-            if(Data.code==200){
+        function clearAll(Data) {
+            if (Data.code == 200) {
                 location.reload();
             }
         }
