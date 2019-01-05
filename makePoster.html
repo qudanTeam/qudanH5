@@ -63,10 +63,10 @@
         var pid = getQueryString('id');
         var loadingUrl;//分享出去的落地页
         if (ptype == 1) {
-            loadingUrl = domain_test + "creditCardDetail.html?id=" + pid
+            loadingUrl = domain_test + "applyCardShare.html?id=" + pid
         }
         if (ptype == 2) {
-            loadingUrl = domain_test + "loanDetail.html?id=" + pid
+            loadingUrl = domain_test + "applyLoanShare.html?id=" + pid
         }
         var data = JSON.stringify({
             shareType: 1,
