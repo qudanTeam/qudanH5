@@ -59,7 +59,7 @@
                 <i class="icon-vip-level level<%=userInfo.vipLevel%>"></i>
             <%}%>
             </h2>
-            <p>趣单id：<%=user.id%></p>
+            <p>趣单id：<%=user.inviteCode%></p>
             <p class="date">有效期至<%=userInfo.vip.vipExpireDate%></p>
         </div>
         <span class="btn btn-primary">享受佣金加成<%=rate(userInfo.vip.vipRate)%></span>
@@ -70,7 +70,7 @@
             <%}else{%>
             <h2><%=userInfo.username%> </h2>
             <%}%>
-            <p style="margin-top:.06rem;">趣单id：<%=userInfo.id%></p>
+            <p style="margin-top:.06rem;">趣单id：<%=userInfo.inviteCode%></p>
         </div>
         <span class="btn btn-not-vip">暂无佣金加成</span>
         <%}%>
@@ -216,7 +216,7 @@
             if (Data.code == 200) {
                 userInfo = Data.data.user;
                 userVipLevel = userInfo.vipLevel;
-                qudanId = userInfo.id;
+                qudanId = userInfo.inviteCode;
                 var html = template(tplUserInfo, userInfo);
                 userInfoWrap.innerHTML = html;
                 if (userVipLevel == 1) {

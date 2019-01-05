@@ -154,7 +154,7 @@
                         <%if (one.productType==1) {%>
                         <p class="text-right">最高赚<span><%=one.commission%></span>元</p>
                         <%}else if(one.productType==2){%>
-                        <p class="text-right">最高赚<span><%=one.commission%></span>%</p>
+                        <p class="text-right">最高赚<span><%=rate(one.commission,2)%></span></p>
                         <%}%>
                     <%}%>
                     <a class="btn linear-gradient-yellow" data-id="<%=one.productId%>" data-ptype="<%=one.productType%>">立即推广</a>
@@ -250,6 +250,11 @@
         ajaxGet(IP + 'msqudan/api/banners', '', getSwiper);
         //获取热门商品
         ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
+        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+            var str = Number(point * 100).toFixed(num);
+            str += "%";
+            return str;
+        });
         function getUserInfo(Data) {
             if (Data.code == 200) {
                 var isAgent = Data.data.user.isAgent;
