@@ -59,7 +59,7 @@
                 <i class="icon-vip-level level<%=userInfo.vipLevel%>"></i>
             <%}%>
             </h2>
-            <p>趣单id：<%=user.inviteCode%></p>
+            <p>用户编号：<%=user.inviteCode%></p>
             <p class="date">有效期至<%=userInfo.vip.vipExpireDate%></p>
         </div>
         <span class="btn btn-primary">享受佣金加成<%=rate(userInfo.vip.vipRate)%></span>
@@ -70,7 +70,7 @@
             <%}else{%>
             <h2><%=userInfo.username%> </h2>
             <%}%>
-            <p style="margin-top:.06rem;">趣单id：<%=userInfo.inviteCode%></p>
+            <p style="margin-top:.06rem;">用户编号：<%=userInfo.inviteCode%></p>
         </div>
         <span class="btn btn-not-vip">暂无佣金加成</span>
         <%}%>
@@ -236,7 +236,7 @@
             var str;
             str = '<div class="banner banner' + num + '"></div>\
                         <div class="main"><ul>\
-                            <li><p>趣单id<span class="data fr">'+ qudanId + '</span></p></li><li><p>服务周期<span class="data fr">' + layerContent.vips[i].serviceDays + '天</span></p></li>\
+                            <li><p>用户编号<span class="data fr">'+ qudanId + '</span></p></li><li><p>服务周期<span class="data fr">' + layerContent.vips[i].serviceDays + '天</span></p></li>\
                             <li><p>佣金加成比例<span class="data fr">'+ Number(layerContent.vips[i].addRate * 100) + '%</span></p></li>\
                         </ul><div class="money">'+ layerContent.vips[i].vipPrice + '元</div><div class="flex-wrap"><a class="btn linear-gradient-blue" id="alipay-btn">支付宝支付</a><a class="btn linear-gradient-red" id="wechat-pay-btn">微信支付</a></div></div><span class="icon-close"></span>'
             return str;

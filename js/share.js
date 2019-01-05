@@ -55,7 +55,7 @@ function getDetail(Data) {
     //设置商品海报图片
     var proPoster = document.querySelector(".content-poster-share");
     if(proPoster){
-      document.querySelector(".content-poster-share").style.backgroundImage = 'url('+detail.product_poster+')';
+      document.querySelector(".content-poster-share").style.backgroundImage = 'url('+detail.productPoster+')';
     }
   }
 }

@@ -182,7 +182,7 @@ function is_wexin() {
 
   if (header) {
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
-      if (getQueryString('isReg') == 1) {
+      if (getQueryString('isReg') == 1) {//实名认证页面显示标题栏
         document.getElementById("header").className = "";
       } else {
         document.getElementById("header").className = "hidden";

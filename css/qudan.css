@@ -4,6 +4,7 @@ html,body{
 .banner {
     position: relative;
     font-size: 0;
+    text-align: center;
 }
 .banner img{
     max-width: 100%;
