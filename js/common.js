@@ -182,7 +182,11 @@ function is_wexin() {
 
   if (header) {
     if (ua.match(/MicroMessenger/i) == "micromessenger") {
-      document.getElementById("header").className = "hidden";
+      if (getQueryString('isReg') == 1) {
+        document.getElementById("header").className = "";
+      } else {
+        document.getElementById("header").className = "hidden";
+      }
     } else {
       document.getElementById("header").className = "";
     }
