@@ -47,15 +47,15 @@
                 <p><%=detail.product.howSettle%></p>
                 <div class="data-wrap">
                     <div class="flex-item">
-                        <div class="btn linear-gradient-yellow"><%=detail.product.aLevelReward%>%</div>
+                        <div class="btn linear-gradient-yellow"><%=rate(detail.product.aLevelReward,2)%></div>
                         <p><%=detail.product.aBegin%><%=detail.product.unit%>&ltQ≤<%=detail.product.aLimit%><%=detail.product.unit%></p>
                     </div>
                     <div class="flex-item">
-                        <div class="btn linear-gradient-blue"><%=detail.product.bLevelReward%>%</div>
+                        <div class="btn linear-gradient-blue"><%=rate(detail.product.bLevelReward,2)%></div>
                         <p><%=detail.product.bBegin%><%=detail.product.unit%>&ltQ≤<%=detail.product.bLimit%><%=detail.product.unit%></p>
                     </div>
                     <div class="flex-item">
-                        <div class="btn linear-gradient-red"><%=detail.product.cLevelReward%>%</div>
+                        <div class="btn linear-gradient-red"><%=rate(detail.product.cLevelReward,2)%></div>
                         <p><%=detail.product.cStart%><%=detail.product.unit%>&ltQ≤<%=detail.product.cLimit%><%=detail.product.unit%></p>
                     </div>
                 </div>
