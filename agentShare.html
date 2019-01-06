@@ -84,25 +84,25 @@
                 clipboard.on('error', function (e) {
                     layerMsg('请选择“拷贝”进行复制!')
                 });
+                shareid = document.body.getAttribute("data-shareid");
+                link = protocol + '//' + host + "/login.html?shareid=" + Data.data.shareid;
+                var sharedData = {
+                    title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
+                    desc: '日进斗金的生财之道等你来看', // 分享描述
+                    link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
+                    success: function () {
+                        // // 设置成功
+                        var data = JSON.stringify({
+                            shareid: Data.data.shareid
+                        });
+                        Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                    }
+                };
                 wx.ready(function () {
-                    shareid = document.body.getAttribute("data-shareid");
-                    link = protocol + '//' + host + "/login.html?shareid=" + Data.data.shareid;
-                    var sharedData = {
-                        title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
-                        desc: '日进斗金的生财之道等你来看', // 分享描述
-                        link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                        imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
-                        success: function () {
-                            // // 设置成功
-                            var data = JSON.stringify({
-                                shareid: Data.data.shareid
-                            });
-                            Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
-                        },
-                        cancel: function () {
-                            // 用户取消分享后执行的回调函数
-                        }
-                    };
                     //自定义“分享给朋友”及“分享到QQ”按钮的分享内容
                     wx.updateAppMessageShareData(sharedData);
                     // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
