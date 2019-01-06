@@ -58,8 +58,8 @@
         console.log(protocol)
         console.log(host)
         var wxjsapi_data = location.href.split('#').toString();
-        ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
         Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
+        ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
         btnShare.addEventListener("click", function () {
             layerShare();
             var shareBtn = document.querySelector(".share-btn");
@@ -86,58 +86,55 @@
                 shareid = document.body.getAttribute("data-shareid");
                 link = protocol + '//' + host + "/login.html?shareid=" + Data.data.shareid;
                 // layerMsg(link);
-
+                var shareData = {
+                    title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
+                    desc: '日进斗金的生财之道等你来看', // 分享描述
+                    link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
+                    success: function () {
+                        // // 
+                        var data = JSON.stringify({
+                            shareid: Data.data.shareid
+                        });
+                        Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
+                    },
+                    cancel: function (res) {
+                        alert('已取消');
+                    },
+                    fail: function (res) {
+                        alert(JSON.stringify(res));
+                    }
+                };
+                wx.ready(function () {
+                    //自定义“分享给朋友”及“分享到QQ”按钮的分享内容
+                    wx.onMenuShareAppMessage(shareData);
+                    wx.onMenuShareQQ(shareData);
+                    // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
+                    wx.onMenuShareTimeline(shareData);
+                    wx.onMenuShareQZone(shareData);
+                })
             }
 
         }
         function wxConfig(Data) {
             wx.config({
-                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: Data.data.appId, // 必填，公众号的唯一标识
                 timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
                 signature: Data.data.signature,// 必填，签名
-                jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline','updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                jsApiList: ['onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareTimeline', 'onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
                 // jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
             });
-            var sharedData = {
-                title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
-                desc: '日进斗金的生财之道等你来看', // 分享描述
-                link: protocol + '//' + host + "/register.html", // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
-                // success: function () {
-                //     // // 
-                //     alert(protocol + '//' + host + "/register.html");
-                //     // var data = JSON.stringify({
-                //     //     shareid: Data.data.shareid
-                //     // });
-                //     // Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
-                // },
-                success: function (res) {
-                    alert('已分享');
-                },
-                cancel: function (res) {
-                    alert('已取消');
-                },
-                fail: function (res) {
-                    alert(JSON.stringify(res));
-                }
-            };
+
             wx.checkJsApi({
-                jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline','updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                jsApiList: ['onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareTimeline', 'onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
                 success: function (res) {
                     // 以键值对的形式返回，可用的api值true，不可用为false
                     // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
                 }
             });
-            wx.ready(function () {
-                //自定义“分享给朋友”及“分享到QQ”按钮的分享内容
-                // wx.updateAppMessageShareData(sharedData);
-                wx.onMenuShareAppMessage(sharedData);
-                // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
-                // wx.updateTimelineShareData(sharedData);
-                wx.onMenuShareTimeline(sharedData);
-            })
+
             wx.error(function (res) {
                 alert(res.errMsg);
                 // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。

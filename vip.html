@@ -148,41 +148,48 @@
                 layerHtml('', vipExplain());
             }
             if (target.className.toLowerCase() == 'btn btn1') {//立即开通弹框:vip1
-                layerHtml('applyVip-html', layerVip(0));
-                //唤起微信支付
-                dataWechatPay = {
-                    total_fee: layerContent.vips[0].vipPrice,
-                    trade_type: trade_type
-                }
-                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
-                    // alert(JSON.stringify(dataWechatPay))
-                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                if (ajax_vip_check(token, { vip_id: layerContent.vips[0].id })) {
+                    layerHtml('applyVip-html', layerVip(0));
+                    //唤起微信支付
+                    dataWechatPay = {
+                        total_fee: layerContent.vips[0].vipPrice,
+                        trade_type: trade_type
+                    }
+                    document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                        // alert(JSON.stringify(dataWechatPay))
+                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
 
-                })
+                    })
+                };
+
             }
             if (target.className.toLowerCase() == 'btn btn2') {//立即开通弹框:vip2
-                layerHtml('applyVip-html', layerVip(1));
-                //唤起微信支付
-                dataWechatPay = {
-                    total_fee: layerContent.vips[1].vipPrice,
-                    trade_type: trade_type
-                }
-                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
-                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                if (ajax_vip_check(token, { vip_id: layerContent.vips[1].id })) {
+                    layerHtml('applyVip-html', layerVip(1));
+                    //唤起微信支付
+                    dataWechatPay = {
+                        total_fee: layerContent.vips[1].vipPrice,
+                        trade_type: trade_type
+                    }
+                    document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
 
-                })
+                    })
+                }
             }
             if (target.className.toLowerCase() == 'btn btn3') {//立即开通弹框:vip3
-                layerHtml('applyVip-html', layerVip(2));
-                //唤起微信支付
-                dataWechatPay = {
-                    total_fee: layerContent.vips[2].vipPrice,
-                    trade_type: trade_type
-                }
-                document.getElementById("wechat-pay-btn").addEventListener("click", function () {
-                    Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                if (ajax_vip_check(token, { vip_id: layerContent.vips[2].id })) {
+                    layerHtml('applyVip-html', layerVip(2));
+                    //唤起微信支付
+                    dataWechatPay = {
+                        total_fee: layerContent.vips[2].vipPrice,
+                        trade_type: trade_type
+                    }
+                    document.getElementById("wechat-pay-btn").addEventListener("click", function () {
+                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
 
-                })
+                    })
+                }
             }
         });
         //获取用户信息
@@ -321,6 +328,31 @@
                 trade_type = 'MWEB';
             }
             return trade_type;
+        }
+        //vip检验
+        function ajax_vip_check(token, data) {
+            $.ajax({
+                // async: false,
+                url: IP + 'msqudan/api/user/vip/check',
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': token
+                },
+                data: data,
+                success: function (Data) {
+                    return true;
+                },
+                error: function (e) {
+                    if ($.parseJSON(e.responseText).code == 400) {
+                        console.log($.parseJSON(e.responseText))
+                        layerMsg($.parseJSON(e.responseText).error.message);
+                        return false;
+                    }
+
+                }
+            })
         }
     </script>
     <script>

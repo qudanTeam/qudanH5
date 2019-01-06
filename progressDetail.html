@@ -71,6 +71,8 @@
             ajaxGet(IP + 'msqudan/api/product/' + pid + '/simple', getSimple);//获取查询信息
         }
         btnSubmit.addEventListener("click", function () {
+            console.log(getCookie('token'));
+            console.log(getCookie('weblogic'));
             var realName = document.querySelector(".realName").value;
             var idNo = document.querySelector(".idNo").value;
             var imgCode = document.querySelector(".imgCode").value;
@@ -118,6 +120,7 @@
         }
         function getSimple(Data) {
             if (Data.code == 200) {
+
                 //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
                 document.querySelector("input[type='hidden']").value = Data.data.simple.bankId;
                 if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
