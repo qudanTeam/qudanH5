@@ -31,13 +31,13 @@ function wxConfig(Data) {
       link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
       imgUrl: detail.product.logo, // 分享图标
       success: function () {
-        
+        layerMsg("设置成功")
         // 设置成功
-        var data = JSON.stringify({
-          shareid: document.body.getAttribute("data-shareid")
-        });
-        layerMsg(shareid)
-        Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
+        // var data = JSON.stringify({
+        //   shareid: document.body.getAttribute("data-shareid")
+        // });
+        // layerMsg(shareid)
+        // Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
       },
       cancel: function () {
         // 用户取消分享后执行的回调函数
