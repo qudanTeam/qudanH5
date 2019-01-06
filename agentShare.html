@@ -97,7 +97,8 @@
                 timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
                 signature: Data.data.signature,// 必填，签名
-                jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
+                jsApiList: ['updateAppMessageShareData', 'onMenuShareAppMessage', 'onMenuShareTimeline','updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                // jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
             });
             var sharedData = {
                 title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
