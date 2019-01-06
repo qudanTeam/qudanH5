@@ -57,21 +57,24 @@
                     <h3 class="title text-overflow"><%=list.rows[i].productName%></h3>
                     <p class="card-info"><span>姓名：<%=list.rows[i].applyName%></span><span>手机号：<%=des(list.rows[i].mobile)%></span></p>
                     <p class="order-num">订单号：<%=list.rows[i].orderNo%></p>
-                    <%if(list.rows[i].officialStatus==0){%>
-                    <p class="text-blue top-right">待查询</p>
-                    <%}else if(list.rows[i].officialStatus==1){%>
-                    <p class="text-blue top-right">审核中</p>
-                    <%}else if(list.rows[i].officialStatus==2){%>
-                    <p class="text-blue top-right">已通过</p>
-                    <%}else if(list.rows[i].officialStatus==3){%>
-                    <p class="text-blue top-right">未通过</p>
-                    <%}%>
-                    <%if(list.rows[i].status==1){%>
-                    <p class="text-blue top-right">申请中</p>
-                    <%}else if(list.rows[i].status==2){%>
-                    <p class="text-blue top-right">已通过</p>
-                    <%}else if(list.rows[i].status==3){%>
-                    <p class="text-blue top-right">未通过</p>
+                    <%if(list.rows[i].productType==1){%>
+                        <%if(list.rows[i].officialStatus==0){%>
+                        <p class="text-blue top-right">待查询</p>
+                        <%}else if(list.rows[i].officialStatus==1){%>
+                        <p class="text-blue top-right">审核中</p>
+                        <%}else if(list.rows[i].officialStatus==2){%>
+                        <p class="text-blue top-right">已通过</p>
+                        <%}else if(list.rows[i].officialStatus==3){%>
+                        <p class="text-blue top-right">未通过</p>
+                        <%}%>
+                    <%}else if(list.rows[i].productType==2){%>
+                        <%if(list.rows[i].status==1){%>
+                        <p class="text-blue top-right">申请中</p>
+                        <%}else if(list.rows[i].status==2){%>
+                        <p class="text-blue top-right">已通过</p>
+                        <%}else if(list.rows[i].status==3){%>
+                        <p class="text-blue top-right">未通过</p>
+                        <%}%>
                     <%}%>
                     <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?orderNo=<%=list.rows[i].orderNo%>">进度查询</a>
                 </div>
