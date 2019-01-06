@@ -91,7 +91,7 @@
         var noFinance = '<div class="img-wrap"></div>\
                     <h3>身份尚未认证</h3>\
                     <p>为保证您的资金安全，您需要先通过认证。</p>\
-                    <a class="btn linear-gradient-yellow btn-identify" href="userRealName.html">去认证</a>\
+                    <a class="btn linear-gradient-yellow btn-identify">去认证</a>\
                     <span class="icon-close"></span>';
 
 
@@ -107,16 +107,20 @@
                         window.location.href = "userApplyCash.html";
                     } else {
                         layerHtml('cash-html', noFinance);
+                        document.querySelector(".btn-identify").addEventListener("click", function () {
+                            window.location.href = "userRealName.html";
+                            layer.closeAll();
+                        })
                     }
 
                 })
             }
         }
-        window.onpageshow = function (event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        }
+        // window.onpageshow = function (event) {
+        //     if (event.persisted) {
+        //         window.location.reload();
+        //     }
+        // }
     </script>
 </body>
 
