@@ -51,7 +51,7 @@
             <%if(!user.isAgent){%>
             <li>代理等级<span class="fr">非代理</span></li>
             <%}else{%>
-            <li>代理等级<span class="fr"><%=aLevel(user.agent.agentLevel)%><a class="btn btn-primary btn-upgrade">升级</a></span></li>
+            <li>代理等级<span class="fr"><%=aLevel(user.agent.agentLevel)%><a class="btn btn-primary btn-upgrade" href="agent.html">升级</a></span></li>
             <%}%>
             <%if(user.recommendUsername){%>
             <li>推荐人<span class="fr"><%=user.recommendUsername%></span></li>

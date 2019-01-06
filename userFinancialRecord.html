@@ -103,13 +103,18 @@
                 var html = template(tpl, user);
                 bannerFinacial.innerHTML = html;
                 btnCash.addEventListener("click", function () {
-                    if(isFinance==3){
-                        window.location.href="userApplyCash.html";
-                    }else{
+                    if (isFinance == 3) {
+                        window.location.href = "userApplyCash.html";
+                    } else {
                         layerHtml('cash-html', noFinance);
                     }
-                    
+
                 })
+            }
+        }
+        window.onpageshow = function (event) {
+            if (event.persisted) {
+                window.location.reload();
             }
         }
     </script>

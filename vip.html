@@ -148,7 +148,9 @@
                 layerHtml('', vipExplain());
             }
             if (target.className.toLowerCase() == 'btn btn1') {//立即开通弹框:vip1
-                if (ajax_vip_check(token, { vip_id: layerContent.vips[0].id })) {
+                ajax_vip_check(token, { vip_id: layerContent.vips[0].id });
+
+                if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(0));
                     //唤起微信支付
                     dataWechatPay = {
@@ -164,7 +166,9 @@
 
             }
             if (target.className.toLowerCase() == 'btn btn2') {//立即开通弹框:vip2
-                if (ajax_vip_check(token, { vip_id: layerContent.vips[1].id })) {
+                ajax_vip_check(token, { vip_id: layerContent.vips[1].id });
+
+                if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(1));
                     //唤起微信支付
                     dataWechatPay = {
@@ -178,7 +182,8 @@
                 }
             }
             if (target.className.toLowerCase() == 'btn btn3') {//立即开通弹框:vip3
-                if (ajax_vip_check(token, { vip_id: layerContent.vips[2].id })) {
+                ajax_vip_check(token, { vip_id: layerContent.vips[2].id });
+                if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(2));
                     //唤起微信支付
                     dataWechatPay = {
@@ -329,10 +334,11 @@
             }
             return trade_type;
         }
+        var flag = 0;
         //vip检验
         function ajax_vip_check(token, data) {
             $.ajax({
-                // async: false,
+                async: false,
                 url: IP + 'msqudan/api/user/vip/check',
                 type: 'GET',
                 dataType: 'json',
@@ -342,12 +348,16 @@
                 },
                 data: data,
                 success: function (Data) {
-                    return true;
+                    if (Data.code == 200) {
+
+                        flag = 1;
+                    }
                 },
                 error: function (e) {
                     if ($.parseJSON(e.responseText).code == 400) {
                         console.log($.parseJSON(e.responseText))
                         layerMsg($.parseJSON(e.responseText).error.message);
+                        flag = 0;
                         return false;
                     }
 

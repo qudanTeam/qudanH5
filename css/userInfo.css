@@ -31,7 +31,7 @@ body{
 .body-user-info .userinfo .flex-item h2{
     font-size: .22rem;
 }
-.userinfo .realname .icon-viplevel{
+.userinfo .realname .icon-vip-level{
     display: inline-block;
     margin-left: .08rem;
     width: .19rem;
