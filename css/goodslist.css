@@ -93,6 +93,7 @@
     color: #b5b5b5;
 }
 .goods-list.extend-goods-list .media-body .title{
+    width: 1.4rem;
     margin-bottom: .07rem;
 }
 .goods-list.extend-goods-list .media-body p{
