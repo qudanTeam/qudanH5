@@ -32,7 +32,7 @@
         <div class="banner banner-cards-detail" style="margin-left: -.14rem;margin-right: -.14rem;">
             <img src="<%=detail.product.detailHeaderImg%>" alt="">
             <div class="btn-wrap">
-                <a href="progressDetail.html?id=<%=detail.product.id%>" class="btn linear-gradient-red">进度查询</a>
+                <a href="progressDetail.html?pid=<%=detail.product.id%>" class="btn linear-gradient-red">进度查询</a>
                 <a  class="btn btn-outlined btn-blue shareIndex-btn" id="shareIndex-btn">分享素材</a>
             </div>
         </div>
@@ -67,7 +67,7 @@
                     <%if(detail.config){%>
                     <%for(var i=0;i < detail.config.length;i++){%>
                     <h3 class="sub-title"><%=detail.config[i].title%></h3>
-                    <p><%=detail.config[i].content%></p>
+                    <p><%:=detail.config[i].content%></p>
                     <%}%>
                     <%}%>
                 </div>
@@ -75,9 +75,9 @@
             </div>
             <div class="tab-content hidden">
                 <h2 class="title">基本权益</h2>
-                <p><%=detail.product.baseRight%></p>
+                <p><%:=detail.product.baseRight%></p>
                 <h2 class="title">优惠活动</h2>
-                <p><%=detail.product.preferential%></p>
+                <p><%:=detail.product.preferential%></p>
                 <h2 class="title">办卡流程</h2>
                 <p class="apply-process"><img src="<%=detail.product.cardProgressImg%>" alt=""></p>
             </div>

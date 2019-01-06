@@ -114,9 +114,10 @@ html,body{
 .prodetail-main .form-pro .input-grow.input-grow-imgcode .btn-getcode{
     display: inline-block;
     width: .85rem;
-    height: .35rem;
+    /* height: .35rem; */
+    /* line-height: .35rem; */
     vertical-align: middle;
-    background-color: #d8d8d8;
+    /* background-color: #d8d8d8; */
     border-radius: .04rem;
 }
 .prodetail-main .form-pro .input-grow .btn-getcode{

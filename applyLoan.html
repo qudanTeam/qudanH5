@@ -208,6 +208,7 @@
             if (Data.code == 200) {
                 layerMsg("提交成功，请等待审核");
                 setTimeout("layer.closeAll()", 2000);
+                window.location.href=Data.data.productLink;
                 //清除shareid
                 document.cookie = "shareid='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }

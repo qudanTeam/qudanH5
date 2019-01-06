@@ -31,19 +31,19 @@
             </h2>
             <form action="" class="form-pro">
                 <div class="input-grow">
-                    <input type="text" placeholder="请输入申请人身份证">
+                    <input type="text" placeholder="请输入申请人身份证" class="idNo"> 
                 </div>
-                <div class="input-grow input-grow-hasright input-grow-imgcode">
-                        <input type="text" placeholder="请输入图形验证码">
-                        <span class="btn-getcode"></span>
-                    </div>
-                <div class="input-grow input-grow-hasright">
-                    <input type="text" placeholder="请输入验证码">
+                <div class="input-grow input-grow-hasright input-grow-imgcode" style="display: none;">
+                    <input type="text" placeholder="请输入图形验证码" class="imgCode">
+                    <span class="btn-getcode"></span>
+                </div>
+                <div class="input-grow input-grow-hasright input-grow-msgcode" style="display: none;">
+                    <input type="text" placeholder="请输入验证码" class="msgCode">
                     <span class="text-yellow btn-getcode">获取验证码</span>
                 </div>
             </form>
             <div class="btn-wrap">
-                <a class="btn linear-gradient-yellow">查询办卡进度</a>
+                <a class="btn linear-gradient-yellow btn-submit">查询办卡进度</a>
             </div>
         </div>
     </div>
@@ -54,14 +54,53 @@
         // var bannerImg = document.querySelector('.prodetail-content img');
         var productLogo = document.querySelector('.logo');
         var productName = document.querySelector('.product-name');
-         var id = getQueryString('id');
-        ajaxGet(IP + 'msqudan/api/product/' + id, getDetail);
-        function getDetail(Data){
-            if(Data.code==200){
+        var imgCode = document.querySelector('.input-grow-imgcode');
+        var msgCode = document.querySelector('.input-grow-msgcode');
+        var btnSubmit = document.querySelector('.btn-submit');
+        var pid = getQueryString('pid');
+        ajaxGet(IP + 'msqudan/api/product/' + pid, getLogo);//获取logo
+        ajaxGet(IP + 'msqudan/api/product/' + pid + '/simple', getSimple);//获取查询信息
+        btnSubmit.addEventListener("click", function () {
+            var idNo = document.querySelector(".idNo").value;
+            var imgCode = document.querySelector(".imgCode").value;
+            var msgCode = document.querySelector(".msgCode").value;
+            if (idNo == '') {
+                layerMsg("请输入身份证号码");
+                return false;
+            }
+            if (idNo != "") {
+                // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+                var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if (reg.test(idNo) === false) {
+                    layerMsg("身份证号码有误<br>请重新输入");
+                    return false;
+                }
+            }
+        })
+        function getLogo(Data) {
+            if (Data.code == 200) {
                 var product = Data.data.detail.product;
                 // bannerImg.setAttribute('src',product.progressQueryImg);
-                productLogo.setAttribute('src',product.logo);
+                productLogo.setAttribute('src', product.logo);
                 productName.innerHTML = product.productName;
+            }
+        }
+        function getSimple(Data) {
+            if (Data.code == 200) {
+                if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                    imgCode.style.display = 'none';
+                } else {
+                    imgCode.style.display = 'block';
+                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + '/>';
+
+                }
+                if (Data.data.simple.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                    msgCode.style.display = 'none';
+                } else {
+                    msgCode.style.display = 'block';
+
+                }
+
             }
         }
         function ajaxGet(url, callback) {
@@ -70,8 +109,8 @@
                 type: "GET",
                 dataType: 'json',
                 success: callback,
-                error: function () {
-                    // alert("服务器繁忙，请稍候再试！")
+                error: function (e) {
+                    layerMsg($.parseJSON(e.responseText).error.message);
                 }
             })
         }

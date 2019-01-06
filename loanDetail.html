@@ -44,7 +44,7 @@
             </div>
             <div class="tab-content">
                 <h2 class="title">推广【<%=detail.product.productName%>】怎么赚钱？</h2>
-                <p><%=detail.product.howSettle%></p>
+                <p><%:=detail.product.howSettle%></p>
                 <div class="data-wrap">
                     <div class="flex-item">
                         <div class="btn linear-gradient-yellow"><%=rate(detail.product.aLevelReward,2)%></div>
@@ -63,8 +63,8 @@
                     <h2 class="title"><%=detail.product.productName%>工资结算说明</h2>
                     <%if(detail.config){%>
                         <%for(var i=0;i < detail.config.length;i++){%>
-                        <h3 class="sub-title"><%=detail.config[i].title%></h3>
-                        <p><%=detail.config[i].content%></p>
+                        <h3 class="sub-title"><%:=detail.config[i].title%></h3>
+                        <p><%:=detail.config[i].content%></p>
                         <%}%>
                     <%}%>
                 </div>
@@ -72,11 +72,11 @@
             </div>
             <div class="tab-content hidden">
                 <h2 class="title">申请条件</h2>
-                <p><%=detail.product.applyCondition%></p>
+                <p><%:=detail.product.applyCondition%></p>
                 <h2 class="title">申请流程</h2>
                 <p class="apply-process"><img src="<%=detail.product.applyTpImg%>" alt=""></p>
                 <h2 class="title">注意事项</h2>
-                <p><%=detail.product.commissionStandard%></p>
+                <p><%:=detail.product.commissionStandard%></p>
                 
             </div>
         </div>
