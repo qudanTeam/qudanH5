@@ -166,6 +166,8 @@
         function realName(Data) {
             if (Data.code == 200) {
                 layerMsg("提交成功,请等待审核");
+                setTimeout("window.location.reload();", 2000);
+                
             }
         }
     </script>

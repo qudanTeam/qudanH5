@@ -19,9 +19,9 @@
         <h1>进度查询</h1>
     </header>
     <div class="content prodetail-content">
-        <div class="banner">
+        <!-- <div class="banner">
             <img src="" alt="">
-        </div>
+        </div> -->
         <div class="prodetail-main">
             <h2 class="title">
                 <span class="logo-wrap">
@@ -51,7 +51,7 @@
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/common.js"></script>
     <script>
-        var bannerImg = document.querySelector('.prodetail-content img');
+        // var bannerImg = document.querySelector('.prodetail-content img');
         var productLogo = document.querySelector('.logo');
         var productName = document.querySelector('.product-name');
          var id = getQueryString('id');
@@ -59,7 +59,7 @@
         function getDetail(Data){
             if(Data.code==200){
                 var product = Data.data.detail.product;
-                bannerImg.setAttribute('src',product.progressQueryImg);
+                // bannerImg.setAttribute('src',product.progressQueryImg);
                 productLogo.setAttribute('src',product.logo);
                 productName.innerHTML = product.productName;
             }
