@@ -9,7 +9,7 @@ var detail;
 shareid = document.body.getAttribute("data-shareid");
 function wxConfig(Data) {
   wx.config({
-    debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: Data.data.appId, // 必填，公众号的唯一标识
     timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
     nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
@@ -24,17 +24,19 @@ function wxConfig(Data) {
     if (ptype == 2) {
       link = protocol + '//' + host + '/applyLoanShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
-    layerMsg(link+"<br/>"+detail.shares[0].content)
+    
     var shareData = {
       title: detail.product.productName, // 分享标题
       desc: detail.shares[0].content, // 分享描述
       link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
       imgUrl: detail.product.logo, // 分享图标
       success: function () {
+        layerMsg(shareid)
         // 设置成功
         var data = JSON.stringify({
           shareid: document.body.getAttribute("data-shareid")
         });
+        
         Ajax_token(IP + 'msqudan/api/user/share/addcounturl', "POST", token, data, addShareCount);//增加用户分享次数
       },
       cancel: function () {
