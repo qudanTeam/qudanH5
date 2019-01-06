@@ -286,9 +286,14 @@
                     paySign: Data.data.sign, // 支付签名
                     success: function (res) {
                         // 支付成功后的回调函数
-                        window.location.reload();
+                        if (res.errMsg == "chooseWXPay:ok") {
+                            //alert("支付成功");
+                            window.location.href = "order_ok.html?access_token=" + getQueryString("access_token");
+                        } else {
+                            alert(res.errMsg);
+                        }
                     },
-                    fail: function (res) {
+                    cancel: function (res) {
                         layerMsg($.parseJSON(res));
                     }
                 });

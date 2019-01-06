@@ -54,7 +54,8 @@
             pid: pid,
             loadingUrl: loadingUrl
         });
-        var shareid, link;
+        
+        var shareid;
         Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
         btnSaveImg.addEventListener("click", function () {
             layerShare();
@@ -65,10 +66,12 @@
         })
         function getQrcode(Data) {
             if (Data.code == 200) {
+               
                 qrCode.setAttribute('src', Data.data.qrCodeImgUrl);
                 document.body.setAttribute("data-shareid", Data.data.shareid);
                 var wxjsapi_data = location.href.split('#').toString();
                 ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+              
                 //复制链接
                 var clipboard = new ClipboardJS('#copy-btn', {
                     text: function () {
