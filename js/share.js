@@ -17,7 +17,7 @@ function wxConfig(Data) {
     signature: Data.data.signature,// 必填，签名
     jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
   });
-
+  layerMsg(link+"<br/>"+detail.shares[0].content)
   wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
     if (ptype == 1) {
       link = protocol + '//' + host + '/applyCardShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
@@ -25,7 +25,7 @@ function wxConfig(Data) {
     if (ptype == 2) {
       link = protocol + '//' + host + '/applyLoanShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
-    layerMsg(link+"<br/>"+detail.shares[0].content)
+    
     var shareData = {
       title: detail.product.productName, // 分享标题
       desc: detail.shares[0].content, // 分享描述
