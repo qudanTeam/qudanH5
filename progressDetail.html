@@ -106,7 +106,7 @@
                     imgCode.style.display = 'none';
                 } else {
                     imgCode.style.display = 'block';
-                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + '/>';
+                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + ' onclick="refresh(this)"/>';
 
                 }
                 if (Data.data.bank.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
@@ -118,6 +118,9 @@
 
             }
         }
+        function refresh(e) {
+            e.src = e.getAttribute("src") + '&d=' + Math.random();
+        }
         function getSimple(Data) {
             if (Data.code == 200) {
 
@@ -127,7 +130,7 @@
                     imgCode.style.display = 'none';
                 } else {
                     imgCode.style.display = 'block';
-                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + '/>';
+                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + ' onclick="refresh(this)"/>';
 
                 }
                 if (Data.data.simple.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
