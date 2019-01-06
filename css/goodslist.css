@@ -61,6 +61,8 @@
     font-size: .16rem;
 }
 .goods-list .media-body .title{
+    display: inline-block;
+    vertical-align: middle;
     margin-bottom: .03rem;
     line-height: .22rem;
 }

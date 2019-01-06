@@ -639,6 +639,7 @@ input::-webkit-input-placeholder{ 
 .order-list .media-body .title{
     line-height: .22rem;
     margin-bottom: .09rem;
+    width: 2.3rem;
 }
 .order-list .media-body .card-info {
     margin-bottom:.21rem;
