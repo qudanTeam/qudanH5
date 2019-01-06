@@ -30,7 +30,7 @@
             if (Data.code == 200) {
                 var html='';
                 for (var i = 0; i < Data.data.banks.length; i++) {
-                    html +=  '<a class="flex-item" href="progressDetail.html?pid='+Data.data.banks[i].id+'"><div class="img-wrap"><img src="'+Data.data.banks[i].logo+'" alt=""></div><p>'+Data.data.banks[i].name+'</p></a >';
+                    html +=  '<a class="flex-item" href="progressDetail.html?isBankList=1&pid='+Data.data.banks[i].id+'"><div class="img-wrap"><img src="'+Data.data.banks[i].logo+'" alt=""></div><p>'+Data.data.banks[i].name+'</p></a >';
                 }
                 
                 document.querySelector(".proIndex-content").innerHTML = html;
