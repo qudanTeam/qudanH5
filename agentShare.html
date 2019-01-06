@@ -56,10 +56,9 @@
         var host = window.location.host;
         console.log(protocol)
         console.log(host)
-        Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
-
         var wxjsapi_data = location.href.split('#').toString();
         ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+        Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
         btnShare.addEventListener("click", function () {
             layerShare();
             var shareBtn = document.querySelector(".share-btn");
@@ -76,7 +75,6 @@
                         return Data.data.url;
                     }
                 });
-
                 clipboard.on('success', function (e) {
                     layerMsg("复制成功！")
                 });
@@ -86,13 +84,15 @@
                 });
                 shareid = document.body.getAttribute("data-shareid");
                 link = protocol + '//' + host + "/login.html?shareid=" + Data.data.shareid;
+                layerMsg(link);
                 var sharedData = {
                     title: '想躺着赚钱，赶紧加入我的团队，一起痛快赚钱', // 分享标题
                     desc: '日进斗金的生财之道等你来看', // 分享描述
                     link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
                     imgUrl: protocol + '//' + host + '/images/shareLogin.png', // 分享图标
                     success: function () {
-                        // // 设置成功
+                        // // 
+                        alert("设置成功");
                         var data = JSON.stringify({
                             shareid: Data.data.shareid
                         });
@@ -116,7 +116,7 @@
         }
         function wxConfig(Data) {
             wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: Data.data.appId, // 必填，公众号的唯一标识
                 timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
                 nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
