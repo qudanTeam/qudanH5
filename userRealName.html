@@ -47,6 +47,8 @@
         if (isReg && isReg == 1) {
             document.getElementById("skip").style.display = "block";
         }
+        var token = getCookie('token');
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取身份实名信息
         btnSubmit.addEventListener("click", function () {
             var name = document.querySelector(".name").value;
             var idNo = document.querySelector(".idNo").value;
@@ -93,6 +95,17 @@
             });
             Ajax_token(IP + "msqudan/api/user/finance/realname", "POST", token, data, realName);
         })
+        function getUserInfo(Data) {
+            if (Data.code == 200) {
+                if (Data.data.user.status == 3) {
+                    document.querySelector(".name").value = Data.data.user.realname;
+                    document.querySelector(".idNo").value = Data.data.user.idNo;
+                    document.querySelector(".name").setAttribute("readonly","readonly");
+                    document.querySelector(".idNo").setAttribute("readonly","readonly");
+                }
+
+            }
+        }
         function realName(Data) {
             if (Data.code == 200) {
                 layerMsg("提交成功,请等待审核");
@@ -101,8 +114,8 @@
         }
         function skip() {
             if (isReg && isReg == 1) {
-                window.location.href="index.html";
-            }else{
+                window.location.href = "index.html";
+            } else {
                 window.history.back();
             }
         }

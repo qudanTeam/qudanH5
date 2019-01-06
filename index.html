@@ -247,7 +247,10 @@
             ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
         })
         //获取banner
-        ajaxGet(IP + 'msqudan/api/banners', '', getSwiper);
+        var data_banner = {
+            position:0
+        };
+        ajaxGet(IP + 'msqudan/api/banners', data_banner, getSwiper);
         //获取热门商品
         ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
         template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比

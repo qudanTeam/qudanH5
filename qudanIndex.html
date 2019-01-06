@@ -167,7 +167,11 @@
                 tabTitle[1].className = 'btn tab-title active';
                 break;
         }
-        Ajax(IP + 'msqudan/api/banners', '', getSwiper);//获取banner
+        var data_banner = {
+            position:1
+        };
+        Ajax(IP + 'msqudan/api/banners', data_banner, getSwiper);//获取banner
+        // Ajax(IP + 'msqudan/api/banners', '', getSwiper);
         Ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
         //  myScroll.refresh();
         template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
