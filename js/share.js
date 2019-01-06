@@ -25,7 +25,7 @@ function wxConfig(Data) {
     if (ptype == 2) {
       link = protocol + '//' + host + '/applyLoanShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
-    
+    layerMsg(link+"<br/>"+detail.shares[0].content)
     var shareData = {
       title: detail.product.productName, // 分享标题
       desc: detail.shares[0].content, // 分享描述
@@ -47,7 +47,7 @@ function wxConfig(Data) {
     wx.updateAppMessageShareData(shareData);
     // 自定义“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
     wx.updateTimelineShareData(shareData);
-    layerMsg(link+"<br/>"+detail.shares[0].content)
+    
     
   });
   wx.error(function (res) {
