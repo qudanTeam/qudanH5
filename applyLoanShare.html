@@ -13,6 +13,16 @@
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
+    <style>
+        .layui-m-layer {
+            position: fixed;
+            z-index: 19891014;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 
 <body class="apply">
@@ -100,8 +110,8 @@
                 })
                 var btnSubmit = document.querySelector(".btn-submit");
                 //提交申请
-                btnSubmit.addEventListener("click", function (e) {
-                    apply(e);
+                btnSubmit.addEventListener("click", function () {
+                    apply();
                 })
             }, 200)
 
@@ -134,8 +144,7 @@
                 document.getElementById('main').innerHTML = html;
             }
         }
-        function apply(e) {
-            e.stopepropagation();
+        function apply() {
             var name = document.querySelector(".name").value;
             var mobile = document.querySelector(".mobile").value;
             var idNo = document.querySelector(".idNo").value;
@@ -189,7 +198,7 @@
             if (Data.code == 200) {
                 layerMsg("提交成功，请等待审核");
                 setTimeout("layer.closeAll()", 2000);
-                window.location.href=Data.data.productLink;
+                window.location.href = Data.data.productLink;
                 //清除shareid
                 document.cookie = "shareid='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
