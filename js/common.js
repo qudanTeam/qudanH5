@@ -186,6 +186,9 @@ function is_wexin() {
         document.getElementById("header").className = "";
       } else {
         document.getElementById("header").className = "hidden";
+        if(document.getElementById("wrapper")){
+          document.getElementById("wrapper").style.top = '.66rem';
+        }
       }
     } else {
       document.getElementById("header").className = "";

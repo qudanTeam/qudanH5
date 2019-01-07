@@ -43,17 +43,17 @@
             <li onclick="window.location.href='userCash.html?'">
                 <div class="media-body">
                     <h3 class="title">余额提现</h3>
-                    <p class="date"><%=list.row[i].txDate%></p>
-                    <%if(list.row[i].status==1){%>
+                    <p class="date"><%=list.rows[i].txDate%></p>
+                    <%if(list.rows[i].status==1){%>
                     <p class="top-right text-red">待审核</p>
-                    <p class="bottom-right data">＋<%=list.row[i].revenue%></p>
-                    <%else if(list.row[i].status==2)%>
+                    <p class="bottom-right data">＋<%=list.rows[i].revenue%></p>
+                    <%else if(list.rows[i].status==2)%>
                     <p class="top-right ">已完成</p>
-                    <p class="bottom-right text-red">＋<%=list.row[i].revenue%></p>
-                    <%else if(list.row[i].status==3)%>
+                    <p class="bottom-right text-red">＋<%=list.rows[i].revenue%></p>
+                    <%else if(list.rows[i].status==3)%>
                     <p class="top-right text-red">审核未通过</p>
-                    <p class="bottom-right">＋<%=list.row[i].revenue%></p>
-                    <p class="text-red tips">拒绝理由：<%=list.row[i].rejectReason%></p>
+                    <p class="bottom-right">＋<%=list.rows[i].revenue%></p>
+                    <p class="text-red tips">拒绝理由：<%=list.rows[i].rejectReason%></p>
                     <%}%>
                 </div>
             </li>

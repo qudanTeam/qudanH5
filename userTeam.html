@@ -190,7 +190,21 @@
             }
             Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);
         }
-
+        isWeixin();
+        function isWeixin() {
+            var header = document.getElementById("header");
+            var ua = navigator.userAgent.toLowerCase();
+            if (header) {
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    document.getElementById("header").className = "hidden";
+                    if (document.getElementById("wrapper")) {
+                        document.getElementById("wrapper").style.top = '1.93rem';
+                    }
+                } else {
+                    document.getElementById("header").className = "";
+                }
+            }
+        }
     </script>
 </body>
 

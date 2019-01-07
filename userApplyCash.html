@@ -23,7 +23,7 @@
     <div class="content content-form">
         <form class="form-cash">
             <div class="input-grow">
-                <label>支付宝账户</label><input type="text" placeholder="请输入支付宝账户" class="zfb">
+                <label>支付宝账户</label><input type="number" placeholder="请输入支付宝账户" class="zfb">
             </div>
             <div class="input-grow">
                 <label>提现金额</label><input type="number" placeholder="" class="cash-balance"><a class="text-blue btn-cash-all">全部提现</a>
@@ -33,13 +33,13 @@
         <div class="cash-rule">
             <h3>提现规则说明</h3>
             <div><span class="index">1</span>
-                <p>提现时间说明：周一到周六，9：00-21：00，超过以上时段，T+1工作日处理，节假日顺延正常工作日处理。</p>
+                <p>提现时间说明：周一到周五，9:00-17:00，超过以上时段，T+1工作日处理，节假日顺延正常工作日处理。</p>
             </div>
             <div><span class="index">2</span>
-                <p>提现到账说明：提现申请处理审核完成后48小时打款，到账时间以支付宝到账时间为准。。</p>
+                <p>提现到账说明：提现申请处理审核完成后24小时打款，具体到账时间以支付宝到账时间为准。</p>
             </div>
             <div><span class="index">3</span>
-                <p>申请提现必须满足实名认证，支付宝绑定本人真实信息，手机号绑定；每日提现不得超过三次，单次提现金额50-5000元；提现时平台不收取手续费。</p>
+                <p>申请提现必须满足实名认证，支付宝绑定本人真实信息，手机号绑定；每日提现不得超过三次，单次提现金额20-5000元；提现时平台不收取手续费。</p>
             </div>
             <div><span class="index">4</span>
                 <p>如有任何问题，请联系客服。</p>
@@ -55,7 +55,7 @@
         var submitBtn = document.querySelector(".btn-submit");
         var cashAllBtn = document.querySelector(".btn-cash-all");
         var allowTx;
-        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getAllowTx);//获取可提现金额
+        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getAllowTx);//获取可提现金额和支付宝账号
 
         submitBtn.addEventListener("click", function () {
             var zfb = document.querySelector(".zfb").value;
@@ -86,11 +86,15 @@
             if (Data.code == 200) {
                 layerMsg("提现申请成功<br>请等待审核");
             }
-            setTimeout('window.location.href="userCash.html?"',2000);
+            setTimeout('window.location.href="userCash.html?"', 2000);
         }
         function getAllowTx(Data) {
             if (Data.code == 200) {
                 allowTx = Data.data.user.allowTx;
+                if (Data.data.user.financeStatus == 3) {//已经财务认证了，显示支付宝账号并不可编辑
+                    document.querySelector(".zfb").value = Data.data.user.alipayNo;
+                    document.querySelector(".zfb").setAttribute("readonly", "readonly");
+                }
                 document.querySelector(".cash-balance").setAttribute("placeholder", "可提现金额" + allowTx + "元");
                 //全部体现
                 cashAllBtn.addEventListener("click", function () {

@@ -423,8 +423,11 @@ body .layui-m-layer .layui-m-layer-msg.layer-msg{
 /* 上拉加载end */
 /* tab选项卡start */
 .tab{
-    padding-bottom: .08rem;
     font-size: .14rem;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    height: .44rem;
 }
 .tab .tab-title{
     display: inline-block;

@@ -42,13 +42,13 @@
          <li>
             <img src="<%=list.rows[i].productLogo%>" alt="" class="media-object fl">
             <div class="media-body">
-                <h3 class="title"><%=list.row[i].productName%></h3>
-                <p class="date"><%=list.row[i].auditTime%></p>
-                <%if(list.row[i].sendStatus==1){%>
+                <h3 class="title"><%=list.rows[i].productName%></h3>
+                <p class="date"><%=list.rows[i].auditTime%></p>
+                <%if(list.rows[i].sendStatus==1){%>
                 <p class="top-right text-red">等待结算</p>
-                <p class="bottom-right">＋<%=list.row[i].revenue%></p>
-                <%}else if(list.row[i].sendStatus==2)%>
-                <p class="top-right text-red data">+<%=list.row[i].revenue%></p>
+                <p class="bottom-right">＋<%=list.rows[i].revenue%></p>
+                <%}else if(list.rows[i].sendStatus==2){%>
+                <p class="top-right text-red data">+<%=list.rows[i].revenue%></p>
                 <%}%>
             </div>
         </li>
@@ -83,10 +83,10 @@
             var index = $(this).index();
             switch (index) {
                 case 0:
-                    sendStatus = 2;
+                    send_status = 2;
                     break;
                 case 1:
-                    sendStatus = 1;
+                    send_status = 1;
                     break;
             }
             page = 1;
@@ -107,6 +107,7 @@
                     list = Data.data;
                     var html = template(tpl, list);
                     ulBox.innerHTML = html;
+                    console.log(list);
                     wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
@@ -142,12 +143,12 @@
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
                 wrapper.refresh();
-                // if (!document.querySelector('.no-more')) {
-                //     document.getElementById('goods-list').appendChild(div);
-                // }
+                if (!document.querySelector('.no-more')) {
+                    document.querySelector('.ul-box').appendChild(div);
+                }
 
-                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
-                // document.querySelector('.pullUpLabel').style.display = 'none';
+                // document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                document.querySelector('.pullUpLabel').style.display = 'none';
 
                 return false;
             }

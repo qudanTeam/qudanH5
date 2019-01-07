@@ -63,10 +63,21 @@
                 <li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
-                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%></h3>
+                        <div class="tag-box">
+                            <%if(_array(one.specialTag).length>=2){%>
+                            <%for(var j = 0; j < 2; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}else{%>
+                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}%>
+                        </div>
                         <p class="data"><span>通过率：<%=rate(one.allowRate,0)%></span><span>申请人数：<%=one.applyNum%></span></p>
                         <p class="summary text-overflow"><%=one.specialTxt%></p>
-                        <a class="btn linear-gradient-red">赚<%=one.baseSalary%>元</a>
+                        <a class="btn linear-gradient-red">最高赚<%=one.baseSalary%>元</a>
                     </div>
                 </li>
                 <%}%>
@@ -79,11 +90,22 @@
                 <li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
                     <img class="media-object fl" src="<%=one.logo%>" alt="">
                     <div class="media-body">
-                        <h3 class="title"><%=one.productName%><%for(var j = 0; j < _array(one.specialTag).length; j++) {%><span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span><%}%></h3>
+                        <h3 class="title text-overflow" style="max-width: 1.2rem;"><%=one.productName%></h3>
+                        <div class="tag-box">
+                            <%if(_array(one.specialTag).length>=2){%>
+                            <%for(var j = 0; j < 2; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}else{%>
+                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+                            <%}%>
+                            <%}%>
+                        </div>
                         <p class="data"><span>月利率：<%=rate(one.monthRate,1)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
                         <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
                         <p class="text-right">通过率：<%=rate(one.allowRate,0)%></p>
-                        <a class="btn linear-gradient-red">赚<%=rate(one.baseSalary,1)%></a>
+                        <a class="btn linear-gradient-red">最高赚<%=rate(one.baseSalary,1)%></a>
                     </div>
                 </li>
                 <%}%>
@@ -112,6 +134,11 @@
             type: type,
             keyword: keyword
         }
+        refresher.init({
+            id: "wrapper",
+            pullDownAction: pullDownAction,
+            pullUpAction: pullUpAction
+        });
         //搜索框交互
         $("#searchInput").trigger("click").focus();
         $("#searchInput").on("input", function (e) {
@@ -179,7 +206,14 @@
                 searchInput.focus();
                 searchInput.value = target.innerText;
                 iconClear.className = 'icon-clear';
-                pullDownAction();
+                searchRecordsContent.style.display = 'none';
+                data = {
+                    page: page,
+                    per_page: per_page,
+                    type: type,
+                    keyword: target.innerText
+                }
+                _ajax(IP + 'msqudan/api/products/', data, getGoods);//获取商品列表
             }
         })
         btnRemoveall.addEventListener("click", function () {
@@ -232,7 +266,7 @@
                     goods = Data.data;
                     var html = template(tplGoodsList, goods);
                     document.querySelector('.wrapper-son').innerHTML = html;
-                    myScroll.refresh();
+                    wrapper.refresh();
                 } else {
                     document.querySelector('.wrapper-son').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，换个条件试试~</p></div>';
                 }
