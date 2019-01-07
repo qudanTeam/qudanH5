@@ -196,7 +196,7 @@
 
         } else {//登录情况下获取用户信息，判断是否代理
             Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
-            agentModule.style.display = '-webkit-flex';
+            // agentModule.style.display = '-webkit-flex';
             marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
             marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
             marketWrapAs[0].setAttribute("href", "agent.html");

@@ -79,8 +79,8 @@
                     })
                     var btnSubmit = document.querySelector(".btn-submit");
                     //提交申请
-                    btnSubmit.addEventListener("click", function () {
-                        apply();
+                    btnSubmit.addEventListener("click", function (e) {
+                        apply(e);
                     })
                 }
             }, 200)
@@ -104,7 +104,8 @@
                     <span class="icon-close"></span>';
             layerHtml('cash-html', html);
         }
-        function apply() {
+        function apply(e) {
+            e.stopepropagation();
             var name = document.querySelector(".name").value;
             var mobile = document.querySelector(".mobile").value;
             var idNo = document.querySelector(".idNo").value;
