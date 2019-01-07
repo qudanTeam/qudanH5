@@ -42,6 +42,22 @@ function layerHtml(className, content) {
 
   })
 }
+function layerApplyCard(className, content) {
+  layer.open({
+    type: 1,
+    content: content,
+    className: 'layer-html ' + className,
+    shadeClose: false,
+    fixed:false,
+    success: function (elem) {
+      var index = elem.getAttribute("index");
+      $(".icon-close").click(function () {
+        layer.close(index);
+      })
+    }
+
+  })
+}
 //底部分享
 function layerShare() {
   layer.open({

@@ -14,14 +14,12 @@
     <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
     <style>
-        .layui-m-layer {
-            position: fixed!important;
-            z-index: 19891014;
-            height: 100%;
-            width: 100%;
+         .layui-m-layer {
+            position: absolute!important;
             top: 0;
-            left: 0;
+            left: 50%;
         }
+        /* .layui-m-layermain{position: absolute;} */
     </style>
 </head>
 
@@ -75,7 +73,7 @@
         AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
         btnApplyCard.addEventListener("click", function () {
             setTimeout(function () {
-                layerHtml('', html);
+                layerApplyCard('', html);
                 //获取验证码
                 var btnGetVcode = document.querySelector('.get-code');
                 btnGetVcode.addEventListener("click", function () {

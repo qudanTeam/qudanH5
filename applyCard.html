@@ -15,17 +15,15 @@
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
     <style>
         .layui-m-layer {
-            position: fixed !important;
-            z-index: 19891014;
-            height: 100%;
-            width: 100%;
+            position: absolute!important;
             top: 0;
-            left: 0;
+            left: 50%;
         }
+        /* .layui-m-layermain{position: absolute!important;} */
     </style>
 </head>
 
-<body class="apply apply-card" style="position:fixed;">
+<body class="apply apply-card">
     <header id="header">
         <a class='icon-back'></a>
         <h1>我要办卡</h1>
@@ -80,8 +78,7 @@
                 if (status != 3) {//未实名
                     notRealName();
                 } else {
-                    layerHtml('', html);
-                    toggleBody(1)  //在跳出弹窗的时候
+                    layerApplyCard('', html);
                     //获取验证码
                     var btnGetVcode = document.querySelector('.get-code');
                     btnGetVcode.addEventListener("click", function () {
@@ -116,7 +113,7 @@
                     <a class="btn linear-gradient-yellow btn-identify" href="userInfo.html">去认证</a>\
                     <span class="icon-close"></span>';
             layerHtml('cash-html', html);
-           
+
         }
         function apply(e) {
 
@@ -208,25 +205,25 @@
                 }
             })
         }
-        function toggleBody(isPin) {
-            console.log(isPin)
-            if (isPin == 1) {
+        // function toggleBody(isPin) {
+        //     console.log(isPin)
+        //     if (isPin == 1) {
 
-                document.body.style.height = '100vh'
+        //         document.body.style.height = '100vh'
 
-                document.body.style['overflow-y'] = 'hidden'
-            }
+        //         document.body.style['overflow-y'] = 'hidden'
+        //     }
 
-            else {
+        //     else {
 
-                document.body.style.height = 'unset'
+        //         document.body.style.height = 'unset'
 
-                document.body.style['overflow-y'] = 'auto'
+        //         document.body.style['overflow-y'] = 'auto'
 
-            }
-        }
+        //     }
+        // }
 
-        toggleBody(0)  //弹窗消失的时候
+        // toggleBody(0)  //弹窗消失的时候
 
     </script>
 </body>
