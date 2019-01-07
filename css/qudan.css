@@ -339,7 +339,7 @@ html,body{
 /* 海报页end */
 /* 我要办卡弹框start */
 
-.apply #layui-m-layer0 .layui-m-layersection{
+.apply  .layui-m-layersection{
     position: absolute;
     top: 12%;
     left: 50%;
