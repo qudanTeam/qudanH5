@@ -203,8 +203,8 @@
                     <a class="btn linear-gradient-yellow btn-identify" >去认证</a>\
                     <span class="icon-close"></span>';
             layerHtml('cash-html', html);
-            document.querySelector(".btn-identify").addEventListener("click",function(){
-                window.location.href="userRealName.html";
+            document.querySelector(".btn-identify").addEventListener("click", function () {
+                window.location.href = "userRealName.html";
                 layer.closeAll();
             })
         }
@@ -223,9 +223,12 @@
                 ranksWrap.innerHTML = html;
                 setTimeout(function () {
                     var notAgentWrap = document.querySelector(".not-agent-data");
-                    var notAgent_div = notAgentWrap.querySelectorAll(".data");
-                    notAgent_div[0].innerText = Data.data.allRevenue;
-                    notAgent_div[1].innerText = Data.data.all;
+                    if (notAgentWrap) {
+                        var notAgent_div = notAgentWrap.querySelectorAll(".data");
+                        notAgent_div[0].innerText = Data.data.allRevenue;
+                        notAgent_div[1].innerText = Data.data.all;
+                    }
+
                 }, 200);
 
             }
