@@ -72,15 +72,70 @@
         } else {
             ajaxGet(IP + 'msqudan/api/product/' + pid + '/simple', getSimple);//获取查询信息
         }
+        //获取手机验证码
+        document.getElementById("getMsgCode").addEventListener("click", function () {
+            var _this = this;
+            var timeWrap = document.querySelector(".time-wrap");
+            var time = timeWrap.querySelector('.time');
+            var t = 60;
+            var data;
+            console.log(formValidate());
+            if (formValidate()) {
+                _this.style.display = "none";
+                timeWrap.style.display = "block";
+                var st = setInterval(function () {
+                    t--;
+                    if (t < 10) {
+                        t = "0" + t;
+                    }
+                    if (t == 0) {
+                        clearInterval(st);
+                        _this.style.display = "block";
+                        timeWrap.style.display = "none";
+                        t = 60;
+                    }
+                    time.innerText = t;
+
+                }, 1000);
+                var data_trigger = {
+                    idno: document.querySelector(".idNo").value,
+                    bankId: document.querySelector("input[type='hidden']").value,
+                    name: document.querySelector(".realName").value,
+                    cookieStr: "",
+                    imgCode: document.querySelector(".imgCode").value
+                }
+                Ajax(IP + 'msqudan/api/user/verify/trigger', data_trigger, getMsgCode)
+            }
+        })
         //查询进度
         btnSubmit.addEventListener("click", function () {
-            formValidate();
-            if (msgCode == '') {
-                layerMsg("请输入短信验证码");
-                return false;
-            }
+            if (formValidate()) {
+                if (document.querySelector(".msgCode").value == '') {
+                    layerMsg("请输入短信验证码");
+                    return false;
+                }
+                var process_data = {
+                    idno: document.querySelector(".idNo").value,
+                    bankId: document.querySelector("input[type='hidden']").value,
+                    name: document.querySelector(".realName").value,
+                    imgCode: document.querySelector(".imgCode").value,
+                    activityCode: document.querySelector(".msgCode").value
+                }
+                Ajax(IP + "msqudan/api/user/process", process_data, process_result);
+
+            };
 
         })
+        function process_result(Data) {
+            if (Data.code == 200) {
+                var idno = document.querySelector(".idNo").value;
+                var bankId = document.querySelector("input[type='hidden']").value;
+                var name = document.querySelector(".realName").value;
+                var imgCode = document.querySelector(".imgCode").value;
+                var activityCode = document.querySelector(".msgCode").value;
+                window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId + "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
+            }
+        }
         //表单校验
         function formValidate() {
             var realName = document.querySelector(".realName").value;
@@ -165,47 +220,15 @@
 
             }
         }
-        //获取手机验证码
-        document.getElementById("getMsgCode").addEventListener("click", function () {
-            var _this = this;
-            var timeWrap = document.querySelector(".time-wrap");
-            var time = timeWrap.querySelector('.time');
-            var t = 60;
-            var data;
-            console.log(formValidate());
-            if (formValidate()) {
-                _this.style.display = "none";
-                timeWrap.style.display = "block";
-                var st = setInterval(function () {
-                    t--;
-                    if (t < 10) {
-                        t = "0" + t;
-                    }
-                    if (t == 0) {
-                        clearInterval(st);
-                        _this.style.display = "block";
-                        timeWrap.style.display = "none";
-                        t = 60;
-                    }
-                    time.innerText = t;
 
-                }, 1000);
-                var data_trigger = {
-                    idno: document.querySelector(".idNo").value,
-                    bankId: document.querySelector("input[type='hidden']").value,
-                    name: document.querySelector(".realName").value,
-                    cookieStr: cookieStr,
-                    imgCode: document.querySelector(".imgCode").value
-                }
-                Ajax(IP + 'msqudan/api/user/verify/trigger', data_trigger, getMsgCode)
-            }
-
-
-        })
         function refresh(e) {
             e.src = e.getAttribute("src") + '&d=' + Math.random();
         }
-
+        function getMsgCode(Data) {
+            if (Data.code == 200) {
+                layerMsg("短信验证码已发送！");
+            }
+        }
         function ajaxGet(url, callback) {
             $.ajax({
                 url: url,
@@ -217,22 +240,7 @@
                 }
             })
         }
-        function readCookie(name) {
-            var cookieValue = "";
-            var search = name + "=";
-            if (document.cookie.length > 0) {
-                offset = document.cookie.indexOf(search);
-                console.log(document.cookie);
-                if (offset != -1) {
-                    offset += search.length;
-                    end = document.cookie.indexOf(";", offset);
-                    if (end == -1)
-                        end = document.cookie.length;
-                    cookieValue = unescape(document.cookie.substring(offset, end))
-                }
-            }
-            return cookieValue;
-        }
+
     </script>
 
 </body>

@@ -43,11 +43,12 @@
             <img src="<%=list.rows[i].productLogo%>" alt="" class="media-object fl">
             <div class="media-body">
                 <h3 class="title"><%=list.rows[i].productName%></h3>
-                <p class="date"><%=list.rows[i].auditTime%></p>
                 <%if(list.rows[i].sendStatus==1){%>
+                <p class="date"><%=list.rows[i].createTime%></p>
                 <p class="top-right text-red">等待结算</p>
                 <p class="bottom-right">＋<%=list.rows[i].revenue%></p>
                 <%}else if(list.rows[i].sendStatus==2){%>
+                <p class="date"><%=list.rows[i].auditTime%></p>
                 <p class="top-right text-red data">+<%=list.rows[i].revenue%></p>
                 <%}%>
             </div>

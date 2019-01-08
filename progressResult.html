@@ -22,7 +22,11 @@
         <!-- <div class="banner">
             <img src="images/swiperImg.png" alt="">
         </div> -->
-        <div class="prodetail-main">
+       
+
+    </div>
+    <script id="tpl" type="text/html">
+         <div class="prodetail-main">
             <h2 class="title">
                 浦发银行白金卡
             </h2>
@@ -53,12 +57,28 @@
             <p>5、查询进度填写的身份证或手机号和银行申请填写资料不一致。</p>
         </div> -->
         <!-- 无查询结果end -->
-
-    </div>
+    </script>
+    <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script>
-
+        var detail_result;
+        var process_data = {
+            idno: getQueryString('idno'),
+            bankId: getQueryString('bankId'),
+            name: getQueryString('name'),
+            imgCode: getQueryString('imgCode'),
+            activityCode: getQueryString('activityCode')
+        }
+        Ajax(IP + "msqudan/api/user/process", process_data, process_result);
+        function process_result(Data) {
+            if (Data.code == 200) {
+                detail_result = Data.data;
+                var html = template(tpl,Data.data);
+                document.querySelector(".prodetail-content").innerHTML = html;
+            }
+        }
     </script>
 
 </body>
