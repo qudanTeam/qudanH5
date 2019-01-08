@@ -42,7 +42,8 @@
                 </div>
                 <div class="input-grow input-grow-hasright input-grow-msgcode" style="display: none;">
                     <input type="number" placeholder="请输入验证码" class="msgCode">
-                    <span class="text-yellow btn-getcode">获取验证码</span>
+                    <span class="text-yellow btn-getcode" id="getMsgCode">获取验证码</span>
+                    <span class="time-wrap text-right" style="display:none;">重新获取(<i class="time">60</i>s)</span>
                 </div>
             </form>
             <div class="btn-wrap">
@@ -64,19 +65,39 @@
         var btnSubmit = document.querySelector('.btn-submit');
         var isBankList = getQueryString('isBankList');
         var pid = getQueryString('pid');
+
         ajaxGet(IP + 'msqudan/api/product/' + pid, getLogo);//获取logo
         if (isBankList && isBankList == 1) {
-            ajaxGet(IP + 'msqudan/api/bank/' + pid, getSimpleBank);//获取查询信息：从银行列表进来的传银行id，否则传商品id，并调用不同接口
+            ajaxGet(IP + 'msqudan/api/bank/' + pid, getSimple);//获取查询信息：从银行列表进来的传银行id，否则传商品id，并调用不同接口
         } else {
             ajaxGet(IP + 'msqudan/api/product/' + pid + '/simple', getSimple);//获取查询信息
         }
+        //查询进度
         btnSubmit.addEventListener("click", function () {
-            console.log(getCookie('token'));
-            console.log(getCookie('weblogic'));
+            formValidate();
+            if (msgCode == '') {
+                layerMsg("请输入短信验证码");
+                return false;
+            }
+
+        })
+        //表单校验
+        function formValidate() {
             var realName = document.querySelector(".realName").value;
             var idNo = document.querySelector(".idNo").value;
             var imgCode = document.querySelector(".imgCode").value;
             var msgCode = document.querySelector(".msgCode").value;
+            if (realName == '') {
+                layerMsg("请输入真实姓名");
+                return false;
+            }
+            if (realName != "") {
+                var regName = /^[\u4e00-\u9fa5]{2,4}$/i;
+                if (!regName.test(realName)) {
+                    layerMsg('真实姓名填写有误');
+                    return false;
+                }
+            }
             if (idNo == '') {
                 layerMsg("请输入身份证号码");
                 return false;
@@ -89,7 +110,13 @@
                     return false;
                 }
             }
-        })
+            if (imgCode == '') {
+                layerMsg("请输入图形验证码");
+                return false;
+            }
+            return true;
+
+        }
         function getLogo(Data) {
             if (Data.code == 200) {
                 var product = Data.data.detail.product;
@@ -98,50 +125,87 @@
                 productName.innerHTML = product.productName;
             }
         }
-        function getSimpleBank(Data) {
+        function getSimple(Data) {
             if (Data.code == 200) {
-                //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
-                document.querySelector("input[type='hidden']").value = Data.data.bank.bankId;
-                if (Data.data.bank.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
-                    imgCode.style.display = 'none';
-                } else {
-                    imgCode.style.display = 'block';
-                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + ' onclick="refresh(this)"/>';
+                console.log(readCookie('weblogic'));
+                // console.log(readCookie('JSESSIONID'));
+                if (isBankList && isBankList == 1) {
+                    //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
+                    document.querySelector("input[type='hidden']").value = Data.data.bank.bankId;
+                    if (Data.data.bank.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                        imgCode.style.display = 'none';
+                    } else {
+                        imgCode.style.display = 'block';
+                        imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + ' onclick="refresh(this)"/>';
 
-                }
-                if (Data.data.bank.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
-                    msgCode.style.display = 'none';
-                } else {
-                    msgCode.style.display = 'block';
+                    }
+                    if (Data.data.bank.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                        msgCode.style.display = 'none';
+                    } else {
+                        msgCode.style.display = 'block';
 
+                    }
+                } else {
+                    //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
+                    document.querySelector("input[type='hidden']").value = Data.data.simple.bankId;
+                    if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                        imgCode.style.display = 'none';
+                    } else {
+                        imgCode.style.display = 'block';
+                        imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + ' onclick="refresh(this)"/>';
+                    }
+                    if (Data.data.simple.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
+                        msgCode.style.display = 'none';
+                    } else {
+                        msgCode.style.display = 'block';
+                    }
                 }
+
+
 
             }
         }
+        //获取手机验证码
+        document.getElementById("getMsgCode").addEventListener("click", function () {
+            var _this = this;
+            var timeWrap = document.querySelector(".time-wrap");
+            var time = timeWrap.querySelector('.time');
+            var t = 60;
+            var data;
+            console.log(formValidate());
+            if (formValidate()) {
+                _this.style.display = "none";
+                timeWrap.style.display = "block";
+                var st = setInterval(function () {
+                    t--;
+                    if (t < 10) {
+                        t = "0" + t;
+                    }
+                    if (t == 0) {
+                        clearInterval(st);
+                        _this.style.display = "block";
+                        timeWrap.style.display = "none";
+                        t = 60;
+                    }
+                    time.innerText = t;
+
+                }, 1000);
+                var data_trigger = {
+                    idno: document.querySelector(".idNo").value,
+                    bankId: document.querySelector("input[type='hidden']").value,
+                    name: document.querySelector(".realName").value,
+                    cookieStr: cookieStr,
+                    imgCode: document.querySelector(".imgCode").value
+                }
+                Ajax(IP + 'msqudan/api/user/verify/trigger', data_trigger, getMsgCode)
+            }
+
+
+        })
         function refresh(e) {
             e.src = e.getAttribute("src") + '&d=' + Math.random();
         }
-        function getSimple(Data) {
-            if (Data.code == 200) {
 
-                //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
-                document.querySelector("input[type='hidden']").value = Data.data.simple.bankId;
-                if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
-                    imgCode.style.display = 'none';
-                } else {
-                    imgCode.style.display = 'block';
-                    imgCode.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + ' onclick="refresh(this)"/>';
-
-                }
-                if (Data.data.simple.needMobileVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
-                    msgCode.style.display = 'none';
-                } else {
-                    msgCode.style.display = 'block';
-
-                }
-
-            }
-        }
         function ajaxGet(url, callback) {
             $.ajax({
                 url: url,
@@ -152,6 +216,22 @@
                     layerMsg($.parseJSON(e.responseText).error.message);
                 }
             })
+        }
+        function readCookie(name) {
+            var cookieValue = "";
+            var search = name + "=";
+            if (document.cookie.length > 0) {
+                offset = document.cookie.indexOf(search);
+                console.log(document.cookie);
+                if (offset != -1) {
+                    offset += search.length;
+                    end = document.cookie.indexOf(";", offset);
+                    if (end == -1)
+                        end = document.cookie.length;
+                    cookieValue = unescape(document.cookie.substring(offset, end))
+                }
+            }
+            return cookieValue;
         }
     </script>
 

@@ -85,8 +85,10 @@
         function cash(Data) {
             if (Data.code == 200) {
                 layerMsg("提现申请成功<br>请等待审核");
+                var cash_id = Data.data.id;
+                setTimeout(function () { window.location.href = "userCash.html?id=" + cash_id }, 2000);
             }
-            setTimeout('window.location.href="userCash.html?"', 2000);
+
         }
         function getAllowTx(Data) {
             if (Data.code == 200) {

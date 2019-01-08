@@ -242,3 +242,12 @@ html,body{
     font-size: .16rem;
     line-height: .22rem;
 }
+.input-grow-msgcode .time-wrap{
+    color: #b5b5b5;
+    position: absolute;
+    right: 0;
+    top:0;
+}
+.input-grow-msgcode .time-wrap .time{
+    font-style: normal;
+}

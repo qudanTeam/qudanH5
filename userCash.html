@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>提现</title>
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/userInfo.css?v=20190103001">
@@ -20,41 +21,68 @@
         <h1>提现</h1>
     </header>
     <div class="content cash-content">
-        <!-- <div class="review">
+
+    </div>
+    <script id="tpl" type="text/html">
+         <!--  -->
+        <!--  -->
+        <%if(cashResult.status==1){%>
+        <div class="review">
             <div class="img-wrap"></div>
             <p class="title">提现审核中</p>
-        </div> -->
-        <!-- <div class="fail">
-            <div class="img-wrap"></div>
-            <p class="title">提现失败</p>
-            <p class="tips text-red">拒绝理由:您输入的支付宝账号不存在，的支付宝账号不存在</p>
-        </div> -->
+        </div>
+        <%}else if(cashResult.status==2){%>
         <div class="success">
             <div class="img-wrap"></div>
             <p class="title">提现成功</p>
         </div>
+        <%}else if(cashResult.status==3){%>
+        <div class="fail">
+            <div class="img-wrap"></div>
+            <p class="title">提现失败</p>
+            <p class="tips text-red">拒绝理由:<%=cashResult.rejectReason%></p>
+        </div>
+        <%}%>
         <ul class="main">
             <li>
                 <p class="name">收款方式</p>
-                <p class="fr">支付宝185****5467</p>
+                <p class="fr">支付宝<%=des(cashResult.alipayNo)%></p>
             </li>
             <li>
                 <p class="name">提现时间</p>
-                <p class="fr">2018-10-02</p>
+                <p class="fr"><%=cashResult.txDate%></p>
             </li>
             <li>
                 <p class="name">提现金额</p>
-                <p class="fr">123元</p>
+                <p class="fr"><%=cashResult.revenue%>元</p>
             </li>
         </ul>
         <a class="btn btn-primary btn-submit" href="userCashRecord.html">完成</a>
-    </div>
+        
+    </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
     <script src="plugin/template.js"></script>
     <script src="js/common.js"></script>
     <script>
-        // layerMsg("提现申请成功<br>请等待审核");
+        var cashContent = document.querySelector(".cash-content");
+        var tpl = document.getElementById("tpl").innerHTML;
+        var token = getCookie('token');
+        var id = getQueryString("id");
+        Ajax_token(IP + 'msqudan/api/user/txrecord/' + id, "GET", token, '', cashResult);
+        function cashResult(Data) {
+            if (Data.code == 200) {
+                cashResult = Data.data;
+                var html = template(tpl, cashResult);
+                cashContent.innerHTML = html;
+            }
+        }
+        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+            var ary = phone.split("");
+            ary.splice(3, 4, "****");
+            return ary.join("");
+        });
     </script>
 
 </body>
