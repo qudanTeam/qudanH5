@@ -55,8 +55,8 @@
         var t = 60;
         var clickcount = 0;
         var token,mobile,vCode,aProtocol;
-        var shareid = getQueryString('shareid');
         var raido = document.querySelector(".protocol .radio");
+        var shareid = getQueryString('shareid');
         //如果是从分享二维码进入的此页面，则将shareid存储在本地，注册完成后清除此shareid
         if(shareid!=null){
             document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";

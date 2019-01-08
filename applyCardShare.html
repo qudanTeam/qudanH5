@@ -45,6 +45,11 @@
         var bannerImg = document.querySelector(".banner img");
         var clickcount = 0;
         var id = getQueryString('id');
+        var shareid = getQueryString('shareid');
+        //如果是从分享链接进入的此页面，则将shareid存储在本地，办卡完成后清除此shareid
+        if(shareid!=null){
+            document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+        }
         var status;
         var html = '<h2 class="title">信息填写</h2>\
                     <form action="">\
