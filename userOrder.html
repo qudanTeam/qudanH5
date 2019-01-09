@@ -185,7 +185,7 @@
                 official_status: official_status,
                 apply_status: apply_status
             };
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获收入记录列表
+            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取订单记录列表
         })
         function getlist(Data) {
             document.querySelector('.pullUpLabel').style.display = 'block';

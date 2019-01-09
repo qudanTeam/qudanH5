@@ -22,7 +22,7 @@
         <!-- <div class="banner">
             <img src="images/swiperImg.png" alt="">
         </div> -->
-       
+
 
     </div>
     <script id="tpl" type="text/html">
@@ -32,8 +32,25 @@
             </h2>
             <ul class="proresult-list">
                 <li>
-                    <p class="top"><span class="card-name text-yellow">审批中</span><span class="date fr">2019-01-02</span></p>
+                    <%if(detail_result.data.status==1){%>
+                    <p class="top">
+                        <span class="card-name text-yellow">审核中</span>
+                        <span class="date fr">2019-01-02</span>
+                    </p>
                     <p class="card-desc">您的申请资料正在审核中，正常审核时间一般为3-7个工作日，请耐心等待。</p>
+                    <%}else if(detail_result.data.status==2){%>
+                    <p class="top">
+                        <span class="card-name text-yellow">审核通过</span>
+                        <span class="date fr">2019-01-02</span>
+                    <p class="card-desc"></p>
+                    </p>
+                    <%}else if(detail_result.data.status==3){%>
+                    <p class="top">
+                        <span class="card-name text-yellow">未通过</span>
+                        <span class="date fr">2019-01-02</span>
+                    <p class="card-desc"></p>
+                    </p>
+                    <%}%>
                 </li>
             </ul>
         </div>
@@ -60,22 +77,26 @@
     </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/template.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script>
+        var token = getCookie('token');
+        var tpl = document.getElementById("tpl").innerHTML;
         var detail_result;
-        var process_data = {
+        var process_data = JSON.stringify({
             idno: getQueryString('idno'),
             bankId: getQueryString('bankId'),
             name: getQueryString('name'),
             imgCode: getQueryString('imgCode'),
             activityCode: getQueryString('activityCode')
-        }
-        Ajax(IP + "msqudan/api/user/process", process_data, process_result);
+        });
+        Ajax_token(IP + "msqudan/api/user/process", "POST", token, process_data, process_result);
         function process_result(Data) {
             if (Data.code == 200) {
-                detail_result = Data.data;
-                var html = template(tpl,Data.data);
+                detail_result = Data;
+                var html = template(tpl, detail_result);
+                console.log(tpl)
                 document.querySelector(".prodetail-content").innerHTML = html;
             }
         }

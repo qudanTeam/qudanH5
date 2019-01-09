@@ -73,7 +73,7 @@
         Ajax_token(IP + 'msqudan/api/user/txrecord/' + id, "GET", token, '', cashResult);
         function cashResult(Data) {
             if (Data.code == 200) {
-                cashResult = Data.data;
+                cashResult = Data.data.tx;
                 var html = template(tpl, cashResult);
                 cashContent.innerHTML = html;
             }
