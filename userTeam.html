@@ -69,14 +69,14 @@
         <%for(var i=0;i < list.rows.length;i++){%>
             <li class="flex-wrap">
                 <div class="flex-item left">
-                    <h4 class="title"><%=list.row[i].name%></h4>
-                    <p><%=des(list.row[i].mobile)%></p>
-                    <p>推荐人：<%=list.row[i].recommendName%></p>
+                    <h4 class="title"><%=list.rows[i].name%></h4>
+                    <p><%=des(list.rows[i].mobile)%></p>
+                    <p>推荐人：<%=list.rows[i].recommendName%></p>
                 </div>
                 <div class="flex-item right">
-                    <p class="top-right">注册于<%=list.row[i].registerTime%></p>
+                    <p class="top-right">注册于<%=list.rows[i].registerTime%></p>
                     <p>提成</p>
-                    <p class="data text-red"><%=list.row[i].revenue%>元</p>
+                    <p class="data text-red"><%=list.rows[i].revenue%>元</p>
                 </div>
             </li>
         <%}%>
