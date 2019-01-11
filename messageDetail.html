@@ -40,8 +40,8 @@
         Ajax_token(IP + 'msqudan/api/user/message/'+id, "GET", token, '', getDetail);
         function getDetail(Data){
             if(Data.code==200){
-                msgTitle.innerText = Data.data.msgTitle;
-                msgContent.innerText = Data.data.msgContent;
+                msgTitle.innerText = Data.data.message.msgTitle;
+                msgContent.innerText = Data.data.message.msgContent;
             }
         }
         //删除消息
