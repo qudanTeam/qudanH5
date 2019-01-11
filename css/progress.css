@@ -37,6 +37,7 @@ html,body{
 }
 .prodetail-content{
     padding-bottom: .2rem;
+    margin-top: .4rem;
 }
 .prodetail-content .banner{
     height: .98rem;

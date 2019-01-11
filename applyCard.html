@@ -15,10 +15,11 @@
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
     <style>
         .layui-m-layer {
-            position: absolute!important;
+            position: absolute !important;
             top: 0;
             left: 50%;
         }
+
         /* .layui-m-layermain{position: absolute!important;} */
     </style>
 </head>
@@ -110,9 +111,13 @@
             var html = '<div class="img-wrap"></div>\
                     <h3>身份尚未认证</h3>\
                     <p>为保证您的资金安全，您需要先通过认证。</p>\
-                    <a class="btn linear-gradient-yellow btn-identify" href="userInfo.html">去认证</a>\
+                    <a class="btn linear-gradient-yellow btn-identify">去认证</a>\
                     <span class="icon-close"></span>';
             layerHtml('cash-html', html);
+            document.querySelector(".btn-identify").addEventListener("click", function () {
+                window.location.href = "userInfo.html";
+                layer.closeAll();
+            })
 
         }
         function apply(e) {
@@ -205,26 +210,6 @@
                 }
             })
         }
-        // function toggleBody(isPin) {
-        //     console.log(isPin)
-        //     if (isPin == 1) {
-
-        //         document.body.style.height = '100vh'
-
-        //         document.body.style['overflow-y'] = 'hidden'
-        //     }
-
-        //     else {
-
-        //         document.body.style.height = 'unset'
-
-        //         document.body.style['overflow-y'] = 'auto'
-
-        //     }
-        // }
-
-        // toggleBody(0)  //弹窗消失的时候
-
     </script>
 </body>
 

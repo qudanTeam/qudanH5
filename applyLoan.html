@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="css/common.css?v=20190104001">
     <link rel="stylesheet" href="css/qudan.css?v=20190105001">
     <style>
-       .layui-m-layer {
+        .layui-m-layer {
             position: absolute!important;
             top: 0;
             left: 50%;
@@ -130,9 +130,13 @@
             var html = '<div class="img-wrap"></div>\
                     <h3>身份尚未认证</h3>\
                     <p>为保证您的资金安全，您需要先通过认证。</p>\
-                    <a class="btn linear-gradient-yellow btn-identify" href="userInfo.html">去认证</a>\
+                    <a class="btn linear-gradient-yellow btn-identify">去认证</a>\
                     <span class="icon-close"></span>';
             layerHtml('cash-html', html);
+            document.querySelector(".btn-identify").addEventListener("click", function () {
+                window.location.href = "userInfo.html";
+                layer.closeAll();
+            })
         }
         function check(e) {//勾选协议
             if (clickcount == 1) {
@@ -197,7 +201,7 @@
                 layerMsg('请输入验证码');
                 return false;
             }
-            if(aProtocol==""){
+            if (aProtocol == "") {
                 layerMsg('请勾选同意协议，才能进行下一步哦');
                 return false;
             }
@@ -216,7 +220,7 @@
             if (Data.code == 200) {
                 layerMsg("提交成功，请等待审核");
                 setTimeout("layer.closeAll()", 2000);
-                window.location.href=Data.data.productLink;
+                window.location.href = Data.data.productLink;
                 //清除shareid
                 document.cookie = "shareid='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
             }
