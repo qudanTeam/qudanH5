@@ -67,6 +67,7 @@
                         <%}else if(list.rows[i].officialStatus==3){%>
                         <p class="text-blue top-right">未通过</p>
                         <%}%>
+                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?pid=<%=list.rows[i].productId%>">进度查询</a>
                     <%}else if(list.rows[i].productType==2){%>
                         <%if(list.rows[i].status==1){%>
                         <p class="text-blue top-right">申请中</p>
@@ -76,7 +77,6 @@
                         <p class="text-blue top-right">未通过</p>
                         <%}%>
                     <%}%>
-                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?pid=<%=list.rows[i].productId%>">进度查询</a>
                 </div>
             </li>
             <%}%>
