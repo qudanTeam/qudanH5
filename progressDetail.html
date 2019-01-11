@@ -249,7 +249,21 @@
                 }
             })
         }
-
+        isWeixin();
+        function isWeixin() {
+            var header = document.getElementById("header");
+            var ua = navigator.userAgent.toLowerCase();
+            if (header) {
+                if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                    document.getElementById("header").className = "hidden";
+                    if (document.getElementById("wrapper")) {
+                        document.getElementById("wrapper").style.top = '0';
+                    }
+                } else {
+                    document.getElementById("header").className = "";
+                }
+            }
+        }
     </script>
 
 </body>
