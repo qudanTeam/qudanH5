@@ -32,10 +32,10 @@ function wxConfig(Data) {
     }
 
     var shareData = {
-      title: detail.product.productName, // 分享标题
-      desc: detail.shares[0].content, // 分享描述
+      title: detail.product.shareTitle, // 分享标题
+      desc: detail.product.shareContent, // 分享描述
       link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-      imgUrl: detail.product.logo, // 分享图标
+      imgUrl: detail.product.shareLogo, // 分享图标
       success: function () {
         // layerMsg("设置成功")
         // 设置成功
