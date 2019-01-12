@@ -112,13 +112,13 @@
         //查询进度
         btnSubmit.addEventListener("click", function () {
             if (formValidate()) {
-                if (document.querySelector(".msgCode").value == '') {
+                if ((msgCodeWrap.style.display!="none")&&(document.querySelector(".msgCode").value == '') ){
                     layerMsg("请输入短信验证码");
                     return false;
                 }
                 var process_data = JSON.stringify({
                     idno: document.querySelector(".idNo").value,
-                    bankId: document.querySelector("input[type='hidden']").value,
+                    bankId: document.querySelector("input.bankId").value,
                     name: document.querySelector(".realName").value,
                     imgCode: document.querySelector(".imgCode").value,
                     activityCode: document.querySelector(".msgCode").value
@@ -132,7 +132,7 @@
             if (Data.code == 200) {
                 console.log(Data.data.cookieStr);
                 document.querySelector("input.cookieStr").value = Data.data.cookieStr;
-                // imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.imgCodeUrl + ' onclick="refresh(this)"/>';
+                imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.imgCodeUrl + ' onclick="refresh(this)"/>';
             }
         }
         function process_result(Data) {
@@ -174,10 +174,13 @@
                     return false;
                 }
             }
-            if (imgCode == '') {
-                layerMsg("请输入图形验证码");
-                return false;
+            if (imgCodeWrap.style.display != "none") {
+                if (imgCode == '') {
+                    layerMsg("请输入图形验证码");
+                    return false;
+                }
             }
+
             return true;
 
         }
@@ -195,12 +198,12 @@
                 // console.log(readCookie('JSESSIONID'));
                 if (isBankList && isBankList == 1) {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
-                    document.querySelector("input[type='hidden']").value = Data.data.bank.bankId;
+                    document.querySelector("input.bankId").value = Data.data.bank.bankId;
                     if (Data.data.bank.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
                     } else {
                         imgCodeWrap.style.display = 'block';
-                        imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + ' onclick="refresh(this)"/>';
+                        // imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.bank.verifyCodeLink + ' onclick="refresh(this)"/>';
                         Ajax_token(IP + 'msqudan/api/user/imgcode/trigger', "POST", token, JSON.stringify({ bankId: Data.data.bank.bankId }), getImgCode)//获取图形验证码
 
                     }
@@ -212,13 +215,13 @@
                     }
                 } else {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
-                    document.querySelector("input[type='hidden']").value = Data.data.simple.bankId;
+                    document.querySelector("input.bankId").value = Data.data.simple.bankId;
                     if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
                     } else {
                         imgCodeWrap.style.display = 'block';
-                        imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + ' onclick="refresh(this)"/>';
-                        Ajax_token(IP + 'msqudan/api/user/imgcode/trigger', "POST", token, JSON.stringify({ bankId:  Data.data.simple.bankId }), getImgCode)//获取图形验证码
+                        // imgCodeWrap.querySelector(".btn-getcode").innerHTML = '<img src=' + Data.data.simple.verifyCodeLink + ' onclick="refresh(this)"/>';
+                        Ajax_token(IP + 'msqudan/api/user/imgcode/trigger', "POST", token, JSON.stringify({ bankId: Data.data.simple.bankId }), getImgCode)//获取图形验证码
                     }
                     if (Data.data.simple.needMobileVerifyCode == 0) {//是否需要手机验证码 0-否，1-是
                         msgCodeWrap.style.display = 'none';
@@ -229,9 +232,14 @@
 
             }
         }
-
+        //刷新图形验证码
         function refresh(e) {
-            e.src = e.getAttribute("src") + '&d=' + Math.random();
+            // e.src = e.getAttribute("src") + '&d=' + Math.random();
+            var data_imgCode_trigger = JSON.stringify({
+                bankId: document.querySelector("input.bankId").value
+            });
+            Ajax_token(IP + 'msqudan/api/user/imgcode/trigger', "POST", token, data_imgCode_trigger, getImgCode)//获取图形验证码
+
         }
         function getMsgCode(Data) {
             if (Data.code == 200) {
