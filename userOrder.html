@@ -34,12 +34,12 @@
             <li class="active"><a class="sub-tab-title">待查询</a></li>
             <li><a class="sub-tab-title">已通过</a></li>
             <li><a class="sub-tab-title">未通过</a></li>
-            <li><a class="sub-tab-title">审核中</a></li>
+            <!-- <li><a class="sub-tab-title">审核中</a></li> -->
         </ul>
         <ul class="sub-tab sub-tab-loan" style="display:none;">
             <li class="active"><a class="sub-tab-title">更新中</a></li>
-            <li><a class="sub-tab-title">未通过</a></li>
             <li><a class="sub-tab-title">已通过</a></li>
+            <li><a class="sub-tab-title">未通过</a></li>
         </ul>
         <div id="wrapper">
             <div class="ul-box">
@@ -60,8 +60,6 @@
                     <%if(list.rows[i].productType==1){%>
                         <%if(list.rows[i].officialStatus==0){%>
                         <p class="text-blue top-right">待查询</p>
-                        <%}else if(list.rows[i].officialStatus==1){%>
-                        <p class="text-blue top-right">审核中</p>
                         <%}else if(list.rows[i].officialStatus==2){%>
                         <p class="text-blue top-right">已通过</p>
                         <%}else if(list.rows[i].officialStatus==3){%>
@@ -144,12 +142,9 @@
                     official_status = 0;
                     break;
                 case 1:
-                    official_status = 1;
-                    break;
-                case 2:
                     official_status = 2;
                     break;
-                case 3:
+                case 2:
                     official_status = 3;
                     break;
             }
