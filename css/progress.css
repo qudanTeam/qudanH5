@@ -121,9 +121,13 @@ html,body{
     /* line-height: .35rem; */
     vertical-align: middle;
     /* background-color: #d8d8d8; */
+    text-align: right;
     border-radius: .04rem;
 }
 .prodetail-main .form-pro .input-grow .btn-getcode{
+    /* position: absolute;
+    top: 0;
+    right: 0; */
     line-height: .5rem;
     display: inline-block;
 }

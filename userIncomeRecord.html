@@ -40,7 +40,9 @@
         <ul class="list cash-list income-list">
         <%for(var i=0;i < list.rows.length;i++){%>
          <li>
-            <img src="<%=list.rows[i].productLogo%>" alt="" class="media-object fl">
+            <div class="media-object-box" style="border-radius: 50%;overflow: hidden;">
+                <img src="<%=list.rows[i].productLogo%>" alt="" class="media-object fl">
+            </div>
             <div class="media-body">
                 <h3 class="title"><%=list.rows[i].productName%></h3>
                 <%if(list.rows[i].sendStatus==1){%>
