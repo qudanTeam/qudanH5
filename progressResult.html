@@ -19,41 +19,39 @@
         <h1>进度查询</h1>
     </header>
     <div class="content prodetail-content">
-        <!-- <div class="banner">
-            <img src="images/swiperImg.png" alt="">
-        </div> -->
-
-
     </div>
     <script id="tpl" type="text/html">
+        <%for(var i=0;i < detail_result.bfbs.length;i++){%>
          <div class="prodetail-main">
             <h2 class="title">
-                浦发银行白金卡
+            <%=detail_result.bfbs[i].cardCat%>
             </h2>
             <ul class="proresult-list">
                 <li>
-                    <%if(detail_result.data.status==1){%>
+                    <%if(detail_result.bfbs[i].status==1){%>
                     <p class="top">
                         <span class="card-name text-yellow">审核中</span>
-                        <span class="date fr">2019-01-02</span>
+                        <span class="date fr"><%=detail_result.bfbs[i].jinjianDate%></span>
                     </p>
                     <p class="card-desc">您的申请资料正在审核中，正常审核时间一般为3-7个工作日，请耐心等待。</p>
-                    <%}else if(detail_result.data.status==2){%>
+                    <%}else if(detail_result.bfbs[i].status==2){%>
                     <p class="top">
                         <span class="card-name text-yellow">审核通过</span>
-                        <span class="date fr">2019-01-02</span>
-                    <p class="card-desc"></p>
+                        <span class="date fr"><%=detail_result.bfbs[i].jinjianDate%></span>
                     </p>
-                    <%}else if(detail_result.data.status==3){%>
+                    <p class="card-desc"></p>
+                    <%}else if(detail_result.bfbs[i].status==3){%>
                     <p class="top">
                         <span class="card-name text-yellow">未通过</span>
-                        <span class="date fr">2019-01-02</span>
-                    <p class="card-desc"></p>
+                        <span class="date fr"><%=detail_result.bfbs[i].jinjianDate%></span>
                     </p>
+                    <p class="card-desc"></p>
                     <%}%>
                 </li>
+               
             </ul>
         </div>
+        <%}%>
         <div class="illustrate">
             <p><span class="dot"></span>已通过：本渠道，且符合趣单的工资发放条件。</p>
             <p><span class="dot"></span>审核中：银行正在审核用户提交的申请。</p>
@@ -94,7 +92,7 @@
         Ajax_token(IP + "msqudan/api/user/process", "POST", token, process_data, process_result);
         function process_result(Data) {
             if (Data.code == 200) {
-                detail_result = Data;
+                detail_result = Data.data;
                 var html = template(tpl, detail_result);
                 console.log(tpl)
                 document.querySelector(".prodetail-content").innerHTML = html;

@@ -57,6 +57,7 @@ html,body{
 }
 .proResult .prodetail-main{
     padding:.26rem .2rem;
+    margin-bottom: .2rem;
 }
 .prodetail-main>.title{
     line-height: .36rem;
@@ -142,6 +143,9 @@ html,body{
     line-height: .4rem;
     color: #fff;
     font-size: .18rem;
+}
+.proResult .prodetail-content{
+    margin-top: .1rem;
 }
 .proresult-list li{
     padding:.2rem .18rem;

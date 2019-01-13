@@ -112,7 +112,7 @@
         //查询进度
         btnSubmit.addEventListener("click", function () {
             if (formValidate()) {
-                if ((msgCodeWrap.style.display!="none")&&(document.querySelector(".msgCode").value == '') ){
+                if ((msgCodeWrap.style.display != "none") && (document.querySelector(".msgCode").value == '')) {
                     layerMsg("请输入短信验证码");
                     return false;
                 }
@@ -140,8 +140,13 @@
                 var idno = document.querySelector(".idNo").value;
                 var bankId = document.querySelector("input.bankId").value;
                 var name = document.querySelector(".realName").value;
-                var imgCode = document.querySelector(".imgCode").value;
-                var activityCode = document.querySelector(".msgCode").value;
+                var imgCode,activityCode;
+                if (document.querySelector(".imgCode")) {
+                     imgCode = document.querySelector(".imgCode").value;
+                }
+                if (document.querySelector(".msgCode")) {
+                     activityCode = document.querySelector(".msgCode").value;
+                }
                 window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId + "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
             }
         }
