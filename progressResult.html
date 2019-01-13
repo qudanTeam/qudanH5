@@ -86,10 +86,11 @@
             idno: getQueryString('idno'),
             bankId: getQueryString('bankId'),
             cookieStr:getQueryString('cookieStr'),
-            name: getQueryString('name'),
+            name: decodeURI(getQueryString('name')),
             imgCode: getQueryString('imgCode'),
             activityCode: getQueryString('activityCode')
         });
+        console.log(decodeURI(getQueryString('name')))
         Ajax_token(IP + "msqudan/api/user/process", "POST", token, process_data, process_result);
         function process_result(Data) {
             if (Data.code == 200) {

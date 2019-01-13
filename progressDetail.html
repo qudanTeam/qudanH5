@@ -141,7 +141,7 @@
                 var idno = document.querySelector(".idNo").value;
                 var bankId = document.querySelector("input.bankId").value;
                 var cookieStr = document.querySelector("input.cookieStr").value;
-                var name = document.querySelector(".realName").value;
+                var name = encodeURI(encodeURI(document.querySelector(".realName").value));
                 var imgCode, activityCode;
                 if (document.querySelector(".imgCode")) {
                     imgCode = document.querySelector(".imgCode").value;
