@@ -139,6 +139,7 @@
             if (Data.code == 200) {
                 var idno = document.querySelector(".idNo").value;
                 var bankId = document.querySelector("input.bankId").value;
+                var cookieStr = document.querySelector("input.cookieStr").value;
                 var name = document.querySelector(".realName").value;
                 var imgCode, activityCode;
                 if (document.querySelector(".imgCode")) {
@@ -147,7 +148,7 @@
                 if (document.querySelector(".msgCode")) {
                     activityCode = document.querySelector(".msgCode").value;
                 }
-                window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId + "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
+                window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId +"&cookieStr="+cookieStr+ "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
             }
         }
         //表单校验
