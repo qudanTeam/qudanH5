@@ -166,7 +166,7 @@
                 break;
         }
         var data_banner = {
-            position:1
+            position: 1
         };
         Ajax(IP + 'msqudan/api/banners', data_banner, getSwiper);//获取banner
         // Ajax(IP + 'msqudan/api/banners', '', getSwiper);
@@ -234,11 +234,16 @@
                     console.log(total);
                     goods = Data.data;
                     var html = template(tplGoodsList, goods);
-                    document.getElementById('goods-list').innerHTML = html;
+                    if (page > 1) {
+                        document.getElementById('goods-list').innerHTML += html;
+                    } else {
+                        document.getElementById('goods-list').innerHTML = html;
+                    }
                     wrapper.refresh();
                 } else {
                     document.getElementById('goods-list').innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-                    // myScroll.refresh();
+                    wrapper.refresh();
+                    return false;
                 }
             }
         }
@@ -251,7 +256,7 @@
                 per_page: per_page,
                 type: type
             }
-           
+
             Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         // 上拉加载
@@ -276,10 +281,10 @@
 
                 // document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
                 document.querySelector('.pullUpLabel').style.display = 'none';
-               
+
                 return false;
             }
-            
+
             Ajax(IP + 'msqudan/api/products/', data, getGoods);
         }
         function Ajax(url, data, callback) {

@@ -128,6 +128,7 @@
         });
         Ajax_token(IP + 'msqudan/api/user/team', "GET", token, data, getlist);//获取我的团队列表
         function getlist(Data) {
+            document.querySelector('.pullUpLabel').style.display = 'block';
             if (Data.code == 200) {
                 document.querySelector(".total-people").innerHTML = Data.data.totalPeople + "人";
                 document.querySelector(".total-revenue").innerHTML = Data.data.totalRevenue + "元";
@@ -135,7 +136,11 @@
                     total = Math.floor((Data.data.total) / per_page);
                     list = Data.data;
                     var html = template(tpl, list);
-                    ulBox.innerHTML = html;
+                    if (page > 1) {
+                        ulBox.innerHTML += html;
+                    } else {
+                        ulBox.innerHTML = html;
+                    }
                     wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
@@ -178,12 +183,12 @@
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
                 wrapper.refresh();
-                // if (!document.querySelector('.no-more')) {
-                //     document.getElementById('goods-list').appendChild(div);
-                // }
+                if (!document.querySelector('.no-more')) {
+                    document.getElementById('goods-list').appendChild(div);
+                }
 
-                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
-                // document.querySelector('.pullUpLabel').style.display = 'none';
+                // document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                document.querySelector('.pullUpLabel').style.display = 'none';
 
                 return false;
             }

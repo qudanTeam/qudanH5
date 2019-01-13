@@ -115,7 +115,11 @@
                     console.log(total);
                     list = Data.data;
                     var html = template(tpl, list);
-                    ulBox.innerHTML = html;
+                    if (page > 1) {
+                        ulBox.innerHTML += html;
+                    } else {
+                        ulBox.innerHTML = html;
+                    }
                     wrapper.refresh();
                 } else {
                     ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
