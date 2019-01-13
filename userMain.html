@@ -138,7 +138,7 @@
         <div class="media">
             <div  class="media-object"><img src="<%=ranksData.ranks[i].logo%>" alt=""></div>
             <div class="media-body">
-                <%=ranksData.ranks[i].name%>
+                <%=des_name(ranksData.ranks[i].name)%>
                 <span class="fr">¥<%=ranksData.ranks[i].revenue%></span>
             </div>
         </div>
@@ -163,6 +163,11 @@
         template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
             var ary = phone.split("");
             ary.splice(3, 4, "****");
+            return ary.join("");
+        });
+        template.registerFunction('des_name', function (name) {//template辅助方法：排行榜用户姓名脱敏显示
+            var ary = name.split("");
+            ary.splice(1, 2, "***");
             return ary.join("");
         });
         template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级

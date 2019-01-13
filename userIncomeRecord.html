@@ -16,7 +16,7 @@
     <style>
         #wrapper{
             bottom: 0;
-            top: 1rem;
+            top: 1.09rem;
         }
     </style>
 </head>
@@ -103,6 +103,7 @@
         })
         Ajax_token(IP + 'msqudan/api/user/revenues', "GET", token, data, getlist);//获收入记录列表
         function getlist(Data) {
+            document.querySelector('.pullUpLabel').style.display = 'block';
             if (Data.code == 200) {
                 if (Data.data.total != 0) {
                     total = Math.floor((Data.data.total) / per_page);
