@@ -18,6 +18,7 @@
         <a class='icon-back'></a>
         <h1>进度查询</h1>
     </header>
+    <!-- <button onclick="go()">tiaozhuan</button> -->
     <div class="content prodetail-content">
         <!-- <div class="banner">
             <img src="" alt="">
@@ -58,6 +59,10 @@
     <script src="js/common.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script>
+        // function go() {
+        //     var name = encodeURI(encodeURI("谷瑞廷"));
+        //     window.location.href = ("novice.html?name=" + name);
+        // }
         var token = getCookie('token');
         // var bannerImg = document.querySelector('.prodetail-content img');
         var productLogo = document.querySelector('.logo');
@@ -120,7 +125,7 @@
                     idno: document.querySelector(".idNo").value,
                     bankId: document.querySelector("input.bankId").value,
                     cookieStr: document.querySelector("input.cookieStr").value,
-                    name: document.querySelector(".realName").value,
+                    name:document.querySelector(".realName").value,
                     imgCode: document.querySelector(".imgCode").value,
                     activityCode: document.querySelector(".msgCode").value
                 });
@@ -141,7 +146,7 @@
                 var idno = document.querySelector(".idNo").value;
                 var bankId = document.querySelector("input.bankId").value;
                 var cookieStr = document.querySelector("input.cookieStr").value;
-                var name = document.querySelector(".realName").value;
+                var name = encodeURI(encodeURI(document.querySelector(".realName").value));
                 var imgCode, activityCode;
                 if (document.querySelector(".imgCode")) {
                     imgCode = document.querySelector(".imgCode").value;
@@ -149,7 +154,7 @@
                 if (document.querySelector(".msgCode")) {
                     activityCode = document.querySelector(".msgCode").value;
                 }
-                window.location.href = encodeURI("progressResult.html?idno=" + idno + "&bankId=" + bankId +"&cookieStr="+cookieStr+ "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode);
+                window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId + "&cookieStr=" + cookieStr + "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
             }
         }
         //表单校验
