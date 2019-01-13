@@ -108,6 +108,7 @@
         })
         Ajax_token(IP + 'msqudan/api/user/txrecords', "GET", token, data, getlist);//获提现记录列表
         function getlist(Data) {
+            document.querySelector('.pullUpLabel').style.display = 'block';
             if (Data.code == 200) {
                 if (Data.data.total != 0) {
                     total = Math.floor((Data.data.total) / per_page);
@@ -150,12 +151,12 @@
             div.innerHTML = '已经到底了哦～';
             if (total < page) {
                 wrapper.refresh();
-                // if (!document.querySelector('.no-more')) {
-                //     document.getElementById('goods-list').appendChild(div);
-                // }
+                if (!document.querySelector('.no-more')) {
+                    document.getElementById('goods-list').appendChild(div);
+                }
 
-                document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
-                // document.querySelector('.pullUpLabel').style.display = 'none';
+                // document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+                document.querySelector('.pullUpLabel').style.display = 'none';
 
                 return false;
             }
