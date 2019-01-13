@@ -152,6 +152,10 @@
 
                 if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(0));
+                    //支付宝支付
+                    document.getElementById("alipay-btn").addEventListener("click", function () {
+                        layerMsg("暂未开通，敬请期待");
+                    })
                     //唤起微信支付
                     dataWechatPay = {
                         total_fee: layerContent.vips[0].vipPrice,
@@ -170,6 +174,10 @@
 
                 if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(1));
+                    //支付宝支付
+                    document.getElementById("alipay-btn").addEventListener("click", function () {
+                        layerMsg("暂未开通，敬请期待");
+                    })
                     //唤起微信支付
                     dataWechatPay = {
                         total_fee: layerContent.vips[1].vipPrice,
@@ -185,6 +193,10 @@
                 ajax_vip_check(token, { vip_id: layerContent.vips[2].id });
                 if (flag == 1) {
                     layerHtml('applyVip-html', layerVip(2));
+                    //支付宝支付
+                    document.getElementById("alipay-btn").addEventListener("click", function () {
+                        layerMsg("暂未开通，敬请期待");
+                    })
                     //唤起微信支付
                     dataWechatPay = {
                         total_fee: layerContent.vips[2].vipPrice,

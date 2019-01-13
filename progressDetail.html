@@ -68,7 +68,7 @@
         var isBankList = getQueryString('isBankList');
         var pid = getQueryString('pid');
 
-        ajaxGet(IP + 'msqudan/api/product/' + pid, getLogo);//获取logo
+        // ajaxGet(IP + 'msqudan/api/product/' + pid, getLogo);//获取logo
         if (isBankList && isBankList == 1) {
             ajaxGet(IP + 'msqudan/api/bank/' + pid, getSimple);//获取查询信息：从银行列表进来的传银行id，否则传商品id，并调用不同接口
         } else {
@@ -140,12 +140,12 @@
                 var idno = document.querySelector(".idNo").value;
                 var bankId = document.querySelector("input.bankId").value;
                 var name = document.querySelector(".realName").value;
-                var imgCode,activityCode;
+                var imgCode, activityCode;
                 if (document.querySelector(".imgCode")) {
-                     imgCode = document.querySelector(".imgCode").value;
+                    imgCode = document.querySelector(".imgCode").value;
                 }
                 if (document.querySelector(".msgCode")) {
-                     activityCode = document.querySelector(".msgCode").value;
+                    activityCode = document.querySelector(".msgCode").value;
                 }
                 window.location.href = "progressResult.html?idno=" + idno + "&bankId=" + bankId + "&name=" + name + "&imgCode=" + imgCode + "&activityCode=" + activityCode;
             }
@@ -204,6 +204,8 @@
                 if (isBankList && isBankList == 1) {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
                     document.querySelector("input.bankId").value = Data.data.bank.bankId;
+                    productLogo.setAttribute('src', Data.data.bank.bankLogo);
+                    productName.innerHTML = Data.data.bank.bankName;
                     if (Data.data.bank.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
                     } else {
@@ -221,6 +223,8 @@
                 } else {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
                     document.querySelector("input.bankId").value = Data.data.simple.bankId;
+                    productLogo.setAttribute('src', Data.data.simple.productLogo);
+                    productName.innerHTML = Data.data.simple.productName;
                     if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
                     } else {
