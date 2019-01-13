@@ -19,7 +19,7 @@
         <h1>进度查询</h1>
     </header>
     <div class="proIndex-content">
-        
+
     </div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
@@ -28,12 +28,24 @@
         AjaxGet(IP + "msqudan/api/banks", getBankList);
         function getBankList(Data) {
             if (Data.code == 200) {
-                var html='';
+                var html = '';
                 for (var i = 0; i < Data.data.banks.length; i++) {
-                    html +=  '<a class="flex-item" href="progressDetail.html?isBankList=1&pid='+Data.data.banks[i].id+'"><div class="img-wrap"><img src="'+Data.data.banks[i].logo+'" alt=""></div><p>'+Data.data.banks[i].name+'</p></a >';
+                    html += '<a class="flex-item" onclick="skip(this)" data-bankid="' + Data.data.banks[i].id + '"><div class="img-wrap"><img src="' + Data.data.banks[i].logo + '" alt=""></div><p>' + Data.data.banks[i].name + '</p></a >';
                 }
-                
                 document.querySelector(".proIndex-content").innerHTML = html;
+            }
+        }
+        function skip(e) {
+            var pid = e.getAttribute("data-bankid");
+            AjaxGet(IP + 'msqudan/api/bank/' + pid, getSimple);//获取查询信息
+        }
+        function getSimple(Data) {
+            if (Data.code == 200) {
+                if (Data.data.bank.hasLink == 1) {//是否H5跳转查询，0-否，1-是， 是的情况下直接跳转 getLink字段表示的连接上
+                    window.location.href = Data.data.bank.getLink;
+                } else {
+                    window.location.href = "progressDetail.html?isBankList=1&pid=" + Data.data.bank.bankId
+                }
             }
         }
     </script>

@@ -59,10 +59,7 @@
     <script src="js/common.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script>
-        // function go() {
-        //     var name = encodeURI(encodeURI("谷瑞廷"));
-        //     window.location.href = ("novice.html?name=" + name);
-        // }
+        
         var token = getCookie('token');
         // var bannerImg = document.querySelector('.prodetail-content img');
         var productLogo = document.querySelector('.logo');
@@ -72,8 +69,6 @@
         var btnSubmit = document.querySelector('.btn-submit');
         var isBankList = getQueryString('isBankList');
         var pid = getQueryString('pid');
-
-        // ajaxGet(IP + 'msqudan/api/product/' + pid, getLogo);//获取logo
         if (isBankList && isBankList == 1) {
             ajaxGet(IP + 'msqudan/api/bank/' + pid, getSimple);//获取查询信息：从银行列表进来的传银行id，否则传商品id，并调用不同接口
         } else {

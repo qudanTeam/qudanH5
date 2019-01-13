@@ -32,7 +32,7 @@
         <div class="banner banner-cards-detail" style="margin-left: -.14rem;margin-right: -.14rem;">
             <img src="<%=detail.product.detailHeaderImg%>" alt="">
             <div class="btn-wrap">
-                <a href="progressDetail.html?pid=<%=detail.product.id%>" class="btn linear-gradient-red">进度查询</a>
+                <a  onclick="skip(this)" data-pid="<%=detail.product.id%>" class="btn linear-gradient-red">进度查询</a>
                 <a  class="btn btn-outlined btn-blue shareIndex-btn" id="shareIndex-btn">分享素材</a>
             </div>
         </div>
@@ -151,6 +151,19 @@
                             break;
                     }
                 })
+            }
+        }
+        function skip(e) {
+            var pid = e.getAttribute("data-pid");
+            AjaxGet(IP + 'msqudan/api/product/' + pid + '/simple', getSimple);//获取查询信息
+        }
+        function getSimple(Data) {
+            if (Data.code == 200) {
+                if (Data.data.simple.hasLink == 1) {//是否H5跳转查询，0-否，1-是， 是的情况下直接跳转 getLink字段表示的连接上
+                    window.location.href = Data.data.simple.getLink;
+                } else {
+                    window.location.href = "progressDetail.html?pid=" + Data.data.simple.productId
+                }
             }
         }
     </script>
