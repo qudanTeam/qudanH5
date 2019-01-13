@@ -204,7 +204,7 @@
                 if (isBankList && isBankList == 1) {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
                     document.querySelector("input.bankId").value = Data.data.bank.bankId;
-                    productLogo.setAttribute('src', Data.data.bank.bankLogo);
+                    productLogo.setAttribute('src', Data.data.bank.logo);
                     productName.innerHTML = Data.data.bank.bankName;
                     if (Data.data.bank.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
@@ -223,8 +223,8 @@
                 } else {
                     //存储bankId，后面获取手机验证码或者提交查询的时候传给服务端
                     document.querySelector("input.bankId").value = Data.data.simple.bankId;
-                    productLogo.setAttribute('src', Data.data.simple.productLogo);
-                    productName.innerHTML = Data.data.simple.productName;
+                    productLogo.setAttribute('src', Data.data.simple.logo);
+                    productName.innerHTML = Data.data.simple.bankName;
                     if (Data.data.simple.needVerifyCode == 0) {//是否需要图形验证码 0-否，1-是
                         imgCodeWrap.style.display = 'none';
                     } else {
