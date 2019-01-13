@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="plugin/swiper/swiper.min.css?v=20190103001">
-    <link rel="stylesheet" href="css/common.css?v=20190104001">
+    <link rel="stylesheet" href="css/common.css?v=20190104002">
     <link rel="stylesheet" href="css/index.css?v=20190103001">
     <link rel="stylesheet" href="css/goodslist.css?v=20190103001">
     <script>
@@ -125,7 +125,7 @@
 
     <script id="tpl-swiper-banner" type="text/html">
         <%for(var i = 0; i < bannerList.banners.length; i++) {%>
-        <div class="swiper-slide"><a href="<%=bannerList.banners[i].link%>" style="display:block;" target="_blank"><img src="<%=bannerList.banners[i].img%>" alt=""></a></div>
+        <div class="swiper-slide"><a href="<%=bannerList.banners[i].link%>" style="display:block;text-align:center;" target="_blank"><img src="<%=bannerList.banners[i].img%>" alt=""></a></div>
         <%}%>
     </script>
     <script id="tpl-hotgoods" type="text/html">
@@ -285,7 +285,7 @@
                 var html = template(tplSwiperBanner, bannerList);
                 document.getElementById('banner-swipper-wrapper').innerHTML = html;
                 // 初始化swipper
-                new Swiper('.swiper-container-banner', {
+                var swiperBanner = new Swiper('.swiper-container-banner', {
                     direction: 'horizontal', // 切换方向选项
                     autoplay: true, // 循环模式选项
                     loop: true,

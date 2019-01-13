@@ -395,7 +395,7 @@ body .layui-m-layer .layui-m-layer-msg.layer-msg{
     margin:0 0 .2rem;
 }
 .swiper-container-banner img{
-    max-width: 100%;
+    max-width: 99.5%;
 }
 .swiper-container-banner.swiper-container-horizontal>.swiper-pagination-bullets{
    font-size: 0;
