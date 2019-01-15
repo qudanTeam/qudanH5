@@ -160,6 +160,7 @@
         var ranksWrap = document.querySelector(".list");
         var user, ranksData;
         Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
+        Ajax_token(IP + 'msqudan/api/user/info/binding', "GET", token, '', isBind);//用户是否微信授权
         AjaxGet(IP + "msqudan/api/ranks", getRank);//代理发放排行榜
 
         template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
@@ -241,21 +242,24 @@
             }
         }
         //微信中若用户未授权则显示“微信授权”按钮，否则隐藏，浏览器始终隐藏
-        isWexin();
-        function isWexin() {
-            var ua = navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                wechatAuthorize.style.display = "block";
-            } else {
-                wechatAuthorize.style.display = "none";
+        function isBind(Data) {
+            if (Data.code == 200) {
+                if (Data.data.binding) {//是否有绑定信息,有的话，不显示“微信授权”按钮，没有的话，微信中显示“微信授权”按钮，浏览器中不显示
+                    wechatAuthorize.style.display = "none";
+                } else {
+                    var ua = navigator.userAgent.toLowerCase();
+                    if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                        wechatAuthorize.style.display = "block";
+                        wechatAuthorize.addEventListener("click", function () {
+                            //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+                            var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
+                            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                        })
+                    } else {
+                        wechatAuthorize.style.display = "none";
+                    }
+                }
             }
-        }
-        if (wechatAuthorize.style.display == "block") {
-            wechatAuthorize.addEventListener("click", function () {
-                //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
-                var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
-                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-            })
         }
     </script>
 </body>
