@@ -276,33 +276,39 @@ html,body{
 .content-poster{
     position: relative;
     width: 3.17rem;
-    height: 6.03rem;
-    margin: 0 auto;
-    padding-bottom: .37rem;
-    overflow: scroll;
+    height: 4.88rem;
+    margin: .24rem auto .91rem;
+    /* padding-bottom: .37rem; */
+    /* overflow: scroll; */
+}
+.content-poster .poster{
+    max-width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .content-poster-share{
     background-repeat:  no-repeat;
     background-size: contain;
-    background-position: center .24rem;
+    background-position: center top;
 }
 .content-poster-make{
     padding: .42rem .17rem;
     background: url(../images/bg-poster.png) no-repeat;
     background-size: contain;
-    background-position: center .24rem;
+    background-position: center top;
 }
 .content-poster-agent{
     padding: .42rem .17rem;
     background: url(../images/agent-poster.png) no-repeat;
     background-size: contain;
-    background-position: center .24rem;
+    background-position: center top;
 }
 .content-poster.content-poster-agent .qr-code{
     width: 1.1rem;
     height: 1.1rem;
     position: absolute;
-    bottom: 1.61rem;
+    bottom: .7rem;
     transform: translate(-50%,0);
     left: 50%;
     right: 50%;
@@ -311,7 +317,7 @@ html,body{
     width: .88rem;
     height: .88rem;
     position: absolute;
-    bottom: 1.03rem;
+    bottom: .12rem;
     left: .12rem;
 }
 .poster .fixed-bottom-btn .btn{

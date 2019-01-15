@@ -41,6 +41,7 @@
     <div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/html2canvas.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
@@ -83,12 +84,31 @@
                 document.body.setAttribute("data-shareid", Data.data.shareid);
                 var wxjsapi_data = location.href.split('#').toString();
                 ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
+                // 参数：element为要保存元素的DOM对象，option为可配置项
+                let inviteBox = document.querySelector(".content-poster");
+                let canvas = document.createElement("canvas");
+                canvas.width = 634;   // 最终图片宽度原图的2倍，以px为单位
+                canvas.height = 976;  // 最终图片高度原图的2倍，以px为单位
+                let opts = {
+                    canvas: canvas,                       // 将自定义canvas作为配置项
+                    useCORS: true,                        // 允许图片跨域
+                    height: inviteBox.offsetHeight  // 修复截图不完整问题
+                };
+                var canvasDiv = document.querySelector(".content-poster");
+                html2canvas(inviteBox, opts).then(function (canvas) {
+                    let base64ImgSrc = canvas.toDataURL("image/png");
+                    var poster = document.createElement("img");
+                    poster.className = "poster";
+                    poster.setAttribute("src", base64ImgSrc)
+                    inviteBox.appendChild(poster);
+                    // console.log(base64ImgSrc);
+                });
             }
 
         }
         function getText(Data) {
             if (Data.code == 200) {
-                var index=getQueryString("index");
+                var index = getQueryString("index");
                 textWrap.innerText = Data.data.detail.shares[index].content;
             }
         }
