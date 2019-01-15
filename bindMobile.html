@@ -41,6 +41,7 @@
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script>
+        var isLoginAuthorize = getQueryString("isLoginAuthorize");
         var btnGetVcode = document.getElementById('getVcode');
         var btnSubmit = document.querySelector(".btn-submit");
         var shareid = getQueryString("shareid");
@@ -94,7 +95,11 @@
         function wechatBind(Data) {
             if (Data.code == 200) {
                 document.cookie = "token=" + Data.data.token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
-                window.location.href = "index.html";
+                if(isLoginAuthorize==0){//非登录页面跳微信授权，授权结束后返回原页面；
+                    window.history.go(-2);
+                }else{
+                    window.location.href = "index.html";
+                }
             }
         }
         function ajaxPost(url, data, callback) {

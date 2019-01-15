@@ -163,7 +163,9 @@
                     }
                     document.getElementById("wechat-pay-btn").addEventListener("click", function () {
                         // alert(JSON.stringify(dataWechatPay))
-                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                        if (isWexin()) {
+                            Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                        }
 
                     })
                 };
@@ -184,8 +186,9 @@
                         trade_type: trade_type
                     }
                     document.getElementById("wechat-pay-btn").addEventListener("click", function () {
-                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
-
+                        if (isWexin()) {
+                            Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                        }
                     })
                 }
             }
@@ -203,8 +206,9 @@
                         trade_type: trade_type
                     }
                     document.getElementById("wechat-pay-btn").addEventListener("click", function () {
-                        Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
-
+                        if (isWexin()) {
+                            Ajax_token(domain_test_server + 'msqudan/api/wxpay/pay', "GET", token, dataWechatPay, wechatPayPopup);
+                        }
                     })
                 }
             }
@@ -321,6 +325,11 @@
                         layerMsg($.parseJSON(res));
                     }
                 });
+            } else if (Data.status == 400) {
+                //openid为空,请先微信授权!
+                //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+                var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
             }
         }
         function ajaxWxjsapi(url, data, callback) {
@@ -337,14 +346,13 @@
             })
         }
         function isWexin() {
-            var trade_type;
             var ua = navigator.userAgent.toLowerCase();
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                trade_type = 'JSAPI';
+                return true;
             } else {
-                trade_type = 'MWEB';
+                layerMsg("请关注公众号");
+                return false;
             }
-            return trade_type;
         }
         var flag = 0;
         //vip检验
@@ -377,9 +385,7 @@
             })
         }
     </script>
-    <script>
-    //微信支付
-    </script>
+
 </body>
 
 </html>
