@@ -19,7 +19,7 @@
     <div class="content">
         <div class="top">
             <h1>您好，</h1>
-            <p>欢迎来到趣单，立即 <a href="register.html" class="text-yellow">注册</a></p>
+            <p>欢迎来到趣单<span class="register-wrap">，立即 <a href="register.html" class="text-yellow">注册</a></span></p>
             <div class="img-wrap">
                 <img src="images/default-head-img.png" alt="">
             </div>
@@ -43,7 +43,7 @@
                 <a class="btn btn-primary btn-submit fr" type="submit">立即登录</a>
             </div>
         </form>
-        <div class="wechat-login"><a class="btn">微信登录</a></div>
+        <div class="wechat-login fr"><a class="btn">微信登录</a></div>
     </div>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
@@ -59,12 +59,14 @@
         var btnNewPwd = document.getElementById("newPwd");
         var clickCount = 0;
         var token;
-        //浏览器内不显示“微信登陆”按钮
+        //浏览器内不显示“微信登陆”按钮，微信内不显示“立即注册”按钮
         var ua = navigator.userAgent.toLowerCase();
         if (ua.match(/MicroMessenger/i) == "micromessenger") {
-            btnWechatLogin.style.display = "block"
+            btnWechatLogin.style.display = "block";
+            document.querySelector(".register-wrap").style.display = "none";
         } else {
-            btnWechatLogin.style.display = "none"
+            btnWechatLogin.style.display = "none";
+            document.querySelector(".register-wrap").style.display = "inline-block";
         }
         //微信授权登录
         btnWechatLogin.addEventListener("click", function () {

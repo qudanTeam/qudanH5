@@ -603,3 +603,26 @@ body .layui-m-layer .layui-m-layer-msg.layer-msg{
     text-align: center;
 }
 /* 分享引导蒙层end */
+/* 提示关注公众号弹框 start*/
+.layerLinkWechat .layui-m-layercont .img-wrap{
+    width: .99rem;
+    height: .99rem;
+    margin: .1rem auto .26rem
+}
+.layerLinkWechat .layui-m-layercont img{
+    max-width: 100%;
+}
+.layerLinkWechat .layui-m-layercont .text{
+    font-size: .18rem;
+    color: #000;
+    line-height: .25rem;
+}
+.layerLinkWechat .layui-m-layercont .btn{
+    width: 100%;
+    height: .46rem;
+    font-size: .2rem;
+    color: #fff;
+    background-color: #FFBF06;
+    margin-top: .31rem;
+}
+/* 提示关注公众号弹框 end*/

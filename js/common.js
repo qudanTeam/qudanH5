@@ -42,6 +42,22 @@ function layerHtml(className, content) {
 
   })
 }
+// 提示关注公众号弹框
+function layerLinkWechat(className, content) {
+  layer.open({
+    type: 1,
+    content: content,
+    className: 'layer-html ' + className,
+    shadeClose: false,
+    success: function (elem) {
+      var index = elem.getAttribute("index");
+      $(".btn").click(function () {
+        layer.closeAll();
+      })
+    }
+
+  })
+}
 function layerApplyCard(className, content) {
   layer.open({
     type: 1,

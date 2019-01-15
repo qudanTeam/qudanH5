@@ -350,7 +350,8 @@
             if (ua.match(/MicroMessenger/i) == "micromessenger") {
                 return true;
             } else {
-                layerMsg("请关注公众号");
+                var content = '<div class="img-wrap"><img src="images/2312311313@2x.png"/></div><p class="text">您好，目前微信支付只能在微信公众号里发起，请关注趣单生活公众号完成绑定并支付～</p><button class="btn">我知道了</button>'
+                layerLinkWechat("layerLinkWechat", content)
                 return false;
             }
         }
