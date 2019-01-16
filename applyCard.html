@@ -136,7 +136,7 @@
                 layerMsg('请输入手机号');
                 return false;
             }
-            if (!(/^1[34578]\d{9}$/.test(mobile))) {
+            if (!(validPhone.test(mobile))) {
                 layerMsg("请输入正确的手机号");
                 return false;
             }

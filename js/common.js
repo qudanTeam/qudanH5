@@ -161,6 +161,7 @@ function getCookie(cname) {
   }
   return "";
 }
+var validPhone = /^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[8-9])[0-9]{8}$/;
 //获取验证码
 function getCode(_this, type, token) {
   var mobile = document.querySelector('.mobile').value;
@@ -173,7 +174,7 @@ function getCode(_this, type, token) {
     layerMsg('请输入手机号');
     return false;
   }
-  if (!(/^1[34578]\d{9}$/.test(mobile))) {
+  if (!(validPhone.test(mobile))) {
     layerMsg("请输入正确的手机号");
     return false;
   }
