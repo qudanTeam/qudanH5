@@ -255,7 +255,7 @@
                         wechatAuthorize.addEventListener("click", function () {
                             //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
                             var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
-                            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"e&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
                         })
                     } else {
                         wechatAuthorize.style.display = "none";
