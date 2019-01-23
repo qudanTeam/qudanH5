@@ -47,15 +47,15 @@
                     }
                 } else if (wutid != undefined) {
                     var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=1&isLoginAuthorize=' + isLoginAuthorize);
-                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
                 } else {
                     var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
-                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 
                 }
             } else if (Data.code == 400) {
                 var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
-                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 
             }
         }
@@ -68,7 +68,7 @@
                 success: callback,
                 error: function (e) {
                     var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
-                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 
                 }
             })

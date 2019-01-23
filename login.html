@@ -71,7 +71,7 @@
         //微信授权登录
         btnWechatLogin.addEventListener("click", function () {
             var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html');
-            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5937eccb3b4a99d7&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
         })
         //验证码登录和密码登录切换
         loginType.addEventListener("click", function () {
