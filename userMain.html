@@ -147,58 +147,60 @@
     <%}%>
 </script>
     <script src="js/config.js"></script>
-    <!-- <script src="js/getToken.js"></script> -->
+    <script src="js/getToken.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
-    
-    <script>
-        var wechatAuthorize = document.querySelector(".wechat-authorize");
-        var token = getCookie('token');
-        var tplTop = document.getElementById("tpl-top").innerHTML;
-        var topWrap = document.getElementById("top");
-        var tplRanks = document.getElementById("tpl-ranks").innerHTML;
-        var ranksWrap = document.querySelector(".list");
-        var user, ranksData;
-        Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
-        Ajax_token(IP + 'msqudan/api/user/info/binding', "GET", token, '', isBind);//用户是否微信授权
-        AjaxGet(IP + "msqudan/api/ranks", getRank);//代理发放排行榜
 
-        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
-            var ary = phone.split("");
-            ary.splice(3, 4, "****");
-            return ary.join("");
-        });
-        template.registerFunction('des_name', function (name) {//template辅助方法：排行榜用户姓名脱敏显示
-            var ary = name.split("");
-            ary.splice(1, 2, "***");
-            return ary.join("");
-        });
-        template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级
-            if (level == 1) {
-                return '初级'
-            }
-            if (level == 2) {
-                return '中级'
-            }
-            if (level == 3) {
-                return '高级'
-            }
-        });
-        template.registerFunction('nexLevel', function (level) {//template辅助方法：代理等级
-            if (level == 1) {
-                return '中级'
-            }
-            if (level == 2) {
-                return '高级'
-            }
-        });
-        template.registerFunction('rate', function (point) {//template辅助方法：小数转换百分比
-            var str = Number(point * 100);
-            str += "%";
-            return str;
-        });
+    <script>
+        if (flagGetToken == 1) {
+            var wechatAuthorize = document.querySelector(".wechat-authorize");
+            var token = getCookie('token');
+            var tplTop = document.getElementById("tpl-top").innerHTML;
+            var topWrap = document.getElementById("top");
+            var tplRanks = document.getElementById("tpl-ranks").innerHTML;
+            var ranksWrap = document.querySelector(".list");
+            var user, ranksData;
+            Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);//获取用户信息
+            Ajax_token(IP + 'msqudan/api/user/info/binding', "GET", token, '', isBind);//用户是否微信授权
+            AjaxGet(IP + "msqudan/api/ranks", getRank);//代理发放排行榜
+
+            template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
+                var ary = phone.split("");
+                ary.splice(3, 4, "****");
+                return ary.join("");
+            });
+            template.registerFunction('des_name', function (name) {//template辅助方法：排行榜用户姓名脱敏显示
+                var ary = name.split("");
+                ary.splice(1, 2, "***");
+                return ary.join("");
+            });
+            template.registerFunction('aLevel', function (level) {//template辅助方法：代理等级
+                if (level == 1) {
+                    return '初级'
+                }
+                if (level == 2) {
+                    return '中级'
+                }
+                if (level == 3) {
+                    return '高级'
+                }
+            });
+            template.registerFunction('nexLevel', function (level) {//template辅助方法：代理等级
+                if (level == 1) {
+                    return '中级'
+                }
+                if (level == 2) {
+                    return '高级'
+                }
+            });
+            template.registerFunction('rate', function (point) {//template辅助方法：小数转换百分比
+                var str = Number(point * 100);
+                str += "%";
+                return str;
+            });
+        }
         function getUserInfo(Data) {
             if (Data.code == 200) {
                 user = Data.data.user;
@@ -255,7 +257,7 @@
                         wechatAuthorize.addEventListener("click", function () {
                             //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
                             var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
-                            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                            window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
                         })
                     } else {
                         wechatAuthorize.style.display = "none";
