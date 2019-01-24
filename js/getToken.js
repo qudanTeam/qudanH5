@@ -7,8 +7,7 @@ if (ua.match(/MicroMessenger/i) == "micromessenger") {
   if (token == '') {
     var url = location.href.split('#').toString();
     console.log(url);
-    // var REDIRECT_URI = encodeURIComponent(domain_test + url+'?type=1&isLoginAuthorize=0');
-    var REDIRECT_URI = encodeURIComponent(url+'?type=1&isLoginAuthorize=0');
+    var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0');
     window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
   }
 } 
