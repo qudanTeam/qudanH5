@@ -166,33 +166,81 @@
     </script>
     <script src="js/config.js"></script>
     <!-- <script src="js/getToken.js"></script> -->
-   
+
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/swiper/swiper.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script>
-            var flagGetToken = 0;
-            var token = getCookie('token');
-            var ua = navigator.userAgent.toLowerCase();
-            if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                if ((flagGetToken == 0) && (token == '')) {
-                    var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0');
-                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-                    flagGetToken = 1;
+        var flagGetToken = 0;
+        var token = getCookie('token');
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            if ((flagGetToken == 0) && (token == '')) {
+                var url = location.href.split('#').toString();
+                // var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0');
+                var REDIRECT_URI = encodeURIComponent(url + '?type=1&isLoginAuthorize=0');
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                flagGetToken = 1;
+                //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+                var isLoginAuthorize = getQueryString("isLoginAuthorize");
+                if (isLoginAuthorize) {
+                    isLoginAuthorize = 0;
+                } else {
+                    isLoginAuthorize = 1;
+                }
+                var code = getQueryString("code");
+                var state = getQueryString("state");
+                var token;
+                var data = {
+                    code: code,
+                    type: 1
+                };
+                ajaxGet(domain_test_server + "wechat/oauth", data, getWutid);
+                function getWutid(Data) {
+                    if (Data.code == 200) {
+                        wutid = Data.data.wutid;
+                        token = Data.data.token;
+                        if (token != undefined) {
+                            document.cookie = "token=" + token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+                            if (isLoginAuthorize == 0) {//非登录页面跳微信授权，授权结束后返回原页面；
+                                window.history.back();
+                            } else {
+                                window.location.href = "index.html";
+                            }
+                        } else {
+                            window.history.back();
+                        }
+                    } else {
+                        window.history.back();
+                    }
+                }
+                function ajaxGet(url, data, callback) {
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        data: data,
+                        dataType: 'json',
+                        success: callback,
+                        error: function (e) {
+                            layerMsg($.parseJSON(e.responseText).error.message);
+                            // window.location.href = "index.html";
+                        }
+                    })
                 }
             }
-            //获取cookie
-            function getCookie(cname) {
-                var name = cname + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i].trim();
-                    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-                }
-                return "";
+        }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
             }
-        </script>
+            return "";
+        }
+    </script>
     <script src="plugin/template.js"></script>
     <script>
 
