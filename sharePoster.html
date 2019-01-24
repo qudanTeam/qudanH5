@@ -87,12 +87,18 @@
                 // 参数：element为要保存元素的DOM对象，option为可配置项
                 let inviteBox = document.querySelector(".content-poster");
                 let canvas = document.createElement("canvas");
-                canvas.width = inviteBox.offsetWidth * 4;   // 最终图片宽度原图的2倍，以px为单位
-                canvas.height = inviteBox.offsetHeight * 4;  // 最终图片高度原图的2倍，以px为单位
+                var scale = 4;
+                canvas.getContext("2d").scale(scale, scale);
+                canvas.width = inviteBox.offsetWidth * scale;   // 最终图片宽度原图的2倍，以px为单位
+                canvas.height = inviteBox.offsetHeight * scale;  // 最终图片高度原图的2倍，以px为单位
                 let opts = {
+                    scale: scale,
+                    logging: true,
+                    width: inviteBox.offsetWidth,
+                    height: inviteBox.offsetHeight,
                     canvas: canvas,                       // 将自定义canvas作为配置项
                     useCORS: true,                        // 允许图片跨域
-                    height: inviteBox.offsetHeight  // 修复截图不完整问题
+                    // height: inviteBox.offsetHeight  // 修复截图不完整问题
                 };
                 var canvasDiv = document.querySelector(".content-poster");
                 html2canvas(inviteBox, opts).then(function (canvas) {
@@ -102,8 +108,8 @@
                     poster.className = "poster";
                     poster.setAttribute("src", base64ImgSrc);
                     poster_div.appendChild(poster);
-                    // poster.style.width = canvas.width / 2 + 'px';
-                    // poster.style.height = canvas.height / 2 + 'px';
+                    poster.style.width = canvas.width / 4 + 'px';
+                    poster.style.height = canvas.height / 4 + 'px';
                     // poster.style.borderRadius = '10px';
                     inviteBox.appendChild(poster_div);
                     // console.log(base64ImgSrc);
