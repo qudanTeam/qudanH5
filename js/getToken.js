@@ -5,6 +5,7 @@ var flagGetToken = function () {
     return 0;
   }
 };
+console.log(flagGetToken);
 var token = getCookie('token');
 var ua = navigator.userAgent.toLowerCase();
 if ((flagGetToken == 0) && (ua.match(/MicroMessenger/i) == "micromessenger") && (token == '')) {
