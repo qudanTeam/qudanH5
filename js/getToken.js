@@ -2,6 +2,7 @@ var flagGetToken = a();
 function a() {
   alert("getTokenjs:"+flagGetToken)
   if (getCookie("flagGetToken")==1) {
+    document.cookie = "flagGetToken='';path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
     return 1;
   } else {
     return 0;
