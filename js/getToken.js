@@ -14,7 +14,7 @@ if ((flagGetToken == 0) && (ua.match(/MicroMessenger/i) == "micromessenger") && 
   var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0&flagGetToken=1');
   window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
   flagGetToken = 1;
-  alert(flagGetToken)
+  alert("getTokenjs:"+flagGetToken)
   // }
 } else {
   flagGetToken = 1;
