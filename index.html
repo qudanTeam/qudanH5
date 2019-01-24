@@ -15,8 +15,7 @@
     <link rel="stylesheet" href="css/common.css?v=20190104002">
     <link rel="stylesheet" href="css/index.css?v=20190103001">
     <link rel="stylesheet" href="css/goodslist.css?v=20190103001">
-    <script src="js/config.js"></script>
-    <script src="js/getToken.js"></script>
+    
 </head>
 
 <body>
@@ -165,13 +164,18 @@
             </li>
         <%}%>
     </script>
-    
+    <script src="js/config.js"></script>
+    <script src="js/getToken.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/swiper/swiper.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
     <script>
+        var flagGetToken = 0;
+        if(flagGetToken ==1){
+
+        
         var token = getCookie('token');
         var btnMsg = document.getElementById("message-btn");
         var agentModule = document.getElementById('agent-module');
@@ -268,6 +272,7 @@
             var num = Min + Math.round(Rand * Range); //四舍五入
             return num;
         });
+    }
         function getUserInfo(Data) {
             if (Data.code == 200) {
                 var isAgent = Data.data.user.isAgent;
