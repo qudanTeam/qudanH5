@@ -34,6 +34,7 @@
         };
         ajaxGet(domain_test_server + "wechat/oauth", data, getWutid);
         function getWutid(Data) {
+            alert(Data.code)
             if (Data.code == 200) {
                 wutid = Data.data.wutid;
                 token = Data.data.token;
