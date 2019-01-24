@@ -172,6 +172,7 @@
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
     <script>
+        var flagGetToken = 0;
         var token = getCookie('token');
         var ua = navigator.userAgent.toLowerCase();
         if (ua.match(/MicroMessenger/i) == "micromessenger") {
@@ -182,9 +183,9 @@
                 // alert(flagGetToken)
             }
         }
-        var flagGetToken = 0;
-        alert(flagGetToken);
+        
         if (flagGetToken == 1) {
+            alert(flagGetToken);
             token = getCookie('token');
             var btnMsg = document.getElementById("message-btn");
             var agentModule = document.getElementById('agent-module');
