@@ -62,6 +62,7 @@
                 success: callback,
                 error: function (e) {
                     layerMsg($.parseJSON(e.responseText).error.message);
+                    window.history.back();
                 }
             })
         }
