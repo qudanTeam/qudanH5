@@ -43,7 +43,7 @@
                 if (token != undefined) {
                     document.cookie = "token=" + token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
                     if (isLoginAuthorize == 0) {//非登录页面跳微信授权，授权结束后返回原页面；
-                        window.location.href=document.referrer;
+                        window.history.back();
                     } else {
                         window.location.href = "index.html";
                     }
