@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/common.css?v=20190104002">
     <link rel="stylesheet" href="css/index.css?v=20190103001">
     <link rel="stylesheet" href="css/goodslist.css?v=20190103001">
-    
+
 </head>
 
 <body>
@@ -165,115 +165,123 @@
         <%}%>
     </script>
     <script src="js/config.js"></script>
-    <script src="js/getToken.js"></script>
+    <!-- <script src="js/getToken.js"></script> -->
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="plugin/swiper/swiper.min.js"></script>
     <script src="plugin/layer_mobile/layer.js"></script>
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
     <script>
+        var token = getCookie('token');
+        var ua = navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == "micromessenger") {
+            if (token == '') {
+                var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0');
+                window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+                flagGetToken = 1;
+                // alert(flagGetToken)
+            }
+        }
         var flagGetToken = 0;
         alert(flagGetToken);
-        if(flagGetToken ==1){
-
-        
-        var token = getCookie('token');
-        var btnMsg = document.getElementById("message-btn");
-        var agentModule = document.getElementById('agent-module');
-        var marketWrap = document.getElementById('markert-wrap');
-        var marketWrapAs = marketWrap.querySelectorAll('a');
-        var marketWrapImgs = marketWrap.querySelectorAll('img');
-        var tplSwiperBanner = document.getElementById('tpl-swiper-banner').innerHTML;
-        var tplHotGoods = document.getElementById('tpl-hotgoods').innerHTML;
-        var hotGoodsWrap = document.getElementById('hot-goods');
-        var type = 1;
-        var Datatype = {
-            type: type
-        };
-        layerMsg(token);
-        var bannerList, hotGoods;
-        if (token == '') {//未登录
-            agentModule.style.display = 'none';
-            marketWrapAs[0].setAttribute("href", "login.html");
-            marketWrapAs[1].setAttribute("href", "login.html");
-            marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
-            marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
-            document.querySelector(".vip").setAttribute("href", "login.html")
-            document.querySelector(".usermain").setAttribute("href", "login.html")
-            btnMsg.setAttribute("href", "login.html");
-
-        } else {//登录情况下获取用户信息，判断是否代理
-            Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
-            // agentModule.style.display = '-webkit-flex';
-            marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
-            marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
-            marketWrapAs[0].setAttribute("href", "agent.html");
-            marketWrapAs[1].setAttribute("href", "vip.html");
-            document.querySelector(".vip").setAttribute("href", "vip.html?")
-            document.querySelector(".usermain").setAttribute("href", "userMain.html")
-            btnMsg.setAttribute("href", "message.html");
-        }
-        hotGoodsWrap.addEventListener("click", function (e) {
-            var target = e.target || e.srcElement;
-            if (target.className.toLowerCase() == 'btn linear-gradient-yellow') {
-                if (token == '') {
-                    window.location.href = "login.html";
-                } else {
-                    var pid = target.getAttribute("data-id");
-                    var ptype = target.getAttribute("data-ptype");
-                    window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
-                }
-            }
-        })
-        // 头条轮播
-        var swiperHeadline = new Swiper('.swiper-container-headline', {
-            direction: 'vertical', // 切换方向选项
-            autoplay: true, // 循环模式选项
-            loop: true
-
-        })
-        //跳转搜索
-        var searchInput = document.getElementById("search-input");
-        searchInput.addEventListener('click', function () {
-            window.location.href = 'search.html';
-        })
-        //热门商品类别切换
-        $(".tab a").click(function () {
-            $(this).addClass("active").siblings('a').removeClass('active');
-            var index = $(this).index();
-            switch (index) {
-                case 0:
-                    type = 1;
-                    break;
-                case 1:
-                    type = 2;
-                    break;
-            }
-            Datatype = {
+        if (flagGetToken == 1) {
+            token = getCookie('token');
+            var btnMsg = document.getElementById("message-btn");
+            var agentModule = document.getElementById('agent-module');
+            var marketWrap = document.getElementById('markert-wrap');
+            var marketWrapAs = marketWrap.querySelectorAll('a');
+            var marketWrapImgs = marketWrap.querySelectorAll('img');
+            var tplSwiperBanner = document.getElementById('tpl-swiper-banner').innerHTML;
+            var tplHotGoods = document.getElementById('tpl-hotgoods').innerHTML;
+            var hotGoodsWrap = document.getElementById('hot-goods');
+            var type = 1;
+            var Datatype = {
                 type: type
             };
+            layerMsg(token);
+            var bannerList, hotGoods;
+            if (token == '') {//未登录
+                agentModule.style.display = 'none';
+                marketWrapAs[0].setAttribute("href", "login.html");
+                marketWrapAs[1].setAttribute("href", "login.html");
+                marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
+                marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
+                document.querySelector(".vip").setAttribute("href", "login.html")
+                document.querySelector(".usermain").setAttribute("href", "login.html")
+                btnMsg.setAttribute("href", "login.html");
+
+            } else {//登录情况下获取用户信息，判断是否代理
+                Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
+                // agentModule.style.display = '-webkit-flex';
+                marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
+                marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
+                marketWrapAs[0].setAttribute("href", "agent.html");
+                marketWrapAs[1].setAttribute("href", "vip.html");
+                document.querySelector(".vip").setAttribute("href", "vip.html?")
+                document.querySelector(".usermain").setAttribute("href", "userMain.html")
+                btnMsg.setAttribute("href", "message.html");
+            }
+            hotGoodsWrap.addEventListener("click", function (e) {
+                var target = e.target || e.srcElement;
+                if (target.className.toLowerCase() == 'btn linear-gradient-yellow') {
+                    if (token == '') {
+                        window.location.href = "login.html";
+                    } else {
+                        var pid = target.getAttribute("data-id");
+                        var ptype = target.getAttribute("data-ptype");
+                        window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
+                    }
+                }
+            })
+            // 头条轮播
+            var swiperHeadline = new Swiper('.swiper-container-headline', {
+                direction: 'vertical', // 切换方向选项
+                autoplay: true, // 循环模式选项
+                loop: true
+
+            })
+            //跳转搜索
+            var searchInput = document.getElementById("search-input");
+            searchInput.addEventListener('click', function () {
+                window.location.href = 'search.html';
+            })
+            //热门商品类别切换
+            $(".tab a").click(function () {
+                $(this).addClass("active").siblings('a').removeClass('active');
+                var index = $(this).index();
+                switch (index) {
+                    case 0:
+                        type = 1;
+                        break;
+                    case 1:
+                        type = 2;
+                        break;
+                }
+                Datatype = {
+                    type: type
+                };
+                ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
+            })
+            //获取banner
+            var data_banner = {
+                position: 0
+            };
+            ajaxGet(IP + 'msqudan/api/banners', data_banner, getSwiper);
+            //获取热门商品
             ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
-        })
-        //获取banner
-        var data_banner = {
-            position:0
-        };
-        ajaxGet(IP + 'msqudan/api/banners', data_banner, getSwiper);
-        //获取热门商品
-        ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
-        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
-            var str = Number(point * 100).toFixed(num);
-            str += "%";
-            return str;
-        });
-         //生成随机数
-         template.registerFunction('RandomNumBoth', function (Min, Max) {//template辅助方法：小数转换百分比
-            var Range = Max - Min;
-            var Rand = Math.random();
-            var num = Min + Math.round(Rand * Range); //四舍五入
-            return num;
-        });
-    }
+            template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+                var str = Number(point * 100).toFixed(num);
+                str += "%";
+                return str;
+            });
+            //生成随机数
+            template.registerFunction('RandomNumBoth', function (Min, Max) {//template辅助方法：小数转换百分比
+                var Range = Max - Min;
+                var Rand = Math.random();
+                var num = Min + Math.round(Rand * Range); //四舍五入
+                return num;
+            });
+        }
         function getUserInfo(Data) {
             if (Data.code == 200) {
                 var isAgent = Data.data.user.isAgent;
@@ -330,7 +338,7 @@
                 }
             })
         }
-       
+
     </script>
 </body>
 
