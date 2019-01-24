@@ -166,11 +166,6 @@
     </script>
     <script src="js/config.js"></script>
     <!-- <script src="js/getToken.js"></script> -->
-
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="plugin/swiper/swiper.min.js"></script>
-    <script src="plugin/layer_mobile/layer.js"></script>
-    <script src="js/common.js"></script>
     <script>
         var flagGetToken = 0;
         var token = getCookie('token');
@@ -182,7 +177,22 @@
                 flagGetToken = 1;
             }
         }
+        //获取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
     </script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/swiper/swiper.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+
     <script src="plugin/template.js"></script>
     <script>
 
