@@ -13,7 +13,8 @@ var token = getCookie('token');
 var ua = navigator.userAgent.toLowerCase();
 if ((flagGetToken == 0) && (ua.match(/MicroMessenger/i) == "micromessenger") && (token == '')) {
   // if (token == ''){
-  var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0&flagGetToken=1');
+    var pathName = window.location.pathname;//获取当前页面地址，授权后返回到此页面
+  var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0&flagGetToken=1&pathName='+pathName);
   window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
   flagGetToken = 1;
   // alert("getTokenjs:"+flagGetToken)

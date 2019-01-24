@@ -19,10 +19,9 @@
     <script src="js/common.js"></script>
     <script>
         document.cookie = "flagGetToken=" + getQueryString('flagGetToken') + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
-       
-       layerMsg(getCookie("flagGetToken"));
         //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
         var isLoginAuthorize = getQueryString("isLoginAuthorize");
+        var pathName = getQueryString("pathName");//区分授权后回到哪个页面
         if (isLoginAuthorize) {
             isLoginAuthorize = 0;
         } else {
@@ -43,7 +42,7 @@
                 if (token != undefined) {
                     document.cookie = "token=" + token + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
                     if (isLoginAuthorize == 0) {//非登录页面跳微信授权，授权结束后返回原页面；
-                        window.location.href = "index.html";
+                        window.location.href = pathName;
                         // window.history.back();
                     } else {
                         window.location.href = "index.html";
