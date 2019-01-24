@@ -155,8 +155,8 @@
 
     <script>
         if (flagGetToken == 1) {
+            token = getCookie('token');
             var wechatAuthorize = document.querySelector(".wechat-authorize");
-            var token = getCookie('token');
             var tplTop = document.getElementById("tpl-top").innerHTML;
             var topWrap = document.getElementById("top");
             var tplRanks = document.getElementById("tpl-ranks").innerHTML;

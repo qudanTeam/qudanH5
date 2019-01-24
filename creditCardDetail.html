@@ -89,28 +89,30 @@
     <script src="js/common.js"></script>
     <script src="plugin/template.js"></script>
     <script>
-        var applyCardBtn = document.getElementById('applyCard-btn');
-        var goShareBtn = document.getElementById("goShare-btn");
-        var token = getCookie('token');
-        var main = document.getElementById('main');
-        var tplMain = document.getElementById('tpl-main').innerHTML;
-        var detail;
-        var shareid = getQueryString('shareid');
-        var id = getQueryString('id');
-        AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
-        template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
-            var str = Number(point * 100).toFixed(num);
-            str += "%";
-            return str;
-        });
-        if (token != '') {
-            applyCardBtn.setAttribute('href', 'applyCard.html?id=' + id);
-        } else {
-            applyCardBtn.setAttribute('href', 'login.html');
-        }
-        //如果是从分享二维码进入的此页面，则将shareid存储在本地，申请完成后清除此shareid
-        if (shareid != null) {
-            document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+        if (flagGetToken == 1) {
+            token = getCookie('token');
+            var applyCardBtn = document.getElementById('applyCard-btn');
+            var goShareBtn = document.getElementById("goShare-btn");
+            var main = document.getElementById('main');
+            var tplMain = document.getElementById('tpl-main').innerHTML;
+            var detail;
+            var shareid = getQueryString('shareid');
+            var id = getQueryString('id');
+            AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+            template.registerFunction('rate', function (point, num) {//template辅助方法：小数转换百分比
+                var str = Number(point * 100).toFixed(num);
+                str += "%";
+                return str;
+            });
+            if (token != '') {
+                applyCardBtn.setAttribute('href', 'applyCard.html?id=' + id);
+            } else {
+                applyCardBtn.setAttribute('href', 'login.html');
+            }
+            //如果是从分享二维码进入的此页面，则将shareid存储在本地，申请完成后清除此shareid
+            if (shareid != null) {
+                document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
+            }
         }
         function getDetail(Data) {
             if (Data.code == 200) {
