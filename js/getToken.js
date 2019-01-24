@@ -1,4 +1,5 @@
-var flagGetToken = function () {
+var flagGetToken = a();
+function a() {
   if (getCookie("flagGetToken")) {
     return 1;
   } else {
