@@ -20,7 +20,7 @@
     <script>
         document.cookie = "flagGetToken=" + getQueryString('flagGetToken') + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";//存储token
        
-       alert(getCookie("flagGetToken"));
+       layerMsg(getCookie("flagGetToken"));
         //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
         var isLoginAuthorize = getQueryString("isLoginAuthorize");
         if (isLoginAuthorize) {
