@@ -180,14 +180,16 @@
         var flagGetToken = 0;
         var token = getCookie('token');
         var ua = navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) == "micromessenger") {
-            if ((flagGetToken == 0) && (token == '')) {
+        if ((flagGetToken == 0) &&(ua.match(/MicroMessenger/i) == "micromessenger")&&(token == '')){
+            // if (token == ''){
                 var REDIRECT_URI = encodeURIComponent(domain_test + 'blankGetToken.html?type=1&isLoginAuthorize=0');
                 window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
                 flagGetToken = 1;
-            }
+                jsCode();
+            // }
         }else{
             flagGetToken = 1;
+            jsCode();
         }
         //获取cookie
         function getCookie(cname) {
@@ -199,7 +201,7 @@
             }
             return "";
         }
-        if (flagGetToken == 1) {
+        function jsCode () {
             // alert(flagGetToken);
             token = getCookie('token');
             var btnMsg = document.getElementById("message-btn");
