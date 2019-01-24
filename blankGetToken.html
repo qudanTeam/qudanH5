@@ -45,10 +45,12 @@
                     } else {
                         window.location.href = "index.html";
                     }
-                }else{
-                    window.history.go(-1);
+                } else {
+                    window.history.back();
                 }
-            } 
+            } else {
+                window.history.back();
+            }
         }
         function ajaxGet(url, data, callback) {
             $.ajax({
