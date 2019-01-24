@@ -1,6 +1,6 @@
 var flagGetToken = a();
 function a() {
-  if (getCookie("flagGetToken")) {
+  if (getCookie("flagGetToken")==1) {
     return 1;
   } else {
     return 0;
