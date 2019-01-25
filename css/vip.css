@@ -29,9 +29,8 @@ html,body{
     margin-left: .2rem;
 }
 .user-info .media-body h2{
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
+    display: inline-block;
+    width: 1.6rem;
     font-size: .2rem;
     color: #030303;
     line-height: .28rem;

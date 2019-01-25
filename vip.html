@@ -51,9 +51,9 @@
         <%if(userInfo.isVip){%>
         <div class="media-body">
             <%if(userInfo.username==''){%>
-            <h2><%=des(userInfo.registerMobile)%> 
+            <h2 class="text-overflow"><%=des(userInfo.registerMobile)%> 
             <%}else{%>
-            <h2><%=userInfo.username%> 
+            <h2 class="text-overflow"><%=userInfo.username%> 
             <%}%>
             <%if(userInfo.vipLevel){%>
                 <i class="icon-vip-level level<%=userInfo.vipLevel%>"></i>
@@ -66,9 +66,9 @@
         <%}else if(!userInfo.isVip){%>
         <div class="media-body">
             <%if(userInfo.username==''){%>
-            <h2><%=des(userInfo.registerMobile)%> </h2>
+            <h2 class="text-overflow"><%=des(userInfo.registerMobile)%> </h2>
             <%}else{%>
-            <h2><%=userInfo.username%> </h2>
+            <h2 class="text-overflow"><%=userInfo.username%> </h2>
             <%}%>
             <p style="margin-top:.06rem;">用户编号：<%=userInfo.inviteCode%></p>
         </div>
