@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>提现记录</title>
+    <title>转出记录</title>
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <script src="js/rem.js"></script>
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
@@ -24,7 +24,7 @@
 <body>
     <header id="header">
         <a class='icon-back'></a>
-        <h1>提现记录</h1>
+        <h1>转出记录</h1>
     </header>
     <div class="content">
         <div class="tab tab-record">
@@ -42,7 +42,7 @@
             <%for(var i=0;i < list.rows.length;i++){%>
             <li onclick="window.location.href='userCash.html?id=<%=list.rows[i].id%>'">
                 <div class="media-body">
-                    <h3 class="title">余额提现</h3>
+                    <h3 class="title">余额转出</h3>
                     <p class="date"><%=list.rows[i].txDate%></p>
                     <%if(list.rows[i].status==1){%>
                     <p class="top-right text-red">待审核</p>
@@ -106,7 +106,7 @@
             console.log(page);
             Ajax_token(IP + 'msqudan/api/user/txrecords', "GET", token, data, getlist);
         })
-        Ajax_token(IP + 'msqudan/api/user/txrecords', "GET", token, data, getlist);//获提现记录列表
+        Ajax_token(IP + 'msqudan/api/user/txrecords', "GET", token, data, getlist);//获转出记录列表
         function getlist(Data) {
             document.querySelector('.pullUpLabel').style.display = 'block';
             if (Data.code == 200) {

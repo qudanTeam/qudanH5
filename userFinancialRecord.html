@@ -37,22 +37,22 @@
             </div>
             <div class="flex-item flex-wrap" onclick="window.location.href='userCashRecord.html'">
                 <div class="img-wrap"></div>
-                <div class="title">提现记录</div>
+                <div class="title">转出记录</div>
             </div>
         </div>
         <div class="btn-wrap">
-            <a class="btn btn-primary btn-cash">立即提现</a>
+            <a class="btn btn-primary btn-cash">立即转出</a>
         </div>
         <div class="cash-rule">
-            <h3>提现规则说明</h3>
+            <h3>转出规则说明</h3>
             <div><span class="index">1</span>
-                <p>提现时间说明：周一到周五，9:00-17:00，超过以上时段，T+1工作日处理，节假日顺延正常工作日处理。</p>
+                <p>转出时间说明：周一到周五，9:00-17:00，超过以上时段，T+1工作日处理，节假日顺延正常工作日处理。</p>
             </div>
             <div><span class="index">2</span>
-                <p>提现到账说明：提现申请处理审核完成后24小时打款，具体到账时间以支付宝到账时间为准。</p>
+                <p>转出到账说明：转出申请处理审核完成后24小时打款，具体到账时间以支付宝到账时间为准。</p>
             </div>
             <div><span class="index">3</span>
-                <p>申请提现必须满足实名认证，支付宝绑定本人真实信息，手机号绑定；每日提现不得超过三次，单次提现金额20-5000元；提现时平台不收取手续费。</p>
+                <p>申请转出必须满足实名认证，支付宝绑定本人真实信息，手机号绑定；每日转出不得超过三次，单次转出金额20-5000元；转出时平台不收取手续费。</p>
             </div>
             <div><span class="index">4</span>
                 <p>如有任何问题，请联系客服。</p>
@@ -65,11 +65,11 @@
         <div class="flex-wrap">
             <div class="flex-item flex-wrap">
                 <div class="data"><%=user.txGoing%></div>
-                <div class="title">正在提现中(元)</div>
+                <div class="title">正在转出中(元)</div>
             </div>
             <div class="flex-item flex-wrap">
                 <div class="data"><%=user.allowTx%></div>
-                <div class="title">可提现余额(元)</div>
+                <div class="title">可转出余额(元)</div>
             </div>
             <div class="flex-item flex-wrap">
                 <div class="data"><%=user.waitSettle%></div>

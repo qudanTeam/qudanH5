@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>提现</title>
+    <title>转出</title>
     <link rel="stylesheet" href="css/reset.css?v=20190103001">
     <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
     <script src="js/rem.js"></script>
@@ -18,7 +18,7 @@
 <body style="background-color: #fff;">
     <header id="header">
         <a class='icon-back'></a>
-        <h1>提现</h1>
+        <h1>转出</h1>
     </header>
     <div class="content cash-content">
 
@@ -29,17 +29,17 @@
         <%if(cashResult.status==1){%>
         <div class="review">
             <div class="img-wrap"></div>
-            <p class="title">提现审核中</p>
+            <p class="title">转出审核中</p>
         </div>
         <%}else if(cashResult.status==2){%>
         <div class="success">
             <div class="img-wrap"></div>
-            <p class="title">提现成功</p>
+            <p class="title">转出成功</p>
         </div>
         <%}else if(cashResult.status==3){%>
         <div class="fail">
             <div class="img-wrap"></div>
-            <p class="title">提现失败</p>
+            <p class="title">转出失败</p>
             <p class="tips text-red">拒绝理由:<%=cashResult.rejectReason%></p>
         </div>
         <%}%>
@@ -49,11 +49,11 @@
                 <p class="fr">支付宝<%=des(cashResult.alipayNo)%></p>
             </li>
             <li>
-                <p class="name">提现时间</p>
+                <p class="name">转出时间</p>
                 <p class="fr"><%=cashResult.txDate%></p>
             </li>
             <li>
-                <p class="name">提现金额</p>
+                <p class="name">转出金额</p>
                 <p class="fr"><%=cashResult.revenue%>元</p>
             </li>
         </ul>
