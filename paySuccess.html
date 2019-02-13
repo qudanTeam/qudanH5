@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>支付成功</title>
+		<link rel="stylesheet" href="css/vant.css?v=20190105001">
+		<link rel="stylesheet" href="css/reset.css?v=20190103001">
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" href="css/common.css?v=20190104001">
+		<link rel="stylesheet" href="css/qudan.css?v=20190105001">
+	</head>
+  <style type="text/css">
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+	<body>
+		<div id="app" v-cloak>
+		<header id="header">
+			<a class='icon-back'></a>
+			<h1>支付成功</h1>
+		</header>
+		<div class="payError">
+			<img src="images/paySuccess.png" />
+			<p class="payTitle">支付成功</p>
+			<ul class="payOrder">
+				<li><span class="orderType">订单编号</span><span class="orderMsg">{{order.orderNo}}</span></li>
+				<li><span class="orderType">支付方式</span><span class="orderMsg">{{order.type==1?"微信支付":"支付宝支付"}}</span></li>
+				<li><span class="orderType">支付金额</span><span class="orderMsg">{{order.price}}元</span></li>
+				<li><span class="orderType">押金金额 (pos机激活后返还)</span><span class="orderMsg">{{order.price}}元</span></li>
+			</ul>
+			<p style="font-size:16px;color: #030303;font-weight:700;text-align: left;margin-left:5%;">提示</p>
+			<p style="margin:10px 5% 0px 5%;text-align: left;font-size:14px;">未登录状态可以截图保存联系客服微信，及时获取最新 办理进度信息。</p>
+			<ul class="payContact">
+				<li>
+					<img src="images/wxIcon.png"/>
+					<p style="font-size:16px;color: #000000;margin-top:20px;">微信号:QDSH-0918</p>
+				</li>
+				<li>
+					<img src="images/21548690048_.pic_hd.png" style="margin-top:20px;" />
+				</li>
+
+			</ul>
+			<p style="text-align: left;">
+				<a href="index.html" class="payHref" style="background:#FF563A;">逛逛首页</a>
+				<a href="userOrder.html" class="payHref" style="background:#FFBF00;">查看我的订单</a>
+			</p>
+		</div>
+		</div>
+	</body>
+	<script src="js/common.js"></script>
+<script src="js/vue.min.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+			el: "#app",
+			data: {
+               order:JSON.parse(sessionStorage.getItem("order"))
+			},
+			mounted(){
+				
+			}
+	 })
+</script>
+</html>

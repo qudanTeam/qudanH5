@@ -31,7 +31,7 @@
         <div class="search-wrap">
             <form action="">
                 <span class="icon-search"></span>
-                <input type="search" placeholder="搜索信用卡/贷款" autofocus="autofocus" id='searchInput' onkeypress="goSearch(event)">
+                <input type="search" placeholder="搜索信用卡/贷款/POS机" autofocus="autofocus" id='searchInput' onkeypress="goSearch(event)">
                 <span class="icon-clear hidden" id="icon-clear"></span>
             </form>
 
@@ -56,62 +56,39 @@
         <!-- 搜索结果列表end -->
     </div>
     <script id="tpl-goodslist" type="text/html">
-        <%if(goods.card.length!=0){%>
-            <h2 class="title">信用卡</h2>
-            <ul class="list goods-list">
-                <%for(var i = 0; i < goods.card.length; i++) {var one=goods.card[i]%>
-                <li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
-                    <img class="media-object fl" src="<%=one.logo%>" alt="">
-                    <div class="media-body">
-                        <h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%></h3>
-                        <div class="tag-box">
-                            <%if(_array(one.specialTag).length>=2){%>
-                            <%for(var j = 0; j < 2; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}else{%>
-                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}%>
-                        </div>
-                        <p class="data"><span>通过率：<%=rate(one.allowRate,0)%></span><span>申请人数：<%=one.applyNum%></span></p>
-                        <p class="summary text-overflow"><%=one.specialTxt%></p>
-                        <a class="btn linear-gradient-red">最高赚<%=one.baseSalary%>元</a>
-                    </div>
-                </li>
-                <%}%>
-            </ul>
-        <%}%>
-        <%if(goods.loan.length!=0){%>
-            <h2 class="title">贷款</h2>
-            <ul class="list goods-list loan-goods-list">
-                <%for(var i = 0; i < goods.loan.length; i++) {var one=goods.loan[i]%>
-                <li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
-                    <img class="media-object fl" src="<%=one.logo%>" alt="">
-                    <div class="media-body">
-                        <h3 class="title text-overflow" style="max-width: 1.2rem;"><%=one.productName%></h3>
-                        <div class="tag-box">
-                            <%if(_array(one.specialTag).length>=2){%>
-                            <%for(var j = 0; j < 2; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}else{%>
-                            <%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
-                            <span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-                            <%}%>
-                            <%}%>
-                        </div>
-                        <p class="data"><span>月利率：<%=rate(one.monthRate,1)%></span><span>贷款期限：<%=one.expireBegin%>-<%=one.expireEnd%>个月</span></p>
-                        <p class="summary">贷款额度：<span class="text-red"><%=unit(one.amountLine)%></span></p>
-                        <p class="text-right">通过率：<%=rate(one.allowRate,0)%></p>
-                        <a class="btn linear-gradient-red">最高赚<%=rate(one.baseSalary,1)%></a>
-                    </div>
-                </li>
-                <%}%>
-            </ul>
-        <%}%>
-        
+       <ul class="list goods-list">
+			<%for(var i = 0; i < goods.rows.length; i++) {var one=goods.rows[i]%>
+				<%if (one.productType==1) {%>
+				<li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
+					<%}else if(one.productType==2){%>
+					<li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
+						<%}else{%>
+						<li onclick='window.location.href="posDetail.html?id=<%=one.productId%>"'>
+					<%}%>	
+						<img class="media-object fl" src="<%=one.logo%>" alt="">
+						<div class="media-body">
+							<h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%> </h3>
+							<div class="tag-box">
+								<%if(_array(one.specialTag).length>=2){%>
+								<%for(var j = 0; j < 2; j++) {%>
+								<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+								<%}%>
+								<%}else{%>
+								<%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+								<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+								<%}%>
+								<%}%>
+							</div>
+							<p class="data"><span>通过率：<%=rate(one.allowRate,2)%></span><span>申请人数：<%=one.applyNum%></span></p>
+							<p class="summary text-overflow">
+								<%=one.specialTxt%>
+							</p>
+							<a class="btn linear-gradient-red">最高赚
+								<%=one.commission%>元</a>
+						</div>
+					</li>
+					<%}%>
+			</ul>
     </script>
     <script src="js/config.js"></script>
     <script src="js/jquery-1.9.1.min.js"></script>
