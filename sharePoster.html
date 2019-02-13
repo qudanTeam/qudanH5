@@ -51,8 +51,11 @@
         if (ptype == 2) {
             loadingUrl = domain_test + "applyLoanShare.html?id=" + pid
         }
+        if (ptype == 3) {
+            loadingUrl = domain_test + "applyPos.html?id=" + pid
+        }
         var data = JSON.stringify({
-            shareType: 1,
+            shareType:1,
             pid: pid,
             loadingUrl: loadingUrl
         });

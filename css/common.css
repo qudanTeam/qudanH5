@@ -39,6 +39,10 @@
     background: -moz-linear-gradient(right,#ff3a2a, #ff8354 ); /* Firefox 3.6 - 15 */
     background: linear-gradient(to right,#ff3a2a, #ff8354 ); /* 标准的语法（必须放在最后） */
 }
+.linear-gradient-white{
+    color: #000;
+    background:white; 
+}
 .linear-gradient-blue{
     color: #fff;
     background: -webkit-linear-gradient(left, #447DFF ,#6CC3FF); /* Safari 5.1 - 6.0 */
@@ -59,7 +63,7 @@
     background: #fff;
     box-shadow: 0 -1px 10px 0 rgba(0,0,0,0.08);
     -webkit-box-shadow:0 -1px 10px 0 rgba(0,0,0,0.08);
-    z-index: 9999;
+    z-index:1999;
 }
 .fixed-bottom-btn .btn{
     display: inline-block;
@@ -156,6 +160,10 @@
     color:#fff;
     border:1px solid #ff563a;
     background-color: #ff563a;
+}
+.btn-style{
+	padding: 0px 15px;
+    font-size: 12px;
 }
 .btn-outlined{
     background-color: transparent;
@@ -626,3 +634,8 @@ body .layui-m-layer .layui-m-layer-msg.layer-msg{
     margin-top: .31rem;
 }
 /* 提示关注公众号弹框 end*/
+
+//订单详情
+.posOrder p{
+	display: inline-block;
+}

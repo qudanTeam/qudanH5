@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>POS机详情</title>
+		<link rel="stylesheet" href="css/reset.css?v=20190103001">
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" href="css/common.css?v=20190104001">
+		<link rel="stylesheet" href="css/qudan.css?v=20190105001">
+	</head>
+
+	<body class="qudan-detail">
+		<header id="header">
+			<a class='icon-back'></a>
+			<h1>POS机详情</h1>
+		</header>
+		<div id="main">
+
+		</div>
+		<div class="btn-wrap fixed-bottom-btn">
+			<a class="btn linear-gradient-blue" id="applyLoan-btn">立即领取</a>
+			<a class="btn linear-gradient-red" id="goShare-btn">推广POS机赚佣金</a>
+		</div>
+		<script id='tpl-main' type='text/html'>
+			<div class="banner banner-pos-detail">
+				<img src="<%=detail.product.detailHeaderImg%>" style="width:100%;height:200px;" />
+					<div class="blank"></div>					
+				<div class="goods-sketch">
+					<h2 class="title"><%=detail.product.productName%><div class="tag-box"><a class="btn btn-outlined btn-red shareIndex-btn btn-style" id="shareIndex-btn">最高赚<%=detail.product.commission%>元</a></div></h2>
+					<p class="data"><span>激活率：<%=rate(detail.product.allowRate,2)%></span><span>领取人数：<%=detail.product.applyNum%></span></p>
+					<p class="sketch">
+						<%=detail.product.specialTxt%>
+					</p>
+				</div>
+			</div>
+			<div class="posContent">
+				<div class="concontMsg">
+					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">基本权益</span></p>
+					<ul class="rules">
+						<li>
+							<p>
+								<%:=detail.product.baseRight%>
+							</p>
+						</li>
+					</ul>
+				</div>
+				<div class="concontMsg">
+					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">产品优势</span></p>
+					<ul class="rules">
+						<li>
+							<p>
+								<%:=detail.product.benefitsB%>
+							</p>
+						</li>
+						<li>
+							<p>
+								<%:=detail.product.benefitsC%>
+							</p>
+						</li>
+					</ul>
+				</div>
+				<div class="concontMsg">
+					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理需求</span></p>
+					<ul class="rules">
+						<li>
+							<p>
+								<%:=detail.product.requireCondition%>
+							</p>
+						</li>						
+					</ul>
+				</div>
+			</div>
+
+		</script>
+		<script src="js/config.js"></script>
+		<script src="js/getToken.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="plugin/template.js"></script>
+		<script>
+			if(flagGetToken == 1) {
+				token = getCookie('token');
+				var applyLoanBtn = document.getElementById("applyLoan-btn");
+				var goShareBtn = document.getElementById("goShare-btn");
+				var main = document.getElementById('main');
+				var tplMain = document.getElementById('tpl-main').innerHTML;
+				var detail;
+				var id = getQueryString('id');
+				var shareid = getQueryString('shareid');
+				AjaxGet(IP + 'msqudan/api/product/' + id, getDetail);
+				template.registerFunction('rate', function(point, num) { //template辅助方法：小数转换百分比
+					var str = Number(point * 100).toFixed(num);
+					str += "%";
+					return str;
+				});
+				template.registerFunction('_array', function(specialTag) { //template辅助方法：字符串转数组
+					var str = specialTag.split('，');
+					return str;
+				});
+				if(token != '') {
+					applyLoanBtn.setAttribute('href', 'applyPos.html?id=' + id);
+				} else {
+					applyLoanBtn.setAttribute('href', 'login.html');
+				}
+				//如果是从分享二维码进入的此页面，则将shareid存储在本地，申请完成后清除此shareid
+				if(shareid != null) {
+					document.cookie = "shareid=" + shareid + ";path=/;" + "expires=Fri, 31 Dec 9999 23:59:59 GMT;";
+				}
+			}
+
+			function getDetail(Data) {
+				if(Data.code == 200) {
+					detail = Data.data.detail;
+					var html = template(tplMain, detail);
+					main.innerHTML = html;
+					//“文案素材”和“邀请贷款赚佣金”的跳转逻辑
+					var shareIndexBtn = document.getElementById('shareIndex-btn');
+										if(token != '') {
+											main.addEventListener("click", function(e) {
+												var target = e.srcElement || e.target;
+												if(target.className.toLowerCase() == "btn btn-outlined btn-blue shareindex-btn") {
+													window.location.href = 'shareIndex.html?id=' + id + '&ptype=' + detail.product.productType;
+												}
+											})
+											goShareBtn.setAttribute('href', 'sharePoster.html?id=' + id + '&ptype=' + detail.product.productType);
+										} else if(token == '') {
+											main.addEventListener("click", function(e) {
+												var target = e.srcElement || e.target;
+												if(target.className.toLowerCase() == "btn btn-outlined btn-blue shareindex-btn") {
+													window.location.href = 'login.html?';
+												}
+											})
+											goShareBtn.setAttribute('href', 'login.html');
+										}
+					//					//“赚钱详情”和“贷款详情”的切换
+					//					$(".tab-qudan a").click(function() {
+					//						var index = $(this).index();
+					//						$(this).addClass("active").siblings('a').removeClass('active');
+					//						switch(index) {
+					//							case 0:
+					//								$(".tab-content").eq(0).removeClass('hidden');
+					//								$(".tab-content").eq(1).addClass('hidden')
+					//								break;
+					//							case 1:
+					//								$(".tab-content").eq(1).removeClass('hidden');
+					//								$(".tab-content").eq(0).addClass('hidden');
+					//								break;
+					//						}
+					//
+					//					})
+				}
+			}
+		</script>
+	</body>
+
+</html>

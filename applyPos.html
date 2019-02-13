@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>我要申请</title>
+		<link rel="stylesheet" href="css/vant.css?v=20190105001">
+		<link rel="stylesheet" href="css/reset.css?v=20190103001">
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" href="css/common.css?v=20190104001">
+		<link rel="stylesheet" href="css/qudan.css?v=20190105001">
+	</head>
+	<style type="text/css">
+		[v-cloak] {
+			display: none;
+		}
+	</style>
+
+	<body>
+		<div id="app" v-cloak>
+			<header id="header">
+				<a class='icon-back' @click="history.back()"></a>
+				<h1>POS领取页</h1>
+			</header>
+			<div id="main">
+				<div class="banner banner-pos-detail">
+					<img :src="detail.product.detailHeaderImg" style="height:200px;" />
+					<div class="blank"></div>
+					<div class="goods-sketch">
+						<h2 class="title">{{detail.product.productName}}<div class="tag-box"><a class="btn btn-outlined btn-red shareIndex-btn btn-style" id="shareIndex-btn">最高赚 20元</a></div></h2>
+						<p class="data"><span>激活率：{{detail.product.allowRate}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
+						<p class="sketch">{{detail.product.specialTxt}}</p>
+					</div>
+				</div>
+				<div class="posContent">
+					<div class="concontMsg">
+						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">基本权益</span></p>
+						<ul class="rules">
+							<li v-html="detail.product.baseRight"></li>
+						</ul>
+					</div>
+					<div class="concontMsg">
+						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">产品优势</span></p>
+						<ul class="rules">
+							<li v-html="detail.product.benefitsB"></li>
+							<li v-html="detail.product.benefitsC"></li>
+						</ul>
+					</div>
+					<div class="concontMsg">
+						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理需求</span></p>
+						<ul class="rules">
+							<li v-html="detail.product.requireCondition"></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<van-popup v-model="show" position="bottom">
+				<img src="images/addess.png" class="addressDown" @click="onCancel" />
+				<span class="applyTitle">请填写收货地址</span>
+				<van-address-edit :area-list="areaList" :address-info="applyer" show-search-result save-button-text="下一步" @save="onSave" @delete="onDelete" @change-detail="onChangeDetail" />
+			</van-popup>
+			<van-popup v-model="applyShow" position="bottom">
+				<img src="images/close.png" class="addressDown" @click="onCancel" />
+				<span class="applyTitle">申请信息填写</span>
+				<div class="van-address-edit">
+					<div class="van-cell van-field">
+						<div class="van-cell__title"><span>姓名</span></div>
+						<div class="van-cell__value">
+							<div class="van-field__body"><input type="text" placeholder="收货人姓名" v-model="useInfo.applyName" class="van-field__control"></div>
+						</div>
+					</div>
+					<div class="van-cell van-field">
+						<div class="van-cell__title"><span>电话</span></div>
+						<div class="van-cell__value">
+							<div class="van-field__body"><input type="tel" placeholder="收货人手机号" v-model="useInfo.applyMobile" class="van-field__control"></div>
+						</div>
+					</div>
+					<div class="van-cell van-cell--center van-field">
+						<div class="van-cell__title"><span>短信验证码</span></div>
+						<div class="van-cell__value">
+							<div class="van-field__body"><input type="text" placeholder="请输入短信验证码" v-model="useInfo.validcode" class="van-field__control">
+								<div class="van-field__button"><span style="color:#FFBF00;" v-show="codeShow" @click="getCode(this)">{{codeTxt}}</span><span v-show="!codeShow" class="count">{{count}} s</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<ul class="applyExplain">
+					<li>1、请务必填写本人真实个人信息；</li>
+					<li>2、任务佣金及押金将于pos机激活后T+1个工作日返还至 账户上，如有疑问请联系微信客服：QDSH-0918。</li>
+				</ul>
+				<p class="payButton" @click="payMethod">
+					<img src="images/payBg.png" />
+					<span class="payIcon">¥</span>
+					<span class="payMoney">199</span>
+					<span class="payRemak"> (含¥199押金)</span>
+					<span class="payName">立即申请</span>
+				</p>
+				<p class="payAgree">
+					<van-radio checked-color="#FFBF00">
+						阅读并同意
+						<a href="javascript:;">《用户购买服务协议》</a>
+					</van-radio>
+				</p>
+			</van-popup>
+			<van-popup v-model="payWay" position="bottom">
+				<img src="images/close.png" class="addressDown" @click="onCancel" />
+				<span class="applyTitle"><img src="images/applyBack.png" @click="applyBack" style="vertical-align: middle;"/> 请扫码支付</span>
+				<div style="text-align:center;margin-top:40px;">
+					<div class="codeBox">
+						<div class="shade" v-show="refreshShade" @click="refreshCode">
+							<p class="refresh">二维码已失效请点击重试</p>
+						</div>
+						<img :src="qrImgUrl" style="width:100%;height:100%;" />
+					</div>
+					<p style="color:red;margin-bottom:5px;">
+						<span style="font-size:12px;">¥</span>
+						<span style="font-size:18px;font-weight:bold;">{{payMsg.deposit}}</span>
+					</p>
+					<p style="font-size:16px;color:red;"> (含押金¥{{payMsg.deposit}})</p>
+				</div>
+				<!--<span class="applyTitle">请选择支付方式</span>
+				<ul class="payWay">
+					<li>
+						<img src="images/alipay.png" />
+						<span class="payName">支付宝</span>
+						<span class="payRemak">数亿用户都在用，安全可托付</span>
+						<div class="radio">
+							<input id="item1" type="radio" name="item" value="1" checked>
+							<label for="item1"></label>
+						</div>
+					</li>
+					<li>
+						<img src="images/wecat.png" />
+						<span class="payName">微信支付</span>
+						<span class="payRemak">微信安全支付</span>
+						<div class="radio">
+							<input id="item2" type="radio" name="item" value="2">
+							<label for="item2"></label>
+						</div>
+					</li>
+					<li>
+						<img src="images/yqb.png" />
+						<span class="payName">壹钱包</span>
+						<span class="payRemak">壹钱包支付</span>
+						<div class="radio">
+							<input id="item3" type="radio" name="item" value="3">
+							<label for="item3"></label>
+						</div>
+					</li>
+				</ul>
+				<p class="payButton" @click="payMoney">
+					<img src="images/payBg.png"/>
+					<span class="payIcon">¥</span>
+					<span class="payMoney">199</span>
+					<span class="payRemak">(含¥199押金)</span>
+					<span class="payName">确认支付</span>
+				</p>-->
+				<p class="payAgree">
+					<van-radio checked-color="#FFBF00">
+						阅读并同意
+						<a href="javascript:;">《用户购买服务协议》</a>
+					</van-radio>
+				</p>
+			</van-popup>
+			<div class="btn-wrap fixed-bottom-btn">
+				<a class="btn linear-gradient-red" style="width:100%;z-index:-1;" id="applyPos-btn" @click="userShow">立即省钱</a>
+			</div>
+		</div>
+	</body>
+	<script src="js/config.js"></script>
+	<script src="js/getToken.js"></script>
+	<script src="js/vue.min.js"></script>
+	<script src="js/jquery-1.9.1.min.js"></script>
+	<script src="js/jquery.qcode.min.js"></script>
+	<script src="plugin/template.js"></script>
+	<script src="plugin/layer_mobile/layer.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/area.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vant@1.5/lib/vant.min.js"></script>
+	<script>
+		var app = new Vue({
+			el: "#app",
+			data: {
+				useInfo: {
+					"productId": getQueryString('id'),
+					"applyName": "", //名字
+					"applyMobile": "", //手机号
+					"validcode": "", //验证码,
+					"region": "", //地区
+					"address": "", //地址
+					"receiver": "", //收货人
+					"receiverMobile": "" //收货人手机号
+				},
+				applyer: {
+					addressDetail: "",
+					areaCode: "",
+					city: "",
+					country: "",
+					county: "",
+					isDefault: "",
+					name: "",
+					postalCode: "",
+					province: "",
+					tel: ""
+				},
+				codeShow: true,
+				codeTxt: "发送验证码",
+				count: '',
+				timer: null,
+				areaList: areaList,
+				show: false,
+				applyShow: false,
+				payWay: false,
+				refreshShade: false,
+				name: "你好",
+				detail: "",
+				id: getQueryString('id'),
+				IP: 'http://txmsqudan.myhshop.top/',
+				payMsg: {}, //支付信息
+				qrImgUrl: "", //二维码
+			},
+			mounted: function() {
+				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
+			},
+			methods: {
+				getDetail: function(Data) {
+					if(Data.code == 200) {
+						console.log(Data)
+						this.detail = Data.data.detail;
+					}
+				},
+				getValidcode: function(req) {
+					console.log(req)
+				},
+				showArea: function() {
+					this.areaShow = !this.areaShow;
+				},
+				onConfirm: function(value, index) {
+					console.log(value);
+					this.areaShow = false;
+				},
+				onCancel: function() {
+					this.applyShow = false;
+					this.show = false;
+					this.payWay = false;
+				},
+				applyBack: function() {
+					this.applyShow = true;
+				},
+				userShow: function() {
+					this.applyer = {
+						addressDetail: "",
+						areaCode: "",
+						city: "",
+						country: "",
+						county: "",
+						isDefault: "",
+						name: "",
+						postalCode: "",
+						province: "",
+						tel: ""
+					};
+					this.show = !this.show;
+				},
+				getCode: function(val) {
+					if(this.useInfo.applyName == "" || this.useInfo.applyName == undefined) {
+						this.$toast('请填写申请人姓名');
+						return false;
+					}
+					if(this.useInfo.applyMobile == "" || this.useInfo.applyMobile == undefined) {
+						this.$toast('请填写申请人号码');
+						return false;
+					}
+					if(!(/^1[34578]\d{9}$/.test(this.useInfo.applyMobile))) {
+						this.$toast('请填写正确的号码');
+						return false;
+					}
+					const codes = {
+						"mobile": this.useInfo.applyMobile, //手机号
+						"type": 4 //发送类型，1-注册，2-登陆，3-忘记密码，4-产品申请, 5-微信注册绑定
+					}
+					Ajax_token(this.IP + "msqudan/api/validcode", "POST", getCookie('token'), JSON.stringify(codes), this.getValidcode);
+					const TIME_COUNT = 60;
+					if(!this.timer) {
+						this.count = TIME_COUNT;
+						this.codeShow = false;
+						this.timer = setInterval(() => {
+							if(this.count > 0 && this.count <= TIME_COUNT) {
+								this.count--;
+							} else {
+								this.codeShow = true;
+								this.codeTxt = "重新发送",
+									clearInterval(this.timer);
+								this.timer = null;
+							}
+						}, 1000)
+					}
+				},
+				onSave: function(val) {
+					console.log(val)
+					this.useInfo.receiver = val.name,
+						this.useInfo.receiverMobile = val.tel,
+						this.useInfo.region = val.province + val.city + val.county,
+						this.useInfo.address = val.addressDetail,
+						this.useInfo.applyName = val.name,
+						this.useInfo.applyMobile = val.tel,
+						this.applyShow = !this.applyShow;
+				},
+				onDelete: function() {
+					Toast('delete');
+				},
+				payMethod: function() {
+					let that = this;
+					if(that.useInfo.applyName == "" || that.useInfo.applyName == undefined) {
+						this.$toast('请填写申请人姓名');
+						return false;
+					}
+					if(that.useInfo.applyMobile == "" || that.useInfo.applyMobile == undefined) {
+						this.$toast('请填写申请人号码');
+						return false;
+					}
+					if(!(/^1[34578]\d{9}$/.test(that.useInfo.applyMobile))) {
+						that.$toast('请填写正确的号码');
+						return false;
+					}
+					if(that.useInfo.validcode == "" || that.useInfo.validcode == undefined) {
+						that.$toast('请填写验证码');
+						return false;
+					}
+					Ajax_token(that.IP + "msqudan/api/user/apply/pos", "POST", getCookie('token'), JSON.stringify(that.useInfo), function(req) {
+						if(req.code == 200) {
+							that.payMsg = req.data;
+							const wxPay = {
+								"total_fee": req.data.deposit,
+								"trade_type": "NATIVE",
+								"product_id": getQueryString('id'),
+								"ext_id": that.payMsg.extId,
+							}
+							console.log(wxPay)
+							Ajax_token(that.IP + "msqudan/api/wxpay/pay", "get", getCookie('token'), wxPay, function(req) {
+								if(req.status == 200) {
+									console.log(req.data.code_url)
+									Ajax_token(that.IP + "msqudan/api/qrcodeurl", "post", getCookie('token'), JSON.stringify({
+										"str": req.data.code_url
+									}), function(req) {
+										if(req.code == 200) {
+											that.qrImgUrl = req.data.qrImgUrl;
+											that.payWay = true;
+											var refreshCode = setInterval(function() {
+												Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'),{
+													"extId":that.payMsg.extId
+												}, function(req) {													
+													if(req.code == 200) {
+														console.log(JSON.stringify(req.data))
+														sessionStorage.setItem("order",JSON.stringify(req.data))
+														if(req.data.orderStatus == 1) {
+															window.location.href = "paySuccess.html"
+														} else if(req.data.orderStatus == 2) {
+															window.location.href = "payError.html"
+														}
+													}
+												});
+											}, 5000);
+											setTimeout(function() {
+												clearInterval(refreshCode);
+												that.refreshShade = true;
+											}, 100000);
+										}
+									})
+								}
+							})
+						}
+					});
+				},
+				payMoney: function() {
+
+				},
+				refreshCode: function() {
+					let that = this;
+					const wxPay = {
+						"total_fee": that.payMsg.deposit,
+						"trade_type": "NATIVE",
+						"product_id": getQueryString('id'),
+						"ext_id": that.payMsg.extId,
+					}
+					console.log(wxPay)
+					Ajax_token(that.IP + "msqudan/api/wxpay/pay", "get", getCookie('token'), wxPay, function(req) {
+						if(req.status == 200) {
+							console.log(req.data.code_url)
+							Ajax_token(that.IP + "msqudan/api/qrcodeurl", "post", getCookie('token'), JSON.stringify({
+								"str": req.data.code_url
+							}), function(req) {
+								if(req.code == 200) {
+									that.refreshShade = false;
+									that.qrImgUrl = req.data.qrImgUrl;
+									var intervalID = setInterval(function() {
+										Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'),{
+											"extId":that.payMsg.extId
+										}, function(req) {		
+											if(req.code == 200) {
+												console.log(JSON.stringify(req.data))
+												sessionStorage.setItem("order",JSON.stringify(req.data))
+												if(req.data.orderStatus == 1) {
+													window.location.href = "paySuccess.html"
+												} else if(req.data.orderStatus == 2) {
+													window.location.href = "payError.html"
+												}
+											}
+										});
+									},5000);
+
+									setTimeout(function() {
+										clearInterval(intervalID);
+										that.refreshShade = true;
+									}, 100000);
+								}
+							})
+						}
+					})
+				},
+				onChangeDetail: function(val) {
+					if(val) {
+						this.searchResult = [{
+							name: '黄龙万科中心',
+							address: '杭州市西湖区'
+						}];
+					} else {
+						this.searchResult = [];
+					}
+				}
+			}
+		});
+	</script>
+	<style type="text/css">
+		.van-button--normal {
+			padding: 0 15px;
+			font-size: 14px;
+			border-radius: 20px 20px;
+		}
+	</style>
+
+</html>

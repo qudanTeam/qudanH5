@@ -1,273 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>我的订单</title>
-    <link rel="stylesheet" href="css/reset.css?v=20190103001">
-    <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="css/common.css?v=20190104001">
-    <link rel="stylesheet" href="css/userInfo.css?v=20190103001">
-    <style>
-        #wrapper {
-            bottom: 0;
-            top: 1.5rem;
-        }
-    </style>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>我的订单</title>
+		<link rel="stylesheet" href="css/reset.css?v=20190103001">
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" href="css/common.css?v=20190104001">
+		<link rel="stylesheet" href="css/userInfo.css?v=20190103001">
+		<style>
+			#wrapper {
+				bottom: 0;
+				top: 1.5rem;
+			}
+		</style>
+	</head>
 
-<body>
-    <header id="header">
-        <a class='icon-back'></a>
-        <h1>我的订单</h1>
-    </header>
-    <div class="content">
-        <div class="tab tab-record">
-            <a class="btn tab-title active">信用卡</a>
-            <a class="btn  tab-title ">贷款</a>
-        </div>
-        <ul class="sub-tab sub-tab-card">
-            <li class="active"><a class="sub-tab-title">待查询</a></li>
-            <li><a class="sub-tab-title">已通过</a></li>
-            <li><a class="sub-tab-title">未通过</a></li>
-            <!-- <li><a class="sub-tab-title">审核中</a></li> -->
-        </ul>
-        <ul class="sub-tab sub-tab-loan" style="display:none;">
-            <li class="active"><a class="sub-tab-title">更新中</a></li>
-            <li><a class="sub-tab-title">已通过</a></li>
-            <li><a class="sub-tab-title">未通过</a></li>
-        </ul>
-        <div id="wrapper">
-            <div class="ul-box">
+	<body>
+		<header id="header">
+			<a class='icon-back'></a>
+			<h1>我的订单</h1>
+		</header>
+		<div class="content">
+			<div class="tab tab-record">
+				<a class="btn tab-title active">信用卡</a>
+				<a class="btn tab-title">POS机</a>
+				<a class="btn  tab-title ">贷款</a>
+			</div>
+			<ul class="sub-tab sub-tab-card">
+				<li class="active">
+					<a class="sub-tab-title">待查询</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">已通过</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">未通过</a>
+				</li>
+				<!-- <li><a class="sub-tab-title">审核中</a></li> -->
+			</ul>
+			<ul class="sub-tab sub-tab-loan" style="display:none;">
+				<li class="active">
+					<a class="sub-tab-title">更新中</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">已通过</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">未通过</a>
+				</li>
+			</ul>
+			<ul class="sub-tab sub-tab-pos" style="display:none;">
+				<li class="active">
+					<a class="sub-tab-title">待审核</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">已通过</a>
+				</li>
+				<li>
+					<a class="sub-tab-title">未通过</a>
+				</li>
+				<li><span class="commission btn-cash">佣金说明 <img src="images/markIcon.png" style="vertical-align: middle;"/></span></li>
+			</ul>
+			<div id="wrapper">
+				<div class="ul-box">
 
-            </div>
-        </div>
+				</div>
+			</div>
 
-    </div>
-    <script id="tpl" type="text/html">
-        <ul class="list order-list">
-            <%for(var i=0;i < list.rows.length;i++){%>
-            <li>
-                <img class="media-object fl" src="<%=list.rows[i].productLogo%>" alt="">
-                <div class="media-body">
-                    <h3 class="title text-overflow"><%=list.rows[i].productName%></h3>
-                    <p class="card-info"><span>姓名：<%=list.rows[i].applyName%></span><span>手机号：<%=des(list.rows[i].mobile)%></span></p>
-                    <p class="order-num">订单号：<%=list.rows[i].orderNo%></p>
-                    <%if(list.rows[i].productType==1){%>
-                        <%if(list.rows[i].officialStatus==0){%>
-                        <p class="text-blue top-right">待查询</p>
-                        <%}else if(list.rows[i].officialStatus==2){%>
-                        <p class="text-blue top-right">已通过</p>
-                        <%}else if(list.rows[i].officialStatus==3){%>
-                        <p class="text-blue top-right">未通过</p>
-                        <%}%>
-                    <a class="btn linear-gradient-red bottom-right" href="progressDetail.html?pid=<%=list.rows[i].productId%>">进度查询</a>
-                    <%}else if(list.rows[i].productType==2){%>
-                        <%if(list.rows[i].status==1){%>
-                        <p class="text-blue top-right">申请中</p>
-                        <%}else if(list.rows[i].status==2){%>
-                        <p class="text-blue top-right">已通过</p>
-                        <%}else if(list.rows[i].status==3){%>
-                        <p class="text-blue top-right">未通过</p>
-                        <%}%>
-                    <%}%>
-                </div>
-            </li>
-            <%}%>
-        </ul>
-    </script>
-    <script src="js/config.js"></script>
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="plugin/layer_mobile/layer.js"></script>
-    <script src="js/iscroll.js"></script>
-    <script src="js/pullToRefresh.js"></script>
-    <script src="js/common.js"></script>
-    <script src="plugin/template.js"></script>
-    <script>
-        var token = getCookie('token');
-        var ulBox = document.querySelector(".ul-box");
-        var tpl = document.getElementById("tpl").innerHTML;
-        var list;
-        var page = 1, per_page = 10, total;
-        var product_type = 1;//产品类型 1-信用卡， 2-贷款
-        var official_status = 0;//信用卡查询状态 0-待查询，1-审核中，2审核通过，3-退回
-        var apply_status = 1;//贷款查询状态 1-审核中，2审核通过，3-退回
-        var data = {
-            page: page,
-            per_page: per_page,
-            product_type: product_type,
-            official_status: official_status,
-            apply_status: apply_status
-        };
-        refresher.init({
-            id: "wrapper",
-            pullDownAction: pullDownAction,
-            pullUpAction: pullUpAction
-        });
-        Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
-        $(".tab a").click(function () {
-            $(this).addClass("active").siblings("a").removeClass("active");
-            var index = $(this).index();
-            switch (index) {
-                case 0:
-                    product_type = 1;
-                    $(".sub-tab-card").show();
-                    $(".sub-tab-loan").hide();
-                    break;
-                case 1:
-                    product_type = 2;
-                    $(".sub-tab-card").hide();
-                    $(".sub-tab-loan").show();
-                    break;
-            }
+		</div>
+		<script id="tpl" type="text/html">
+			<ul class="list order-list">
+				<%for(var i=0;i < list.rows.length;i++){%>
+				<%if(list.rows[i].productType!=3){%>
+				<li>
+					<img class="media-object fl" src="<%=list.rows[i].productLogo%>" alt="">
+					<div class="media-body">
+						<h3 class="title text-overflow"><%=list.rows[i].productName%></h3>
+						<p class="card-info"><span>姓名：<%=list.rows[i].applyName%></span><span>手机号：<%=des(list.rows[i].mobile)%></span></p>
+						<p class="order-num">订单号：
+							<%=list.rows[i].orderNo%>
+						</p>
+						<%if(list.rows[i].productType==1){%>
+						<%if(list.rows[i].officialStatus==0){%>
+						<p class="text-blue top-right">待查询</p>
+						<%}else if(list.rows[i].officialStatus==2){%>
+						<p class="text-blue top-right">已通过</p>
+						<%}else if(list.rows[i].officialStatus==3){%>
+						<p class="text-blue top-right">未通过</p>
+						<%}%>
+						<a class="btn linear-gradient-red bottom-right" href="progressDetail.html?pid=<%=list.rows[i].productId%>">进度查询</a>
+						<%}else if(list.rows[i].productType==2){%>
+						<%if(list.rows[i].status==1){%>
+						<p class="text-blue top-right">申请中</p>
+						<%}else if(list.rows[i].status==2){%>
+						<p class="text-blue top-right">已通过</p>
+						<%}else if(list.rows[i].status==3){%>
+						<p class="text-blue top-right">未通过</p>
+						<%}%>
+						<%}%>
+					</div>
+				</li>
+				<%}else{%>
+				<li class="posOrder">
+					<p style="position: absolute;left:0px;top:10px;">订单号：
+						<%=list.rows[i].orderNo%>
+					</p>
+					<p style="position: absolute;right:0px;top:10px;">
+						<%=list.rows[i].applyTime%>
+					</p>
+					<img class="media-object fl" src="<%=list.rows[i].productLogo%>" alt="">
+					<div class="media-body">
+						<h3 class="title text-overflow"><%=list.rows[i].productName%></h3>
+						<p class="pos-info">姓名：
+							<%=list.rows[i].applyName%>
+							<p class="moneyIcon"><span class="text-red">¥</span><span class="text-red award"><%=list.rows[i].award%></span></p>
+						</p>
+						<p class="pos-info">手机号：
+							<%=des(list.rows[i].mobile)%>
+						</p>
+						<%if(list.rows[i].deliverStatus==1){%>
+						<p class="text-blue top-right">待发货</p>
+						<%}else if(list.rows[i].deliverStatus==2){%>
+						<p class="text-blue top-right">已发货</p>
+						<%}%>
+						<p class="bottom-right">佣金</p>
+					</div>
+					<%if(list.rows[i].deliverStatus==2){%>
+					<p>&nbsp;</p>
+					<p class="linear-gradient-white express" onclick="searchOrder(<%=list.rows[i].expressName%>,<%=list.rows[i].expressNo%>)">查看物流</p>
+					<%}%>
+				</li>
+				<%}%>
+				<%}%>
+			</ul>
+		</script>
+		<script src="js/config.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="plugin/layer_mobile/layer.js"></script>
+		<script src="js/iscroll.js"></script>
+		<script src="js/pullToRefresh.js"></script>
+		<script src="js/common.js"></script>
+		<script src="plugin/template.js"></script>
+		<script>
+			var token = getCookie('token');
+			var ulBox = document.querySelector(".ul-box");
+			var tpl = document.getElementById("tpl").innerHTML;
+			var list;
+			var page = 1,
+				per_page = 10,
+				total;
+			var product_type = 1; //产品类型 1-信用卡， 2-贷款,3-pos机
+			var official_status = 0; //信用卡查询状态 0-待查询，1-审核中，2审核通过，3-退回
+			var apply_status = 1; //贷款查询状态 1-审核中，2审核通过，3-退回
+			var data = {
+				page: page,
+				per_page: per_page,
+				product_type: product_type,
+				official_status: official_status,
+				apply_status: apply_status,
+			};
+			refresher.init({
+				id: "wrapper",
+				pullDownAction: pullDownAction,
+				pullUpAction: pullUpAction
+			});
+			Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist); //获取我的订单列表
+			var noFinance = '<h3>任务佣金说明</h3>\
+                    <p style="text-align:left;">POS机激活成功后T+1个工作日，趣单平台会将您的任务佣金以及支付的押金结算到您的账户上。</p>\
+                     <p style="margin:-20px 0px 10px 0px;">如有疑问请联系客服微信咨询：</p>\
+                    <img src="images/21548690048_.pic_hd.png"/>\
+                     <p style="margin:10px 0px 0px 0px;">微信号：QDSH-0918</p>\
+                    <span class="icon-close"></span>';
+			//查看佣金详情
+			var btnCash = document.querySelector(".btn-cash");
+			btnCash.addEventListener("click", function() {
+				layerHtml('cash-html', noFinance);
+			})
+			//产看订单
+			function searchOrder(expressName, expressNo) {
+				if(expressName == null || expressName == "" || expressName == undefined) {
+					expressName = "暂无数据";
+					expressNo = "暂无数据"
+				}
+				var mailMsg = '<h3>快递单号</h3>\
+                    <p style="text-align:left;line-height:30px;"><span style="font-size:16px;">快递名字  </span><span style="color:#000;font-size: 18px;">' + expressName + '</span></p>\
+                    <p style="margin:-20px 0px 10px 0px;text-align:left;line-height:30px;"><span style="font-size:16px;">快递单号   </span><span style="color:#000;font-size: 18px;">' + expressNo + '</span></p>\
+                    <span class="icon-close"></span>';
+				layerHtml('cash-html', mailMsg);
+			}
+			$(".tab a").click(function() {
+				$(this).addClass("active").siblings("a").removeClass("active");
+				var index = $(this).index();
+				switch(index) {
+					case 0:
+						product_type = 1;
+						$(".sub-tab-card").show();
+						$(".sub-tab-loan").hide();
+						$(".sub-tab-pos").hide();
+						break;
+					case 1:
+						product_type = 3;
+						$(".sub-tab-card").hide();
+						$(".sub-tab-loan").hide();
+						$(".sub-tab-pos").show();
+						break;
+					case 2:
+						product_type = 2;
+						$(".sub-tab-card").hide();
+						$(".sub-tab-pos").hide();
+						$(".sub-tab-loan").show();
+						break;
+				}
 
-            data = {
-                page: page,
-                per_page: per_page,
-                product_type: product_type,
-                official_status: official_status,
-                apply_status: apply_status
-            };
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取我的订单列表
-        })
-        $(".sub-tab-card li").click(function () {
-            $(this).addClass("active").siblings("li").removeClass("active");
-            var index = $(this).index();
-            switch (index) {
-                case 0:
-                    official_status = 0;
-                    break;
-                case 1:
-                    official_status = 2;
-                    break;
-                case 2:
-                    official_status = 3;
-                    break;
-            }
-            page = 1;
-            data = {
-                page: page,
-                per_page: per_page,
-                product_type: product_type,
-                official_status: official_status,
-                apply_status: apply_status
-            };
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获收入记录列表
-        })
-        $(".sub-tab-loan li").click(function () {
-            $(this).addClass("active").siblings("li").removeClass("active");
-            var index = $(this).index();
-            switch (index) {
-                case 0:
-                    apply_status = 1;
-                    break;
-                case 1:
-                    apply_status = 2;
-                    break;
-                case 2:
-                    apply_status = 3;
-                    break;
-            }
-            page = 1;
-            data = {
-                page: page,
-                per_page: per_page,
-                product_type: product_type,
-                official_status: official_status,
-                apply_status: apply_status
-            };
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);//获取订单记录列表
-        })
-        function getlist(Data) {
-            document.querySelector('.pullUpLabel').style.display = 'block';
-            if (Data.code == 200) {
-                if (Data.data.total != 0) {
-                    total = Math.floor((Data.data.total) / per_page);
-                    console.log(total);
-                    list = Data.data;
-                    var html = template(tpl, list);
-                    console.log(page)
-                    if (page > 1) {
-                        ulBox.innerHTML += html;
-                    } else {
-                        ulBox.innerHTML = html;
-                    }
-                    wrapper.refresh();
-                } else {
-                    ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-                    wrapper.refresh();
-                    // document.querySelector('.pullUp').style.display = 'none';
-                    return false;
-                }
-            }
-        }
-        template.registerFunction('des', function (phone) {//template辅助方法：手机号脱敏显示
-            var ary = phone.split("");
-            ary.splice(3, 4, "****");
-            return ary.join("");
-        });
-        //下啦刷新
-        function pullDownAction() {
-            page = 1;
-            console.log(page);
-            data = {
-                page: page,
-                per_page: per_page,
-                product_type: product_type,
-                official_status: official_status,
-                apply_status: apply_status
-            }
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
-        }
-        // 上拉加载
-        function pullUpAction() {
-            //业务逻辑代码，比如通过ajax从服务器获取新数据；
-            page++;
-            console.log(page);
-            data = {
-                page: page,
-                per_page: per_page,
-                product_type: product_type,
-                official_status: official_status,
-                apply_status: apply_status
-            }
-            console.log(total);
-            var div = document.createElement("div");
-            div.className = 'no-more';
-            div.innerHTML = '已经到底了哦～';
-            if (total < page) {
-                wrapper.refresh();
-                if (!document.querySelector('.no-more')) {
-                    ulBox.appendChild(div);
-                }
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				};
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist); //获取我的订单列表
+			})
+			$(".sub-tab-card li").click(function() {
+				$(this).addClass("active").siblings("li").removeClass("active");
+				var index = $(this).index();
+				switch(index) {
+					case 0:
+						official_status = 0;
+						break;
+					case 1:
+						official_status = 2;
+						break;
+					case 2:
+						official_status = 3;
+						break;
+				}
+				page = 1;
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				};
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist); //获收入记录列表
+			})
+			$(".sub-tab-loan li").click(function() {
+				$(this).addClass("active").siblings("li").removeClass("active");
+				var index = $(this).index();
+				switch(index) {
+					case 0:
+						apply_status = 1;
+						break;
+					case 1:
+						apply_status = 2;
+						break;
+					case 2:
+						apply_status = 3;
+						break;
+				}
+				page = 1;
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				};
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist); //获取订单记录列表
+			})
+			$(".sub-tab-pos li").click(function() {
+				$(this).addClass("active").siblings("li").removeClass("active");
+				var index = $(this).index();
+				switch(index) {
+					case 0:
+						apply_status = 1;
+						break;
+					case 1:
+						apply_status = 2;
+						break;
+					case 2:
+						apply_status = 3;
+						break;
+				}
+				page = 1;
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				};
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist); //获取订单记录列表
+			})
 
-                // document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
-                document.querySelector('.pullUpLabel').style.display = 'none';
+			function getlist(Data) {
+				document.querySelector('.pullUpLabel').style.display = 'block';
+				if(Data.code == 200) {
+					if(Data.data.total != 0) {
+						total = Math.floor((Data.data.total) / per_page);
+						console.log(total);
+						list = Data.data;
+						var html = template(tpl, list);
+						console.log(page)
+						if(page > 1) {
+							ulBox.innerHTML += html;
+						} else {
+							ulBox.innerHTML = html;
+						}
+						wrapper.refresh();
+					} else {
+						ulBox.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+						wrapper.refresh();
+						// document.querySelector('.pullUp').style.display = 'none';
+						return false;
+					}
+				}
+			}
+			template.registerFunction('des', function(phone) { //template辅助方法：手机号脱敏显示
+				var ary = phone.split("");
+				ary.splice(3, 4, "****");
+				return ary.join("");
+			});
+			//下啦刷新
+			function pullDownAction() {
+				page = 1;
+				console.log(page);
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				}
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
+			}
+			// 上拉加载
+			function pullUpAction() {
+				//业务逻辑代码，比如通过ajax从服务器获取新数据；
+				page++;
+				console.log(page);
+				data = {
+					page: page,
+					per_page: per_page,
+					product_type: product_type,
+					official_status: official_status,
+					apply_status: apply_status,
+				}
+				console.log(total);
+				var div = document.createElement("div");
+				div.className = 'no-more';
+				div.innerHTML = '已经到底了哦～';
+				if(total < page) {
+					wrapper.refresh();
+					if(!document.querySelector('.no-more')) {
+						ulBox.appendChild(div);
+					}
 
-                return false;
-            }
-            Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
-        }
-        isWeixin();
-        function isWeixin() {
-            var header = document.getElementById("header");
-            var ua = navigator.userAgent.toLowerCase();
-            if (header) {
-                if (ua.match(/MicroMessenger/i) == "micromessenger") {
-                    document.getElementById("header").className = "hidden";
-                    if (document.getElementById("wrapper")) {
-                        document.getElementById("wrapper").style.top = '1.06rem';
-                    }
-                } else {
-                    document.getElementById("header").className = "";
-                }
-            }
-        }
-    </script>
-</body>
+					// document.querySelector('.pullUpLabel').innerHTML = '已经到底了哦～';
+					document.querySelector('.pullUpLabel').style.display = 'none';
+
+					return false;
+				}
+				Ajax_token(IP + 'msqudan/api/user/orders', "GET", token, data, getlist);
+			}
+			isWeixin();
+
+			function isWeixin() {
+				var header = document.getElementById("header");
+				var ua = navigator.userAgent.toLowerCase();
+				if(header) {
+					if(ua.match(/MicroMessenger/i) == "micromessenger") {
+						document.getElementById("header").className = "hidden";
+						if(document.getElementById("wrapper")) {
+							document.getElementById("wrapper").style.top = '1.06rem';
+						}
+					} else {
+						document.getElementById("header").className = "";
+					}
+				}
+			}
+		</script>
+	</body>
 
 </html>
