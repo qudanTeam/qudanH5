@@ -577,7 +577,7 @@ input::-webkit-input-placeholder{ 
     line-height: .2rem;
     text-align: center;
 }
-/* 提现进度start */
+/* 转出进度start */
 .cash-content{
     font-size: .16rem;
 }
@@ -639,7 +639,7 @@ input::-webkit-input-placeholder{ 
     font-size: .2rem;
     margin-top: .5rem;
 }
-/* 提现进度end */
+/* 转出进度end */
 /*我的订单start */
 .order-list .media-object{
     max-width: .52rem;
