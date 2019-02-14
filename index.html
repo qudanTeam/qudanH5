@@ -57,10 +57,10 @@
 						<div class="module-img module-img1"></div>
 						<div class="module-name">信用卡</div>
 					</div>
-					<div class="module" onclick='window.location.href="qudanIndex.html?type=2"'>
+					<!--<div class="module" onclick='window.location.href="qudanIndex.html?type=2"'>
 						<div class="module-img module-img2"></div>
 						<div class="module-name">贷款</div>
-					</div>
+					</div>-->
 					<div class="module" onclick="window.location.href='qudanIndex.html?type=3'">
 						<div class="module-img module-img4"></div>
 						<div class="module-name">POS机</div>
@@ -69,6 +69,10 @@
 						<div class="module-img module-img3"></div>
 						<div class="module-name">进度查询</div>
 					</div>
+					<div class="module" onclick="window.location.href='novice.html'">
+                    <div class="module-img module-img4"></div>
+                    <div class="module-name">新手攻略</div>
+                </div>
 				</div>
 				<div class="module-wrap module-bottom" id="agent-module" style="display:none;">
 					<div class="module" onclick="window.location.href='userFinancialRecord.html'">
@@ -121,7 +125,7 @@
 				<div class="tab">
 					<a class="btn tab-title active">信用卡</a>
 					<a class="btn tab-title">POS机</a>
-					<a class="btn  tab-title ">贷款</a>
+				<!--	<a class="btn  tab-title ">贷款</a>-->
 				</div>
 				<ul class="list goods-list extend-goods-list" id="hot-goods"></ul>
 				<div class="no-more">已经到底了哦～</div>
@@ -177,8 +181,6 @@
 		</script>
 		<script src="js/config.js"></script>
 		<script src="js/getToken.js"></script>
-		<script>
-		</script>
 		<script src="js/jquery-1.9.1.min.js"></script>
 		<script src="plugin/swiper/swiper.min.js"></script>
 		<script src="plugin/layer_mobile/layer.js"></script>
@@ -223,7 +225,6 @@
 					document.querySelector(".vip").setAttribute("href", "login.html")
 					document.querySelector(".usermain").setAttribute("href", "login.html")
 					btnMsg.setAttribute("href", "login.html");
-
 				} else { //登录情况下获取用户信息，判断是否代理
 					Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
 					// agentModule.style.display = '-webkit-flex';

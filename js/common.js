@@ -27,7 +27,7 @@ function layerConfirm(content, btnName, callback) {
 	})
 }
 // html弹框
-function layerHtml(className, content) {
+function layerHtml(className,content) {
 	layer.open({
 		type: 1,
 		content: content,
@@ -39,7 +39,6 @@ function layerHtml(className, content) {
 				layer.close(index);
 			})
 		}
-
 	})
 }
 // 提示关注公众号弹框
@@ -72,7 +71,6 @@ function layerApplyCard(className, content) {
 				layer.close(index);
 			})
 		}
-
 	})
 }
 //底部分享

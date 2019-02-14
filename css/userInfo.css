@@ -894,8 +894,9 @@ input::-webkit-input-placeholder{ 
   }
   /* 个人信息end */
 .commission{
-	float: right;
-	margin-top: 10px;
+	position: absolute;
+	right:0px;
+	margin-top:5px;
 	font-size: 12px;
 	border:1px solid #4C8CFF;
 	border-radius:10px 10px;

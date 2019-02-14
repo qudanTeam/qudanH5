@@ -548,7 +548,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 	padding: 20px 15px;
 	background: white;
 	margin: 0px 4%;
-	box-shadow: darkgrey 2px 2px 30px 2px; //边框阴影
+	box-shadow: #E5E5E5 2px 2px 15px 2px; //边框阴影
 }
 
 .goods-sketch .title {
@@ -680,29 +680,29 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .payIcon {
 	position: absolute;
 	left: 30px;
-	top: 20px;
+	top: 0.2rem;
 	font-size: 0.14rem;
 }
 
 .payMoney {
 	position: absolute;
 	left: 40px;
-	top: 18px;
+	top: 0.18rem;
 	font-size: 0.2rem;
 }
 
 .payRemak {
 	position: absolute;
 	left: 80px;
-	top: 20px;
+	top: 0.2rem;
 	font-size: 0.14rem;
 }
 
 .payName {
 	position: absolute;
 	left: 65%;
-	top: 20px;
-	font-size: 0.20rem;
+	top:0.2rem;
+	font-size:0.2rem;
 }
 
 .payAgree {
@@ -854,11 +854,4 @@ input:checked+label::after {
 	height: 140px;
 	text-align: center;
 	line-height: 80px;
-}
-
-.commission {
-	display: inline-block;
-	border: 1px solid ##4C8CFF;
-	border-radius: 5px 5px;
-	padding: 2px 10px;
 }
