@@ -30,6 +30,9 @@ function wxConfig(Data) {
     if (ptype == 2) {
       link = protocol + '//' + host + '/applyLoanShare.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
     }
+    if (ptype == 3) {
+       link = protocol + '//' + host + ' applyPos.html?id=' + id + '&shareid=' + document.body.getAttribute("data-shareid")// 
+    }
 
     var shareData = {
       title: detail.product.shareTitle, // 分享标题
