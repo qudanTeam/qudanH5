@@ -56,7 +56,7 @@
 			<!-- 商品列表start -->
 			<div class="goods-content">
 				<div class="tab" id="tab">
-					<a class="btn tab-title">信用卡</a>				
+					<a class="btn tab-title">信用卡</a>
 					<a class="btn  tab-title ">POS机</a>
 					<!--<a class="btn  tab-title ">贷款</a>-->
 				</div>
@@ -75,39 +75,44 @@
 			</div>
 			<%}%>
 		</script>
-		<script id="tpl-goodslist" type="text/html">			
+		<script id="tpl-goodslist" type="text/html">
 			<ul class="list goods-list">
-			<%for(var i = 0; i < goods.rows.length; i++) {var one=goods.rows[i]%>
+				<%for(var i = 0; i < goods.rows.length; i++) {var one=goods.rows[i]%>
 				<%if (one.productType==1) {%>
 				<li onclick='window.location.href="creditCardDetail.html?id=<%=one.productId%>"'>
 					<%}else if(one.productType==2){%>
 					<li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
 						<%}else{%>
 						<li onclick='window.location.href="posDetail.html?id=<%=one.productId%>"'>
-					<%}%>	
-						<img class="media-object fl" src="<%=one.logo%>" alt="">
-						<div class="media-body">
-							<h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%> </h3>
-							<div class="tag-box">
-								<%if(_array(one.specialTag).length>=2){%>
-								<%for(var j = 0; j < 2; j++) {%>
-								<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
-								<%}%>
+							<%}%>
+							<img class="media-object fl" src="<%=one.logo%>" alt="">
+							<div class="media-body">
+								<h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%> </h3>
+								<div class="tag-box">
+									<%if(_array(one.specialTag).length>=2){%>
+									<%for(var j = 0; j < 2; j++) {%>
+									<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+									<%}%>
+									<%}else{%>
+									<%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
+									<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+									<%}%>
+									<%}%>
+								</div>
+								<%if (one.productType==3) {%>								
+								<p class="data"><span>激活率：<%=rate(one.allowRate,2)%></span><span>领取人数：<%=one.applyNum%></span></p>
 								<%}else{%>
-								<%for(var j = 0; j < _array(one.specialTag).length; j++) {%>
-								<span class="tag linear-gradient-blue"><%=_array(one.specialTag)[j]%></span>
+								<p class="data"><span>通过率：<%=rate(one.allowRate,2)%></span><span>申请人数：<%=one.applyNum%></span></p>
 								<%}%>
-								<%}%>
+
+								<p class="summary text-overflow">
+									<%=one.specialTxt%>
+								</p>
+								<a class="btn linear-gradient-red">最高赚
+									<%=one.commission%>元</a>
 							</div>
-							<p class="data"><span>通过率：<%=rate(one.allowRate,2)%></span><span>申请人数：<%=one.applyNum%></span></p>
-							<p class="summary text-overflow">
-								<%=one.specialTxt%>
-							</p>
-							<a class="btn linear-gradient-red">最高赚
-								<%=one.commission%>元</a>
-						</div>
-					</li>
-					<%}%>
+						</li>
+						<%}%>
 			</ul>
 		</script>
 		<script src="js/config.js"></script>
@@ -146,16 +151,16 @@
 				case 1:
 					tabTitle[0].className = 'btn tab-title active';
 					tabTitle[1].className = 'btn tab-title';
-//					tabTitle[2].className = 'btn tab-title';
+					//					tabTitle[2].className = 'btn tab-title';
 					break;
 				case 2:
 					tabTitle[0].className = 'btn tab-title ';
 					tabTitle[1].className = 'btn tab-title';
-//					tabTitle[2].className = 'btn tab-title active';
+					//					tabTitle[2].className = 'btn tab-title active';
 					break;
 				case 3:
 					tabTitle[0].className = 'btn tab-title ';
-//					tabTitle[2].className = 'btn tab-title';
+					//					tabTitle[2].className = 'btn tab-title';
 					tabTitle[1].className = 'btn tab-title active';
 					break;
 			}
@@ -228,7 +233,7 @@
 				document.querySelector('.pullUpLabel').style.display = 'block';
 				if(Data.code == 200) {
 					if(Data.data.total != 0) {
-						total = Math.floor((Data.data.total) / per_page);					
+						total = Math.floor((Data.data.total) / per_page);
 						goods = Data.data;
 						console.log(goods);
 						var html = template(tplGoodsList, goods);

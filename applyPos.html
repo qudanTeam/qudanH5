@@ -24,7 +24,7 @@
 		<div id="app" v-cloak>
 			<header id="header">
 				<a class='icon-back' @click="history.back()"></a>
-				<h1>POS领取页</h1>
+				<h1>我要申请</h1>
 			</header>
 			<div id="main">
 				<div class="banner banner-pos-detail">
@@ -32,7 +32,7 @@
 					<div class="blank"></div>
 					<div class="goods-sketch">
 						<h2 class="title">{{detail.product.productName}}<div class="tag-box"><a class="btn btn-outlined btn-red shareIndex-btn btn-style" id="shareIndex-btn">最高赚 20元</a></div></h2>
-						<p class="data"><span>激活率：{{detail.product.allowRate}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
+						<p class="data"><span>激活率：{{(detail.product.allowRate).toFixed(2)}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
 						<p class="sketch">{{detail.product.specialTxt}}</p>
 					</div>
 				</div>
@@ -51,9 +51,17 @@
 						</ul>
 					</div>
 					<div class="concontMsg">
-						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理需求</span></p>
+						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理要求</span></p>
 						<ul class="rules">
 							<li v-html="detail.product.requireCondition"></li>
+						</ul>
+					</div>
+					<div class="concontMsg">
+						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理流程</span></p>
+						<ul class="rules">
+							<li>
+								<img :src="detail.product.handingProcess" style="width:100%;height:200px;" />
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -62,7 +70,7 @@
 			<van-popup v-model="show" position="bottom">
 				<img src="images/addess.png" class="addressDown" @click="onCancel" />
 				<span class="applyTitle">请填写收货地址</span>
-				<van-address-edit :area-list="areaList" :address-info="applyer" show-search-result save-button-text="下一步" @save="onSave" @delete="onDelete" @change-detail="onChangeDetail" />
+				<van-address-edit :area-list="areaList" :address-info="applyer" show-search-result save-button-text="下一步" @save="onSave" @delete="onDelete" @focus="onFocus" @change-detail="onChangeDetail" />
 			</van-popup>
 			<van-popup v-model="applyShow" position="bottom">
 				<img src="images/close.png" class="addressDown" @click="onCancel" />
@@ -91,7 +99,7 @@
 				</div>
 				<ul class="applyExplain">
 					<li>1、请务必填写本人真实个人信息；</li>
-					<li>2、任务佣金及押金将于pos机激活后T+1个工作日返还至 账户上，如有疑问请联系微信客服：QDSH-0918。</li>
+					<li>2、任务佣金及押金将于pos机激活后T+1个工作日返还至 账户上，如有疑问请联系微信客服：<span style="font-size:0.14rem;color:#FFBF00 ;">QDSH-0918</span>。</li>
 				</ul>
 				<p class="payButton" @click="payMethod">
 					<img src="images/payBg.png" />
@@ -101,16 +109,16 @@
 					<span class="payName">立即申请</span>
 				</p>
 				<p class="payAgree">
-					<van-radio checked-color="#FFBF00">
+					<van-checkbox v-model="checked" checked-color="#FFBF00">
 						阅读并同意
-						<a href="javascript:;">《用户购买服务协议》</a>
-					</van-radio>
+						<a href="applyAgree.html">《用户购买服务协议》</a>
+					</van-checkbox>
 				</p>
 			</van-popup>
 			<van-popup v-model="payWay" position="bottom">
 				<img src="images/close.png" class="addressDown" @click="onCancel" />
-				<span class="applyTitle"><img src="images/applyBack.png" @click="applyBack" style="vertical-align: middle;"/> 请扫码支付</span>
-				<div style="text-align:center;margin-top:40px;">
+				<span class="applyTitle"><img src="images/applyBack.png" @click="applyBack" style="vertical-align: middle;"/> 请选择支付方式</span>
+				<!--<div style="text-align:center;margin-top:40px;">
 					<div class="codeBox">
 						<div class="shade" v-show="refreshShade" @click="refreshCode">
 							<p class="refresh">二维码已失效请点击重试</p>
@@ -122,10 +130,20 @@
 						<span style="font-size:18px;font-weight:bold;">{{payMsg.deposit}}</span>
 					</p>
 					<p style="font-size:16px;color:red;"> (含押金¥{{payMsg.deposit}})</p>
-				</div>
-				<!--<span class="applyTitle">请选择支付方式</span>
+				</div>-->
+				<!--<span class="applyTitle">请选择支付方式</span>-->
 				<ul class="payWay">
 					<li>
+						<img src="images/wecat.png" />
+						<span class="payName">微信支付</span>
+						<span class="payRemak">微信安全支付</span>
+						<div class="radio">
+							<input id="item2" type="radio" name="item" value="2" v-model="payMthod">
+							<label for="item2"></label>
+						</div>
+					</li>
+					<!--
+						<li>
 						<img src="images/alipay.png" />
 						<span class="payName">支付宝</span>
 						<span class="payRemak">数亿用户都在用，安全可托付</span>
@@ -134,16 +152,7 @@
 							<label for="item1"></label>
 						</div>
 					</li>
-					<li>
-						<img src="images/wecat.png" />
-						<span class="payName">微信支付</span>
-						<span class="payRemak">微信安全支付</span>
-						<div class="radio">
-							<input id="item2" type="radio" name="item" value="2">
-							<label for="item2"></label>
-						</div>
-					</li>
-					<li>
+						<li>
 						<img src="images/yqb.png" />
 						<span class="payName">壹钱包</span>
 						<span class="payRemak">壹钱包支付</span>
@@ -151,20 +160,20 @@
 							<input id="item3" type="radio" name="item" value="3">
 							<label for="item3"></label>
 						</div>
-					</li>
+					</li>-->
 				</ul>
 				<p class="payButton" @click="payMoney">
-					<img src="images/payBg.png"/>
+					<img src="images/payBg.png" />
 					<span class="payIcon">¥</span>
 					<span class="payMoney">199</span>
 					<span class="payRemak">(含¥199押金)</span>
 					<span class="payName">确认支付</span>
-				</p>-->
+				</p>
 				<p class="payAgree">
-					<van-radio checked-color="#FFBF00">
+					<van-checkbox v-model="checked" checked-color="#FFBF00">
 						阅读并同意
-						<a href="javascript:;">《用户购买服务协议》</a>
-					</van-radio>
+						<a href="applyAgree.html">《用户购买服务协议》</a>
+					</van-checkbox>
 				</p>
 			</van-popup>
 			<div class="btn-wrap fixed-bottom-btn">
@@ -182,6 +191,8 @@
 	<script src="js/common.js"></script>
 	<script src="js/area.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vant@1.5/lib/vant.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+	<!--微信jssdk-->
 	<script>
 		var app = new Vue({
 			el: "#app",
@@ -223,6 +234,8 @@
 				IP: 'http://txmsqudan.myhshop.top/',
 				payMsg: {}, //支付信息
 				qrImgUrl: "", //二维码
+				checked: true, //用户协议
+				payMthod: "2"
 			},
 			mounted: function() {
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
@@ -294,7 +307,7 @@
 								this.count--;
 							} else {
 								this.codeShow = true;
-								this.codeTxt = "重新发送",
+								this.codeTxt = "重新获取",
 									clearInterval(this.timer);
 								this.timer = null;
 							}
@@ -332,53 +345,80 @@
 						that.$toast('请填写验证码');
 						return false;
 					}
+					if(!that.checked) {
+						that.$toast('请勾选用户购买条例');
+						return false;
+					}
 					Ajax_token(that.IP + "msqudan/api/user/apply/pos", "POST", getCookie('token'), JSON.stringify(that.useInfo), function(req) {
 						if(req.code == 200) {
 							that.payMsg = req.data;
-							const wxPay = {
-								"total_fee": req.data.deposit,
-								"trade_type": "NATIVE",
-								"product_id": getQueryString('id'),
-								"ext_id": that.payMsg.extId,
-							}
-							console.log(wxPay)
-							Ajax_token(that.IP + "msqudan/api/wxpay/pay", "get", getCookie('token'), wxPay, function(req) {
-								if(req.status == 200) {
-									console.log(req.data.code_url)
-									Ajax_token(that.IP + "msqudan/api/qrcodeurl", "post", getCookie('token'), JSON.stringify({
-										"str": req.data.code_url
-									}), function(req) {
-										if(req.code == 200) {
-											that.qrImgUrl = req.data.qrImgUrl;
-											that.payWay = true;
-											var refreshCode = setInterval(function() {
-												Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'),{
-													"extId":that.payMsg.extId
-												}, function(req) {													
-													if(req.code == 200) {
-														console.log(JSON.stringify(req.data))
-														sessionStorage.setItem("order",JSON.stringify(req.data))
-														if(req.data.orderStatus == 1) {
-															window.location.href = "paySuccess.html"
-														} else if(req.data.orderStatus == 2) {
-															window.location.href = "payError.html"
-														}
-													}
-												});
-											}, 5000);
-											setTimeout(function() {
-												clearInterval(refreshCode);
-												that.refreshShade = true;
-											}, 100000);
-										}
-									})
-								}
-							})
+							that.payWay = true;
 						}
 					});
 				},
 				payMoney: function() {
-
+					let that = this;
+					if(that.payMthod != 2) {
+						that.$toast('请勾选微信支付');
+						return false;
+					}
+					if(!that.checked) {
+						that.$toast('请勾选用户购买条例');
+						return false;
+					}
+					var ua = navigator.userAgent.toLowerCase();
+					var trade_type;
+					if(ua.match(/MicroMessenger/i) == "micromessenger") {
+						trade_type = 'JSAPI';
+					} else {
+						trade_type = 'MWEB';
+					};
+					const wxPay = {
+						"total_fee": that.payMsg.deposit,
+						"trade_type": trade_type,
+						"product_id": getQueryString('id'),
+						"ext_id": that.payMsg.extId,
+					}
+					if(that.isWexin()) {
+						Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
+							if(Data.status == 200) {
+								wx.chooseWXPay({
+									timestamp: Data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+									nonceStr: Data.data.noncestr, // 支付签名随机串，不长于 32 位
+									package: "prepay_id=" + Data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+									signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+									paySign: Data.data.sign, // 支付签名
+									success: function(res) {
+										// 支付成功后的回调函数
+										if(res.errMsg == "chooseWXPay:ok") {
+											//alert("支付成功");
+											window.location.href = "paySuccess.html?id=" + that.payMsg.extId;
+										} else {
+											window.location.href = "payError.html"
+										}
+									},
+									cancel: function(res) {
+										layerMsg($.parseJSON(res));
+									}
+								});
+							} else if(Data.status == 400) {
+								//openid为空,请先微信授权!
+								//isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+								var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
+								window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+							}
+						});
+					}
+				},
+				isWexin: function() {
+					var ua = navigator.userAgent.toLowerCase();
+					if(ua.match(/MicroMessenger/i) == "micromessenger") {
+						return true;
+					} else {
+						var content = '<div class="img-wrap"><img src="images/2312311313@2x.png"/></div><p class="text">您好，目前微信支付只能在微信公众号里发起，请关注趣单生活公众号完成绑定并支付～</p><button class="btn">我知道了</button>'
+						layerLinkWechat("layerLinkWechat", content)
+						return false;
+					}
 				},
 				refreshCode: function() {
 					let that = this;
@@ -399,12 +439,12 @@
 									that.refreshShade = false;
 									that.qrImgUrl = req.data.qrImgUrl;
 									var intervalID = setInterval(function() {
-										Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'),{
-											"extId":that.payMsg.extId
-										}, function(req) {		
+										Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {
+											"extId": that.payMsg.extId
+										}, function(req) {
 											if(req.code == 200) {
 												console.log(JSON.stringify(req.data))
-												sessionStorage.setItem("order",JSON.stringify(req.data))
+												sessionStorage.setItem("order", JSON.stringify(req.data))
 												if(req.data.orderStatus == 1) {
 													window.location.href = "paySuccess.html"
 												} else if(req.data.orderStatus == 2) {
@@ -412,7 +452,7 @@
 												}
 											}
 										});
-									},5000);
+									}, 5000);
 
 									setTimeout(function() {
 										clearInterval(intervalID);
@@ -424,14 +464,34 @@
 					})
 				},
 				onChangeDetail: function(val) {
-					if(val) {
-						this.searchResult = [{
-							name: '黄龙万科中心',
-							address: '杭州市西湖区'
-						}];
+					if(val == "") {
+						$(".van-button--normal").css({
+							"background": "#C3C3C3"
+						})
 					} else {
-						this.searchResult = [];
+						$(".van-button--normal").css({
+							"background": "#FFBF00"
+						})
 					}
+				},
+				onFocus: function(val) {
+					let n;
+					switch(val) {
+						case "name":
+							n=0;
+							break;
+						case "tel":
+							n=1;
+							break;
+						case "addressDetail":
+							n=3;
+							break;
+						default:
+							n=2;
+					}			
+					$(".van-address-edit .van-cell").not(n).css({"border-bottom":"1px solid #ebedf0"});
+					$(".van-address-edit .van-cell").eq(n).css({"border-bottom":"1px solid #ffbf00"});	
+					$(".van-address-edit .van-cell").eq(3).css({"border-bottom":"none"});
 				}
 			}
 		});
@@ -441,6 +501,24 @@
 			padding: 0 15px;
 			font-size: 14px;
 			border-radius: 20px 20px;
+		}
+		
+		.van-cell:not(:last-child)::after {
+			border-bottom: none;
+		}
+		
+		.van-cell {
+			border-bottom: 1px solid #ebedf0;
+		}
+		
+		.van-address-edit-detail {
+			border: none;
+		}
+		
+		.van-button--normal {
+			border: none;
+			background: #C3C3C3;
+			border-radius: 24px;
 		}
 	</style>
 

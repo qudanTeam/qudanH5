@@ -70,9 +70,9 @@
 						<div class="module-name">进度查询</div>
 					</div>
 					<div class="module" onclick="window.location.href='novice.html'">
-                    <div class="module-img module-img4"></div>
-                    <div class="module-name">新手攻略</div>
-                </div>
+						<div class="module-img module-img5"></div>
+						<div class="module-name">新手攻略</div>
+					</div>
 				</div>
 				<div class="module-wrap module-bottom" id="agent-module" style="display:none;">
 					<div class="module" onclick="window.location.href='userFinancialRecord.html'">
@@ -119,13 +119,30 @@
 				</div>
 				<!-- 营销区域入口end -->
 			</section>
+			<!-- 新手攻略，全名推荐 -->
+			<ul class="activity" style="width:100%;margin-top:10px;height:0.8rem;background: white;">
+				<li>
+					<a href="novice.html">
+					<img src="images/newbie.png" />
+					<h3>新手攻略</h3>
+					<p>新手必读,好处不断</p>
+					</a>
+				</li>
+				<li>
+					<a href="activity/openUp.html">
+					<img src="images/recommended.png" />
+					<h3>全民“荐”礼</h3>
+					<p>邀请好友 立享红包</p>
+					</a>
+				</li>
+			</ul>
 			<!-- 热门推广商品start -->
 			<div class=" goods-content">
 				<h2 class="title">热门推广商品</h2>
 				<div class="tab">
 					<a class="btn tab-title active">信用卡</a>
 					<a class="btn tab-title">POS机</a>
-				<!--	<a class="btn  tab-title ">贷款</a>-->
+					<!--	<a class="btn  tab-title ">贷款</a>-->
 				</div>
 				<ul class="list goods-list extend-goods-list" id="hot-goods"></ul>
 				<div class="no-more">已经到底了哦～</div>
@@ -146,38 +163,38 @@
 				<%}else if(one.productType==2){%>
 				<li onclick='window.location.href="loanDetail.html?id=<%=one.productId%>"'>
 					<%}else{%>
-						<li onclick='window.location.href="posDetail.html?id=<%=one.productId%>"'>
-					<%}%>	
-					<img class="media-object fl" src="<%=one.logo%>" alt="">
-					<div class="media-body">
-						<h3 class="title text-overflow"><%=one.productName%></h3>
-						<p>已被推广<span><%=one.recommendCount+RandomNumBoth(5000,9000)%>次</span></p>
-						<%if(one.salaryAmount==null){%>
-						<p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
-						<%}else{%>
-						<p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
+					<li onclick='window.location.href="posDetail.html?id=<%=one.productId%>"'>
 						<%}%>
-						<%if(one.commission==null){%>
-						<%if (one.productType==1) {%>
-						<p class="text-right">最高赚<span>0</span>元</p>
-						<%}else if(one.productType==2){%>
-						<p class="text-right">最高赚<span>0</span>%</p>
-						<%}else{%>
-						<p class="text-right">最高赚<span>0</span>%</p>
-						<%}%>
-						<%}else{%>
-						<%if (one.productType==1) {%>
-						<p class="text-right">最高赚<span><%=one.commission%></span>元</p>
-						<%}else if(one.productType==2){%>
-						<p class="text-right">最高赚<span><%=rate(one.commission,2)%></span></p>
-						<%}else{%>
-						<p class="text-right">最高赚<span><%=one.commission%></span>元</p>
-						<%}%>
-						<%}%>
-						<a class="btn linear-gradient-yellow" data-id="<%=one.productId%>" data-ptype="<%=one.productType%>">立即推广</a>
-					</div>
-				</li>
-				<%}%>
+						<img class="media-object fl" src="<%=one.logo%>" alt="">
+						<div class="media-body">
+							<h3 class="title text-overflow"><%=one.productName%></h3>
+							<p>已被推广<span><%=one.recommendCount+RandomNumBoth(5000,9000)%>次</span></p>
+							<%if(one.salaryAmount==null){%>
+							<p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
+							<%}else{%>
+							<p>发放工资<span><%=one.salaryAmount+RandomNumBoth(10000,80000)%>元</span></p>
+							<%}%>
+							<%if(one.commission==null){%>
+							<%if (one.productType==1) {%>
+							<p class="text-right">最高赚<span>0</span>元</p>
+							<%}else if(one.productType==2){%>
+							<p class="text-right">最高赚<span>0</span>%</p>
+							<%}else{%>
+							<p class="text-right">最高赚<span>0</span>%</p>
+							<%}%>
+							<%}else{%>
+							<%if (one.productType==1) {%>
+							<p class="text-right">最高赚<span><%=one.commission%></span>元</p>
+							<%}else if(one.productType==2){%>
+							<p class="text-right">最高赚<span><%=rate(one.commission,2)%></span></p>
+							<%}else{%>
+							<p class="text-right">最高赚<span><%=one.commission%></span>元</p>
+							<%}%>
+							<%}%>
+							<a class="btn linear-gradient-yellow" data-id="<%=one.productId%>" data-ptype="<%=one.productType%>">立即推广</a>
+						</div>
+					</li>
+					<%}%>
 		</script>
 		<script src="js/config.js"></script>
 		<script src="js/getToken.js"></script>
@@ -185,182 +202,182 @@
 		<script src="plugin/swiper/swiper.min.js"></script>
 		<script src="plugin/layer_mobile/layer.js"></script>
 		<script src="js/common.js"></script>
-            </div>
-            <!-- 模块入口end -->
-            <!-- 滚动头条start -->
-            <div class="headline-wrap">
-                <div class="headline-title text-yellow fl">趣单头条</div>
-                <div class="swiper-container swiper-container-headline">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide text-overflow">马上发财!恭喜陈**赚取<span class="text-yellow">666.00</span>元现金奖励</div>
-                        <div class="swiper-slide text-overflow">马上发财!恭喜陈**赚取<span class="text-yellow">666.00</span>元现金奖励</div>
-                        <div class="swiper-slide text-overflow">马上发财!恭喜季*转出成功<span class="text-yellow">200.00</span>元现金奖励</div>
-                        <div class="swiper-slide text-overflow">马上发财!恭喜汤*赚取<span class="text-yellow">70.00</span>元现金奖励</div>
-                        <div class="swiper-slide text-overflow">马上发财!恭喜张**转出成功<span class="text-yellow">97.00</span>元现金奖励</div>
-                        <div class="swiper-slide text-overflow">马上发财!恭喜黄*赚取<span class="text-yellow">125.00</span>元现金奖励</div>
-                    </div>
-		<script src="plugin/template.js"></script>
-		<script>
-			if(flagGetToken == 1) {
-				token = getCookie('token');
-				var btnMsg = document.getElementById("message-btn");
-				var agentModule = document.getElementById('agent-module');
-				var marketWrap = document.getElementById('markert-wrap');
-				var marketWrapAs = marketWrap.querySelectorAll('a');
-				var marketWrapImgs = marketWrap.querySelectorAll('img');
-				var tplSwiperBanner = document.getElementById('tpl-swiper-banner').innerHTML;
-				var tplHotGoods = document.getElementById('tpl-hotgoods').innerHTML;
-				var hotGoodsWrap = document.getElementById('hot-goods');
-				var type = 1;
-				var Datatype = {
-					type: type
-				};
-				var bannerList, hotGoods;
-				if(token == '') { //未登录
-					agentModule.style.display = 'none';
-					marketWrapAs[0].setAttribute("href", "login.html");
-					marketWrapAs[1].setAttribute("href", "login.html");
-					marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
-					marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
-					document.querySelector(".vip").setAttribute("href", "login.html")
-					document.querySelector(".usermain").setAttribute("href", "login.html")
-					btnMsg.setAttribute("href", "login.html");
-				} else { //登录情况下获取用户信息，判断是否代理
-					Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
-					// agentModule.style.display = '-webkit-flex';
-					marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
-					marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
-					marketWrapAs[0].setAttribute("href", "agent.html");
-					marketWrapAs[1].setAttribute("href", "vip.html");
-					document.querySelector(".vip").setAttribute("href", "vip.html?")
-					document.querySelector(".usermain").setAttribute("href", "userMain.html")
-					btnMsg.setAttribute("href", "message.html");
-				}
-				hotGoodsWrap.addEventListener("click", function(e) {
-					var target = e.target || e.srcElement;
-					if(target.className.toLowerCase() == 'btn linear-gradient-yellow') {
-						if(token == '') {
-							window.location.href = "login.html";
-						} else {
-							var pid = target.getAttribute("data-id");
-							var ptype = target.getAttribute("data-ptype");
-							window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
+		</div>
+		<!-- 模块入口end -->
+		<!-- 滚动头条start -->
+		<div class="headline-wrap">
+			<div class="headline-title text-yellow fl">趣单头条</div>
+			<div class="swiper-container swiper-container-headline">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide text-overflow">马上发财!恭喜陈**赚取<span class="text-yellow">666.00</span>元现金奖励</div>
+					<div class="swiper-slide text-overflow">马上发财!恭喜陈**赚取<span class="text-yellow">666.00</span>元现金奖励</div>
+					<div class="swiper-slide text-overflow">马上发财!恭喜季*转出成功<span class="text-yellow">200.00</span>元现金奖励</div>
+					<div class="swiper-slide text-overflow">马上发财!恭喜汤*赚取<span class="text-yellow">70.00</span>元现金奖励</div>
+					<div class="swiper-slide text-overflow">马上发财!恭喜张**转出成功<span class="text-yellow">97.00</span>元现金奖励</div>
+					<div class="swiper-slide text-overflow">马上发财!恭喜黄*赚取<span class="text-yellow">125.00</span>元现金奖励</div>
+				</div>
+				<script src="plugin/template.js"></script>
+				<script>
+					if(flagGetToken == 1) {
+						token = getCookie('token');
+						var btnMsg = document.getElementById("message-btn");
+						var agentModule = document.getElementById('agent-module');
+						var marketWrap = document.getElementById('markert-wrap');
+						var marketWrapAs = marketWrap.querySelectorAll('a');
+						var marketWrapImgs = marketWrap.querySelectorAll('img');
+						var tplSwiperBanner = document.getElementById('tpl-swiper-banner').innerHTML;
+						var tplHotGoods = document.getElementById('tpl-hotgoods').innerHTML;
+						var hotGoodsWrap = document.getElementById('hot-goods');
+						var type = 1;
+						var Datatype = {
+							type: type
+						};
+						var bannerList, hotGoods;
+						if(token == '') { //未登录
+							agentModule.style.display = 'none';
+							marketWrapAs[0].setAttribute("href", "login.html");
+							marketWrapAs[1].setAttribute("href", "login.html");
+							marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
+							marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
+							document.querySelector(".vip").setAttribute("href", "login.html")
+							document.querySelector(".usermain").setAttribute("href", "login.html")
+							btnMsg.setAttribute("href", "login.html");
+						} else { //登录情况下获取用户信息，判断是否代理
+							Ajax_token(IP + 'msqudan/api/user/info', "GET", token, '', getUserInfo);
+							// agentModule.style.display = '-webkit-flex';
+							marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
+							marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
+							marketWrapAs[0].setAttribute("href", "agent.html");
+							marketWrapAs[1].setAttribute("href", "vip.html");
+							document.querySelector(".vip").setAttribute("href", "vip.html?")
+							document.querySelector(".usermain").setAttribute("href", "userMain.html")
+							btnMsg.setAttribute("href", "message.html");
+						}
+						hotGoodsWrap.addEventListener("click", function(e) {
+							var target = e.target || e.srcElement;
+							if(target.className.toLowerCase() == 'btn linear-gradient-yellow') {
+								if(token == '') {
+									window.location.href = "login.html";
+								} else {
+									var pid = target.getAttribute("data-id");
+									var ptype = target.getAttribute("data-ptype");
+									window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
+								}
+							}
+						})
+						// 头条轮播
+						var swiperHeadline = new Swiper('.swiper-container-headline', {
+							direction: 'vertical', // 切换方向选项
+							autoplay: true, // 循环模式选项
+							loop: true
+
+						})
+						//跳转搜索
+						var searchInput = document.getElementById("search-input");
+						searchInput.addEventListener('click', function() {
+							window.location.href = 'search.html';
+						})
+						//热门商品类别切换
+						$(".tab a").click(function() {
+							$(this).addClass("active").siblings('a').removeClass('active');
+							var index = $(this).index();
+							switch(index) {
+								case 0:
+									type = 1;
+									break;
+								case 1:
+									type = 3;
+									break;
+								case 2:
+									type = 2;
+									break;
+							}
+							Datatype = {
+								type: type
+							};
+							ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
+						})
+						//获取banner
+						var data_banner = {
+							position: 0
+						};
+						ajaxGet(IP + 'msqudan/api/banners', data_banner, getSwiper);
+						//获取热门商品
+						ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
+						template.registerFunction('rate', function(point, num) { //template辅助方法：小数转换百分比
+							var str = Number(point * 100).toFixed(num);
+							str += "%";
+							return str;
+						});
+						//生成随机数
+						template.registerFunction('RandomNumBoth', function(Min, Max) { //template辅助方法：小数转换百分比
+							var Range = Max - Min;
+							var Rand = Math.random();
+							var num = Min + Math.round(Rand * Range); //四舍五入
+							return num;
+						});
+					}
+
+					function getUserInfo(Data) {
+						if(Data.code == 200) {
+							var isAgent = Data.data.user.isAgent;
+							if(isAgent) { //代理用户
+								agentModule.style.display = '-webkit-flex';
+								marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
+								marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
+							} else { //非代理用户
+								agentModule.style.display = 'none';
+								marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
+								marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
+							}
 						}
 					}
-				})
-				// 头条轮播
-				var swiperHeadline = new Swiper('.swiper-container-headline', {
-					direction: 'vertical', // 切换方向选项
-					autoplay: true, // 循环模式选项
-					loop: true
 
-				})
-				//跳转搜索
-				var searchInput = document.getElementById("search-input");
-				searchInput.addEventListener('click', function() {
-					window.location.href = 'search.html';
-				})
-				//热门商品类别切换
-				$(".tab a").click(function() {
-					$(this).addClass("active").siblings('a').removeClass('active');
-					var index = $(this).index();
-					switch(index) {
-						case 0:
-							type = 1;
-							break;
-						case 1:
-							type = 3;
-							break;
-						case 2:
-							type = 2;
-							break;
-					}
-					Datatype = {
-						type: type
-					};
-					ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
-				})
-				//获取banner
-				var data_banner = {
-					position: 0
-				};
-				ajaxGet(IP + 'msqudan/api/banners', data_banner, getSwiper);
-				//获取热门商品
-				ajaxGet(IP + 'msqudan/api/products/hot', Datatype, getHotGoods);
-				template.registerFunction('rate', function(point, num) { //template辅助方法：小数转换百分比
-					var str = Number(point * 100).toFixed(num);
-					str += "%";
-					return str;
-				});
-				//生成随机数
-				template.registerFunction('RandomNumBoth', function(Min, Max) { //template辅助方法：小数转换百分比
-					var Range = Max - Min;
-					var Rand = Math.random();
-					var num = Min + Math.round(Rand * Range); //四舍五入
-					return num;
-				});
-			}
-
-			function getUserInfo(Data) {
-				if(Data.code == 200) {
-					var isAgent = Data.data.user.isAgent;
-					if(isAgent) { //代理用户
-						agentModule.style.display = '-webkit-flex';
-						marketWrapImgs[0].setAttribute("src", "images/bg-dl.png");
-						marketWrapImgs[1].setAttribute("src", "images/bg-vip.png");
-					} else { //非代理用户
-						agentModule.style.display = 'none';
-						marketWrapImgs[0].setAttribute("src", "images/bg-dl2.png");
-						marketWrapImgs[1].setAttribute("src", "images/bg-vip2.png");
-					}
-				}
-			}
-
-			function getSwiper(Data) {
-				if(Data.code == 200) {
-					bannerList = Data.data;
-					var html = template(tplSwiperBanner, bannerList);
-					document.getElementById('banner-swipper-wrapper').innerHTML = html;
-					// 初始化swipper
-					var swiperBanner = new Swiper('.swiper-container-banner', {
-						direction: 'horizontal', // 切换方向选项
-						autoplay: true, // 循环模式选项
-						loop: true,
-						pagination: {
-							el: '.swiper-pagination'
+					function getSwiper(Data) {
+						if(Data.code == 200) {
+							bannerList = Data.data;
+							var html = template(tplSwiperBanner, bannerList);
+							document.getElementById('banner-swipper-wrapper').innerHTML = html;
+							// 初始化swipper
+							var swiperBanner = new Swiper('.swiper-container-banner', {
+								direction: 'horizontal', // 切换方向选项
+								autoplay: true, // 循环模式选项
+								loop: true,
+								pagination: {
+									el: '.swiper-pagination'
+								}
+							})
 						}
-					})
-				}
-			}
-
-			function getHotGoods(Data) {
-				if(Data.code == 200) {
-					if(Data.data.hots.length != 0) {
-						hotGoods = Data.data;
-						var html = template(tplHotGoods, hotGoods);
-						hotGoodsWrap.innerHTML = html;
-						document.querySelector('.no-more').style.display = 'block';
-					} else {
-						hotGoodsWrap.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
-						document.querySelector('.no-more').style.display = 'none';
 					}
-				}
-			}
 
-			function ajaxGet(url, data, callback) {
-				$.ajax({
-					url: url,
-					type: "GET",
-					dataType: 'json',
-					data: data,
-					success: callback,
-					error: function(e) {
-						console.log($.parseJSON(e.responseText));
-						layerMsg($.parseJSON(e.responseText).error.message);
+					function getHotGoods(Data) {
+						if(Data.code == 200) {
+							if(Data.data.hots.length != 0) {
+								hotGoods = Data.data;
+								var html = template(tplHotGoods, hotGoods);
+								hotGoodsWrap.innerHTML = html;
+								document.querySelector('.no-more').style.display = 'block';
+							} else {
+								hotGoodsWrap.innerHTML = '<div class="no-result"><img src="images/no-result.png" alt=""><p>暂无结果，请耐心等待哦~</p></div>';
+								document.querySelector('.no-more').style.display = 'none';
+							}
+						}
 					}
-				})
-			}
-		</script>
+
+					function ajaxGet(url, data, callback) {
+						$.ajax({
+							url: url,
+							type: "GET",
+							dataType: 'json',
+							data: data,
+							success: callback,
+							error: function(e) {
+								console.log($.parseJSON(e.responseText));
+								layerMsg($.parseJSON(e.responseText).error.message);
+							}
+						})
+					}
+				</script>
 	</body>
 
 </html>

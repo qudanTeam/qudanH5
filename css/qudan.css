@@ -31,7 +31,7 @@ body {
 }
 
 .banner-pos-detail .blank {
-	min-height: 0.5rem;
+	min-height: 70px;
 }
 
 .banner-loan-detail .btn-wrap {
@@ -541,14 +541,14 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 
 .goods-sketch {
 	position: absolute;
-	top: 1.5rem;
+	top: 150px;
 	width: 92%;
 	text-align: left;
 	border-radius: 10px 10px;
 	padding: 20px 15px;
 	background: white;
 	margin: 0px 4%;
-	box-shadow: #E5E5E5 2px 2px 15px 2px; //边框阴影
+	box-shadow: #E5E5E5 2px 2px 12px 2px; //边框阴影
 }
 
 .goods-sketch .title {
@@ -624,6 +624,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .addressDown {
 	float: right;
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 .codeBox {
@@ -650,7 +651,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 }
 
 .applyTitle {
-	margin: 5px 10px;
+	margin: 10px 10px;
 	font-weight: bold;
 	font-size: 0.16rem;
 	float: left;
@@ -687,22 +688,22 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .payMoney {
 	position: absolute;
 	left: 40px;
-	top: 0.18rem;
-	font-size: 0.2rem;
+	top: 0.13rem;
+	font-size: 0.22rem;
 }
 
 .payRemak {
 	position: absolute;
-	left: 80px;
-	top: 0.2rem;
+	left: 22%;
+	top: 0.18rem;
 	font-size: 0.14rem;
 }
 
 .payName {
 	position: absolute;
-	left: 65%;
-	top:0.2rem;
-	font-size:0.2rem;
+	left: 63%;
+	top: 0.13rem;
+	font-size: 0.2rem;
 }
 
 .payAgree {
@@ -717,7 +718,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .payWay {
 	display: block;
 	width: 100%;
-	margin: 25px 0px 10px 0px;
+	margin: 25px 0px 20px 0px;
 }
 
 .payWay li {
@@ -854,4 +855,16 @@ input:checked+label::after {
 	height: 140px;
 	text-align: center;
 	line-height: 80px;
+}
+
+.agree_title {
+	text-align: center;
+	font-size: 0.18rem;
+	color: #000000;
+	margin: 20px 0px;
+}
+.agree_content{
+	font-size: 16px;
+    color: #666666;
+    line-height:25px;
 }

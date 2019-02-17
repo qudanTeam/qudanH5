@@ -17,7 +17,7 @@
 	<body class="qudan-detail">
 		<header id="header">
 			<a class='icon-back'></a>
-			<h1>POS机详情</h1>
+			<h1>POS机详情页</h1>
 		</header>
 		<div id="main">
 
@@ -30,10 +30,10 @@
 		<script id='tpl-main' type='text/html'>
 			<div class="banner banner-pos-detail">
 				<img src="<%=detail.product.detailHeaderImg%>" style="width:100%;height:200px;" />
-					<div class="blank"></div>					
+				<div class="blank"></div>					
 				<div class="goods-sketch">
 					<h2 class="title"><%=detail.product.productName%><div class="tag-box"><a class="btn btn-outlined btn-red shareIndex-btn btn-style" id="shareIndex-btn">最高赚<%=detail.product.commission%>元</a></div></h2>
-					<p class="data"><span>激活率：<%=rate(detail.product.allowRate,2)%></span><span>领取人数：<%=detail.product.applyNum%></span></p>
+					<p class="data"><span>激活率：<%=(detail.product.allowRate).toFixed(2)%>%</span><span>领取人数：<%=detail.product.applyNum%></span></p>
 					<p class="sketch">
 						<%=detail.product.specialTxt%>
 					</p>
@@ -66,11 +66,21 @@
 					</ul>
 				</div>
 				<div class="concontMsg">
-					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理需求</span></p>
+					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理要求</span></p>
 					<ul class="rules">
 						<li>
 							<p>
 								<%:=detail.product.requireCondition%>
+							</p>
+						</li>						
+					</ul>
+				</div>
+				<div class="concontMsg">
+					<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">办理流程</span></p>
+					<ul class="rules">
+						<li>
+							<p>
+								<img src="<%=detail.product.handingProcess%>" style="width:100%;height:200px;" />
 							</p>
 						</li>						
 					</ul>
