@@ -1,135 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>分享海报</title>
-    <link rel="stylesheet" href="css/reset.css">
-    <script src="js/rem.js"></script>
-    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
-    <link rel="stylesheet" href="css/common.css?v=20190104001">
-    <link rel="stylesheet" href="css/qudan.css?v=20190105001">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>分享海报</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<script src="js/rem.js"></script>
+		<link rel="stylesheet" href="plugin/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="css/common.css?v=20190104001">
+		<link rel="stylesheet" href="css/qudan.css?v=20190105001">
+	</head>
 
-<body class="poster">
-    <header id="header">
-        <a class='icon-back'></a>
-        <h1>商品推广海报</h1>
-    </header>
-    <div class="content-poster content-poster-share">
-        <img alt="" class="qr-code">
-    </div>
-    <div class="btn-wrap fixed-bottom-btn">
-        <a onclick="history.back(-1);" class="btn btn-back">返回</a>
-        <a class="btn linear-gradient-blue" id="btn-saveImg">分享海报</a>
-        <button class="btn linear-gradient-red" id="copy-btn">复制链接</button>
-    </div>
-    <div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
-    <script src="js/config.js"></script>
-    <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="js/html2canvas.js"></script>
-    <script src="plugin/layer_mobile/layer.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
-    <script src="plugin/clipboard.min.js"></script>
-    <script src="js/common.js"></script>
-    <script src="js/share.js"></script>
-    <script>
-        var btnSaveImg = document.getElementById("btn-saveImg");
-        var qrCode = document.querySelector('.qr-code');
-        var token = getCookie('token');
-        var pid = getQueryString('id');
-        var ptype = getQueryString('ptype');
-        var loadingUrl;//分享出去的落地页
-        if (ptype == 1) {
-            loadingUrl = domain_test + "applyCardShare.html?id=" + pid
-        }
-        if (ptype == 2) {
-            loadingUrl = domain_test + "applyLoanShare.html?id=" + pid
-        }
-        if (ptype == 3) {
-            loadingUrl = domain_test + "applyPos.html?id=" + pid
-        }
-        var data = JSON.stringify({
-            shareType:1,
-            pid: pid,
-            loadingUrl: loadingUrl
-        });
+	<body class="poster">
+		<header id="header">
+			<a class='icon-back'></a>
+			<h1>商品推广海报</h1>
+		</header>
+		<div class="content-poster content-poster-share">
+			<img alt="" class="qr-code">
+		</div>
+		<div class="btn-wrap fixed-bottom-btn">
+			<a onclick="history.back(-1);" class="btn btn-back">返回</a>
+			<a class="btn linear-gradient-blue" id="btn-saveImg">分享海报</a>
+			<button class="btn linear-gradient-red" id="copy-btn">复制链接</button>
+		</div>
+		<div class="share-shade"><img class="shade-arrow" src="images/shadeArrow.png"></div>
+		<script src="js/config.js"></script>
+		<script src="js/jquery-1.9.1.min.js"></script>
+		<script src="js/html2canvas.js"></script>
+		<script src="plugin/layer_mobile/layer.js"></script>
+		<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<!-- <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
+		<script src="plugin/clipboard.min.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/share.js"></script>
+		<script>
+			var btnSaveImg = document.getElementById("btn-saveImg");
+			var qrCode = document.querySelector('.qr-code');
+			var token = getCookie('token');
+			var pid = getQueryString('id');
+			var ptype = getQueryString('ptype');
+			var loadingUrl; //分享出去的落地页
+			if(ptype == 1) {
+				loadingUrl = domain_test + "applyCardShare.html?id=" + pid
+			}
+			if(ptype == 2) {
+				loadingUrl = domain_test + "applyLoanShare.html?id=" + pid
+			}
+			if(ptype == 3) {
+				loadingUrl = domain_test + "applyPos.html?id=" + pid
+			}
+			var data = JSON.stringify({
+				shareType: 1,
+				pid: pid,
+				loadingUrl: loadingUrl
+			});
 
-        var shareid;
-        Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode);//获取分享二维码
-        btnSaveImg.addEventListener("click", function () {
-            layerShare();
-            var shareBtn = document.querySelector(".share-btn");
-            var cancelShareBtn = document.querySelector(".cancel-share");
-            shareBtn.addEventListener("click", goShare);
-            cancelShareBtn.addEventListener("click", cancelShare);
-        })
-        function getQrcode(Data) {
-            if (Data.code == 200) {
-                qrCode.setAttribute('src', Data.data.qrCodeImgUrl);
-                document.body.setAttribute("data-shareid", Data.data.shareid);
-                var wxjsapi_data = location.href.split('#').toString();
-                ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig);//微信jssdk认证
-                //复制链接
-                var clipboard = new ClipboardJS('#copy-btn', {
-                    text: function () {
-                        return Data.data.url;
-                    }
-                });
-                clipboard.on('success', function (e) {
-                    layerMsg("复制成功！")
-                });
-                clipboard.on('error', function (e) {
-                    layerMsg('请选择“拷贝”进行复制!')
-                });
-                // 参数：element为要保存元素的DOM对象，option为可配置项
-                let inviteBox = document.querySelector(".content-poster");
-                let canvas = document.createElement("canvas");
-                var scale = 4;
-                canvas.getContext("2d").scale(scale, scale);
-                canvas.width = inviteBox.offsetWidth * scale;   // 最终图片宽度原图的2倍，以px为单位
-                canvas.height = inviteBox.offsetHeight * scale;  // 最终图片高度原图的2倍，以px为单位
-                let opts = {
-                    scale: scale,
-                    logging: true,
-                    width: inviteBox.offsetWidth,
-                    height: inviteBox.offsetHeight,
-                    canvas: canvas,                       // 将自定义canvas作为配置项
-                    useCORS: true,                        // 允许图片跨域
-                    // height: inviteBox.offsetHeight  // 修复截图不完整问题
-                };
-                var canvasDiv = document.querySelector(".content-poster");
-                html2canvas(inviteBox, opts).then(function (canvas) {
-                    let base64ImgSrc = canvas.toDataURL();
-                    var poster_div = document.createElement("div");
-                    var poster = document.createElement("img");
-                    poster.className = "poster";
-                    poster.setAttribute("src", base64ImgSrc);
-                    poster_div.appendChild(poster);
-                    poster.style.width = canvas.width / 4 + 'px';
-                    poster.style.height = canvas.height / 4 + 'px';
-                    // poster.style.borderRadius = '10px';
-                    inviteBox.appendChild(poster_div);
-                    // console.log(base64ImgSrc);
-                });
-            }
-        }
-        function goShare() {
-            document.querySelector(".share-shade").style.display = 'block';
-        }
-        function cancelShare() {
-            document.querySelector(".share-shade").style.display = 'none';
-            layer.closeAll();
-        }
-    </script>
-    <script>
+			var shareid;
+			Ajax_token(IP + 'msqudan/api/user/share/qrcodeurl', "POST", token, data, getQrcode); //获取分享二维码
+			btnSaveImg.addEventListener("click", function() {
+				layerShare();
+				var shareBtn = document.querySelector(".share-btn");
+				var cancelShareBtn = document.querySelector(".cancel-share");
+				shareBtn.addEventListener("click", goShare);
+				cancelShareBtn.addEventListener("click", cancelShare);
+			})
 
-    </script>
-</body>
+			function getQrcode(Data) {
+				if(Data.code == 200) {
+					qrCode.setAttribute('src', Data.data.qrCodeImgUrl);
+					document.body.setAttribute("data-shareid", Data.data.shareid);
+					var wxjsapi_data = location.href.split('#').toString();
+					ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig); //微信jssdk认证
+					//复制链接
+					var clipboard = new ClipboardJS('#copy-btn', {
+						text: function() {
+							return Data.data.url;
+						}
+					});
+					clipboard.on('success', function(e) {
+						layerMsg("复制成功！")
+					});
+					clipboard.on('error', function(e) {
+						layerMsg('请选择“拷贝”进行复制!')
+					});
+					// 参数：element为要保存元素的DOM对象，option为可配置项
+					let inviteBox = document.querySelector(".content-poster");
+					let canvas = document.createElement("canvas");
+					var scale = 4;
+					canvas.getContext("2d").scale(scale, scale);
+					canvas.width = inviteBox.offsetWidth * scale; // 最终图片宽度原图的2倍，以px为单位
+					canvas.height = inviteBox.offsetHeight * scale; // 最终图片高度原图的2倍，以px为单位
+					let opts = {
+						scale: scale,
+						logging: true,
+						width: inviteBox.offsetWidth,
+						height: inviteBox.offsetHeight,
+						canvas: canvas, // 将自定义canvas作为配置项
+						useCORS: true, // 允许图片跨域
+						// height: inviteBox.offsetHeight  // 修复截图不完整问题
+					};
+					var canvasDiv = document.querySelector(".content-poster");
+					html2canvas(inviteBox, opts).then(function(canvas) {
+						let base64ImgSrc = canvas.toDataURL();
+						var poster_div = document.createElement("div");
+						var poster = document.createElement("img");
+						poster.className = "poster";
+						poster.setAttribute("src", base64ImgSrc);
+						poster_div.appendChild(poster);
+						poster.style.width = canvas.width / 4 + 'px';
+						poster.style.height = canvas.height / 4 + 'px';
+						// poster.style.borderRadius = '10px';
+						inviteBox.appendChild(poster_div);
+						// console.log(base64ImgSrc);
+					});
+				}
+			}
+
+			function wxConfig(Data) {
+				wx.config({
+					debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+					appId: Data.data.appId, // 必填，公众号的唯一标识
+					timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
+					nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
+					signature: Data.data.signature, // 必填，签名
+					jsApiList: ['onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareTimeline', 'onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					// jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'] // 必填，需要使用的JS接口列表
+				});
+
+				wx.checkJsApi({
+					jsApiList: ['onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareTimeline', 'onMenuShareQZone'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+
+				wx.error(function(res) {
+					alert(res.errMsg);
+					// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+				});
+
+			}
+
+			function goShare() {
+				document.querySelector(".share-shade").style.display = 'block';
+			}
+
+			function cancelShare() {
+				document.querySelector(".share-shade").style.display = 'none';
+				layer.closeAll();
+			}
+		</script>
+		<script>
+		</script>
+	</body>
 
 </html>
