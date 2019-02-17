@@ -31,7 +31,7 @@
 					<img :src="detail.product.detailHeaderImg" style="height:200px;" />
 					<div class="blank"></div>
 					<div class="goods-sketch">
-						<h2 class="title">{{detail.product.productName}}<div class="tag-box"><a class="btn btn-outlined btn-red shareIndex-btn btn-style" id="shareIndex-btn">最高赚 20元</a></div></h2>
+						<h2 class="title">{{detail.product.productName}}</h2>
 						<p class="data"><span>激活率：{{(detail.product.allowRate).toFixed(2)}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
 						<p class="sketch">{{detail.product.specialTxt}}</p>
 					</div>
@@ -45,8 +45,7 @@
 					</div>
 					<div class="concontMsg">
 						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">产品优势</span></p>
-						<ul class="rules">
-							<li v-html="detail.product.benefitsB"></li>
+						<ul class="rules">						
 							<li v-html="detail.product.benefitsC"></li>
 						</ul>
 					</div>
