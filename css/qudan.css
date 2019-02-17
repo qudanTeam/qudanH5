@@ -605,6 +605,7 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .posContent .name {
 	font-size: 14px;
 	font-weight: bold;
+	color: #000;
 }
 
 .posContent .rules {
