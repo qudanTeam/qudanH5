@@ -69,6 +69,7 @@
 			<van-popup v-model="show" position="bottom" :close-on-click-overlay="false">
 				<img src="images/addess.png" class="addressDown" @click="onCancel" />
 				<span class="applyTitle">请填写收货地址</span>
+				<span class="required">*</span>
 				<van-address-edit :area-list="areaList" :address-info="applyer" show-search-result save-button-text="下一步" @save="onSave" @delete="onDelete" @focus="onFocus" @change-detail="onChangeDetail" />
 			</van-popup>
 			<van-popup v-model="applyShow" position="bottom" :close-on-click-overlay="false">
@@ -95,6 +96,12 @@
 							</div>
 						</div>
 					</div>
+					<div class="van-cell van-field" v-show="!token">
+						<div class="van-cell__title"><span>退返账户</span></div>
+						<div class="van-cell__value">
+							<div class="van-field__body"><input type="text" placeholder="请输入押金退返的支付宝账户" v-model="useInfo.alipayAcount" class="van-field__control"></div>
+						</div>
+					</div>
 				</div>
 				<ul class="applyExplain">
 					<li>1、请务必填写本人真实个人信息；</li>
@@ -118,7 +125,7 @@
 			</van-popup>
 			<van-popup v-model="payWay" position="bottom" :close-on-click-overlay="false">
 				<img src="images/close.png" class="addressDown" @click="onCancel" />
-				<span class="applyTitle"><img src="images/applyBack.png" @click="applyBack" style="vertical-align: middle;"/> 请选择支付方式</span>
+				<span class="applyTitle" @click="applyBack"><img src="images/applyBack.png"  style="vertical-align: middle;width:0.20rem;"/> 请选择支付方式</span>
 				<!--<div style="text-align:center;margin-top:40px;">
 					<div class="codeBox">
 						<div class="shade" v-show="refreshShade" @click="refreshCode">
@@ -203,6 +210,7 @@
 				useInfo: {
 					"productId": getQueryString('id'),
 					"shareid": getQueryString('shareid'),
+					"alipayAcount": "",
 					"applyName": "", //名字
 					"applyMobile": "", //手机号
 					"validcode": "", //验证码,
@@ -223,6 +231,7 @@
 					province: "",
 					tel: ""
 				},
+				token: getCookie('token'),
 				codeShow: true,
 				codeTxt: "发送验证码",
 				count: '',
@@ -270,22 +279,14 @@
 					});
 				},
 				applyBack: function() {
+					this.payWay = false;
+					this.useInfo.validcode ="";
+					this.codeShow=true;
 					this.applyShow = true;
 				},
-				userShow: function() {
-					this.applyer = {
-						addressDetail: "",
-						areaCode: "",
-						city: "",
-						country: "",
-						county: "",
-						isDefault: "",
-						name: "",
-						postalCode: "",
-						province: "",
-						tel: ""
-					};
-					this.show = !this.show;
+				userShow: function() {               
+	    			 this.show = !this.show;
+	    			 $('div').hasClass('redColor')				
 				},
 				getCode: function(val) {
 					if(this.useInfo.applyName == "" || this.useInfo.applyName == undefined) {
@@ -322,7 +323,6 @@
 					}
 				},
 				onSave: function(val) {
-					console.log(val)
 					this.useInfo.receiver = val.name,
 						this.useInfo.receiverMobile = val.tel,
 						this.useInfo.region = val.province + val.city + val.county,
@@ -351,6 +351,12 @@
 					if(that.useInfo.validcode == "" || that.useInfo.validcode == undefined) {
 						that.$toast('请填写验证码');
 						return false;
+					}
+					if(that.token=="" || that.token==undefined ) {
+						if(that.useInfo.alipayAcount == "" || that.useInfo.alipayAcount == undefined) {
+							that.$toast('请填写退返账号');
+							return false;
+						}
 					}
 					if(!that.checked) {
 						that.$toast('请勾选用户购买条例');

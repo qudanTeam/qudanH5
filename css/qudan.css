@@ -624,7 +624,8 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 .addressDown {
 	float: right;
 	margin-right: 10px;
-	margin-top: 5px;
+	margin-top:10px;
+	width:0.15rem;
 }
 
 .codeBox {
@@ -649,12 +650,20 @@ body .layui-m-layer .layui-m-layer-footer.my-footer-share .layui-m-layercont {
 	margin: 80px auto;
 	font-size: 16px;
 }
-
+.required{
+	position: absolute;
+    color: #f44;
+    bottom: 130px;
+    left: 6px;
+    font-size: 0.16em;
+    z-index: 999;
+}
 .applyTitle {
 	margin: 10px 10px;
 	font-weight: bold;
 	font-size: 0.16rem;
 	float: left;
+	display: inline-block;
 }
 
 .applyExplain {

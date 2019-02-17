@@ -101,7 +101,7 @@
 									<%}%>
 								</div>
 								<%}else{%>
-									<span style="font-size:0.13rem;color: #FFBF00;float: right;">刷卡免费领</span>
+									<span style="font-size:0.13rem;color: #FFBF00;float: right;"><%=one.specialTag%></span>
 								<%}%>
 								<%if (one.productType==3) {%>								
 								<p class="data"><span>激活率：<%=rate(one.allowRate,2)%></span><span>领取人数：<%=one.applyNum%></span></p>
