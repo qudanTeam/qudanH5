@@ -32,7 +32,7 @@
 					<div class="blank"></div>
 					<div class="goods-sketch">
 						<h2 class="title">{{detail.product.productName}}</h2>
-						<p class="data"><span>激活率：{{(detail.product.allowRate).toFixed(2)}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
+						<p class="data"><span>激活率：{{(detail.product.allowRate*100).toFixed(2)}}%</span><span>领取人数：{{detail.product.applyNum}}</span></p>
 						<p class="sketch">{{detail.product.specialTxt}}</p>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 					</div>
 					<div class="concontMsg">
 						<p class="title"><span class="icon"></span>&nbsp;&nbsp;<span class="name">产品优势</span></p>
-						<ul class="rules">						
+						<ul class="rules">
 							<li v-html="detail.product.benefitsC"></li>
 						</ul>
 					</div>
@@ -66,12 +66,12 @@
 				</div>
 			</div>
 			<div style="width:100%;height:70px;"></div>
-			<van-popup v-model="show" position="bottom">
+			<van-popup v-model="show" position="bottom" :close-on-click-overlay="false">
 				<img src="images/addess.png" class="addressDown" @click="onCancel" />
 				<span class="applyTitle">请填写收货地址</span>
 				<van-address-edit :area-list="areaList" :address-info="applyer" show-search-result save-button-text="下一步" @save="onSave" @delete="onDelete" @focus="onFocus" @change-detail="onChangeDetail" />
 			</van-popup>
-			<van-popup v-model="applyShow" position="bottom">
+			<van-popup v-model="applyShow" position="bottom" :close-on-click-overlay="false">
 				<img src="images/close.png" class="addressDown" @click="onCancel" />
 				<span class="applyTitle">申请信息填写</span>
 				<div class="van-address-edit">
@@ -102,9 +102,11 @@
 				</ul>
 				<p class="payButton" @click="payMethod">
 					<img src="images/payBg.png" />
-					<span class="payIcon">¥</span>
-					<span class="payMoney">199</span>
-					<span class="payRemak"> (含¥199押金)</span>
+					<span class="posPrice">
+						<span class="payIcon">¥</span>
+						<span class="payMoney">{{detail.product.posPrice}}</span>
+						<span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
+					</span>
 					<span class="payName">立即申请</span>
 				</p>
 				<p class="payAgree">
@@ -114,7 +116,7 @@
 					</van-checkbox>
 				</p>
 			</van-popup>
-			<van-popup v-model="payWay" position="bottom">
+			<van-popup v-model="payWay" position="bottom" :close-on-click-overlay="false">
 				<img src="images/close.png" class="addressDown" @click="onCancel" />
 				<span class="applyTitle"><img src="images/applyBack.png" @click="applyBack" style="vertical-align: middle;"/> 请选择支付方式</span>
 				<!--<div style="text-align:center;margin-top:40px;">
@@ -163,9 +165,11 @@
 				</ul>
 				<p class="payButton" @click="payMoney">
 					<img src="images/payBg.png" />
-					<span class="payIcon">¥</span>
-					<span class="payMoney">199</span>
-					<span class="payRemak">(含¥199押金)</span>
+					<span class="posPrice">
+						<span class="payIcon">¥</span>
+						<span class="payMoney">{{detail.product.posPrice}}</span>
+						<span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
+					</span>
 					<span class="payName">确认支付</span>
 				</p>
 				<p class="payAgree">
@@ -198,7 +202,7 @@
 			data: {
 				useInfo: {
 					"productId": getQueryString('id'),
-					"shareid":getQueryString('shareid'),
+					"shareid": getQueryString('shareid'),
 					"applyName": "", //名字
 					"applyMobile": "", //手机号
 					"validcode": "", //验证码,
@@ -478,20 +482,26 @@
 					let n;
 					switch(val) {
 						case "name":
-							n=0;
+							n = 0;
 							break;
 						case "tel":
-							n=1;
+							n = 1;
 							break;
 						case "addressDetail":
-							n=3;
+							n = 3;
 							break;
 						default:
-							n=2;
-					}			
-					$(".van-address-edit .van-cell").not(n).css({"border-bottom":"1px solid #ebedf0"});
-					$(".van-address-edit .van-cell").eq(n).css({"border-bottom":"1px solid #ffbf00"});	
-					$(".van-address-edit .van-cell").eq(3).css({"border-bottom":"none"});
+							n = 2;
+					}
+					$(".van-address-edit .van-cell").not(n).css({
+						"border-bottom": "1px solid #ebedf0"
+					});
+					$(".van-address-edit .van-cell").eq(n).css({
+						"border-bottom": "1px solid #ffbf00"
+					});
+					$(".van-address-edit .van-cell").eq(3).css({
+						"border-bottom": "none"
+					});
 				}
 			}
 		});
