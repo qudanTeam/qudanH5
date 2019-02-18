@@ -398,7 +398,7 @@
 					if(that.isWexin()) {
 						//微信jssdk认证
 						var wxjsapi_data = location.href.split('#').toString();
-						ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data,function(Data){
+						that.ajaxWxjsapi(that.IP + "wechat/wxjsapi", wxjsapi_data, function(Data) {
 							// 通过config接口注入权限验证配置
 							if(Data.code == 200) {
 								wx.config({
@@ -410,7 +410,7 @@
 									jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
 								});
 							}
-						}); 
+						});
 						Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
 							if(Data.status == 200) {
 								wx.chooseWXPay({
@@ -506,6 +506,21 @@
 						})
 					}
 				},
+				ajaxWxjsapi: function(url, data, callback) {
+					$.ajax({
+						url: url,
+						type: "GET",
+						data: {
+							url: data
+						},
+						dataType: 'json',
+						success: callback,
+						error: function(e) {
+							console.log($.parseJSON(e.responseText));
+							layerMsg($.parseJSON(e.responseText).error.message);
+						}
+					})
+				}
 				onFocus: function(val) {
 					let n;
 					switch(val) {
