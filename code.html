@@ -37,7 +37,6 @@
         function getWutid(Data) {
             if (Data.code == 200) {
             	sessionStorage.setItem("openid",Data.data.openid);
-            	alert(Data.data.openid);
                 window.location.href ='applyPos.html?id='+id;
              }
         }

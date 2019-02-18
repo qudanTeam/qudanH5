@@ -244,14 +244,13 @@
 						name: "你好",
 						detail: "",
 						id: getQueryString('id'),
-						IP: 'http://txmsqudan.myhshop.top/',
+						IP: 'http://msqudan.myhshop.top/',
 						payMsg: {}, //支付信息
 						qrImgUrl: "", //二维码
 						checked: true, //用户协议
 						payMthod: "2"
 					},
 					mounted: function() {
-						console.log(sessionStorage.getItem("openid"))
 						if(sessionStorage.getItem("openid")==null) {
 							    var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id='+this.id);
 								window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";		
@@ -396,7 +395,6 @@
 									"ext_id": that.payMsg.extId,
 									"openid": sessionStorage.getItem("openid"),
 								}
-								alert(JSON.stringify(wxPay));
 								if(that.isWexin()) {
 									Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
 										if(Data.status == 200) {
