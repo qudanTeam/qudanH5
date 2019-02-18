@@ -205,323 +205,337 @@
 	<!--微信jssdk-->
 	<script>
 		var app = new Vue({
-					el: "#app",
-					data: {
-						useInfo: {
-							"productId": getQueryString('id'),
-							"shareid": getQueryString('shareid'),
-							"alipayAcount": "",
-							"applyName": "", //名字
-							"applyMobile": "", //手机号
-							"validcode": "", //验证码,
-							"region": "", //地区
-							"address": "", //地址
-							"receiver": "", //收货人
-							"receiverMobile": "" //收货人手机号
-						},
-						applyer: {
-							addressDetail: "",
-							areaCode: "",
-							city: "",
-							country: "",
-							county: "",
-							isDefault: "",
-							name: "",
-							postalCode: "",
-							province: "",
-							tel: ""
-						},
-						token: getCookie('token'),
-						codeShow: true,
-						codeTxt: "发送验证码",
-						count: '',
-						timer: null,
-						areaList: areaList,
-						show: false,
-						applyShow: false,
-						payWay: false,
-						refreshShade: false,
-						name: "你好",
-						detail: "",
-						id: getQueryString('id'),
-						IP: 'http://msqudan.myhshop.top/',
-						payMsg: {}, //支付信息
-						qrImgUrl: "", //二维码
-						checked: true, //用户协议
-						payMthod: "2"
-					},
-					mounted: function() {
-						if(sessionStorage.getItem("openid")==null) {
-							    var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id='+this.id);
-								window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";		
+			el: "#app",
+			data: {
+				useInfo: {
+					"productId": getQueryString('id'),
+					"shareid": getQueryString('shareid'),
+					"alipayAcount": "",
+					"applyName": "", //名字
+					"applyMobile": "", //手机号
+					"validcode": "", //验证码,
+					"region": "", //地区
+					"address": "", //地址
+					"receiver": "", //收货人
+					"receiverMobile": "" //收货人手机号
+				},
+				applyer: {
+					addressDetail: "",
+					areaCode: "",
+					city: "",
+					country: "",
+					county: "",
+					isDefault: "",
+					name: "",
+					postalCode: "",
+					province: "",
+					tel: ""
+				},
+				token: getCookie('token'),
+				codeShow: true,
+				codeTxt: "发送验证码",
+				count: '',
+				timer: null,
+				areaList: areaList,
+				show: false,
+				applyShow: false,
+				payWay: false,
+				refreshShade: false,
+				name: "你好",
+				detail: "",
+				id: getQueryString('id'),
+				IP: 'http://msqudan.myhshop.top/',
+				payMsg: {}, //支付信息
+				qrImgUrl: "", //二维码
+				checked: true, //用户协议
+				payMthod: "2"
+			},
+			mounted: function() {
+				if(sessionStorage.getItem("openid") == null) {
+					var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id=' + this.id);
+					window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+				}
+				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
+			},
+			methods: {
+				getDetail: function(Data) {
+					if(Data.code == 200) {
+						console.log(Data)
+						this.detail = Data.data.detail;
+					}
+				},
+				getValidcode: function(req) {
+					console.log(req)
+				},
+				showArea: function() {
+					this.areaShow = !this.areaShow;
+				},
+				onConfirm: function(value, index) {
+					console.log(value);
+					this.areaShow = false;
+				},
+				onCancel: function() {
+					this.applyShow = false;
+					this.show = false;
+					this.payWay = false;
+					$(".van-address-edit .van-cell").css({
+						"border-bottom": "1px solid #ebedf0"
+					});
+				},
+				applyBack: function() {
+					this.payWay = false;
+					this.useInfo.validcode = "";
+					this.applyShow = true;
+				},
+				userShow: function() {
+					this.show = !this.show;
+				},
+				getCode: function(val) {
+					if(this.useInfo.applyName == "" || this.useInfo.applyName == undefined) {
+						this.$toast('请填写申请人姓名');
+						return false;
+					}
+					if(this.useInfo.applyMobile == "" || this.useInfo.applyMobile == undefined) {
+						this.$toast('请填写申请人号码');
+						return false;
+					}
+					if(!(/^1[34578]\d{9}$/.test(this.useInfo.applyMobile))) {
+						this.$toast('请填写正确的号码');
+						return false;
+					}
+					const codes = {
+						"mobile": this.useInfo.applyMobile, //手机号
+						"type": 4 //发送类型，1-注册，2-登陆，3-忘记密码，4-产品申请, 5-微信注册绑定
+					}
+					Ajax_token(this.IP + "msqudan/api/validcode", "POST", getCookie('token'), JSON.stringify(codes), this.getValidcode);
+					const TIME_COUNT = 60;
+					if(!this.timer) {
+						this.count = TIME_COUNT;
+						this.codeShow = false;
+						this.timer = setInterval(() => {
+							if(this.count > 0 && this.count <= TIME_COUNT) {
+								this.count--;
+							} else {
+								this.codeShow = true;
+								this.codeTxt = "重新获取",
+									clearInterval(this.timer);
+								this.timer = null;
 							}
-							AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
-						},
-						methods: {
-							getDetail: function(Data) {
-								if(Data.code == 200) {
-									console.log(Data)
-									this.detail = Data.data.detail;
-								}
-							},
-							getValidcode: function(req) {
-								console.log(req)
-							},
-							showArea: function() {
-								this.areaShow = !this.areaShow;
-							},
-							onConfirm: function(value, index) {
-								console.log(value);
-								this.areaShow = false;
-							},
-							onCancel: function() {
-								this.applyShow = false;
-								this.show = false;
-								this.payWay = false;
-								$(".van-address-edit .van-cell").css({
-									"border-bottom": "1px solid #ebedf0"
-								});
-							},
-							applyBack: function() {
-								this.payWay = false;
-								this.useInfo.validcode = "";
-								this.applyShow = true;
-							},
-							userShow: function() {
-								this.show = !this.show;
-							},
-							getCode: function(val) {
-								if(this.useInfo.applyName == "" || this.useInfo.applyName == undefined) {
-									this.$toast('请填写申请人姓名');
-									return false;
-								}
-								if(this.useInfo.applyMobile == "" || this.useInfo.applyMobile == undefined) {
-									this.$toast('请填写申请人号码');
-									return false;
-								}
-								if(!(/^1[34578]\d{9}$/.test(this.useInfo.applyMobile))) {
-									this.$toast('请填写正确的号码');
-									return false;
-								}
-								const codes = {
-									"mobile": this.useInfo.applyMobile, //手机号
-									"type": 4 //发送类型，1-注册，2-登陆，3-忘记密码，4-产品申请, 5-微信注册绑定
-								}
-								Ajax_token(this.IP + "msqudan/api/validcode", "POST", getCookie('token'), JSON.stringify(codes), this.getValidcode);
-								const TIME_COUNT = 60;
-								if(!this.timer) {
-									this.count = TIME_COUNT;
-									this.codeShow = false;
-									this.timer = setInterval(() => {
-										if(this.count > 0 && this.count <= TIME_COUNT) {
-											this.count--;
-										} else {
-											this.codeShow = true;
-											this.codeTxt = "重新获取",
-												clearInterval(this.timer);
-											this.timer = null;
-										}
-									}, 1000)
-								}
-							},
-							onSave: function(val) {
-								this.useInfo.receiver = val.name,
-									this.useInfo.receiverMobile = val.tel,
-									this.useInfo.region = val.province + val.city + val.county,
-									this.useInfo.address = val.addressDetail,
-									this.useInfo.applyName = val.name,
-									this.useInfo.applyMobile = val.tel,
-									this.applyShow = !this.applyShow;
-							},
-							onDelete: function() {
-								Toast('delete');
-							},
-							payMethod: function() {
-								let that = this;
-								if(that.useInfo.applyName == "" || that.useInfo.applyName == undefined) {
-									this.$toast('请填写申请人姓名');
-									return false;
-								}
-								if(that.useInfo.applyMobile == "" || that.useInfo.applyMobile == undefined) {
-									this.$toast('请填写申请人号码');
-									return false;
-								}
-								if(!(/^1[34578]\d{9}$/.test(that.useInfo.applyMobile))) {
-									that.$toast('请填写正确的号码');
-									return false;
-								}
-								if(that.useInfo.validcode == "" || that.useInfo.validcode == undefined) {
-									that.$toast('请填写验证码');
-									return false;
-								}
-								if(that.token == "" || that.token == undefined) {
-									if(that.useInfo.alipayAcount == "" || that.useInfo.alipayAcount == undefined) {
-										that.$toast('请填写退返账号');
-										return false;
-									}
-								}
-								if(!that.checked) {
-									that.$toast('请勾选用户购买条例');
-									return false;
-								}
-								Ajax_token(that.IP + "msqudan/api/user/apply/pos", "POST", getCookie('token'), JSON.stringify(that.useInfo), function(req) {
-									if(req.code == 200) {
-										that.payMsg = req.data;
-										that.payWay = true;
-									}
-								});
-							},
-							payMoney: function() {
-								let that = this;
-								if(that.payMthod != 2) {
-									that.$toast('请勾选微信支付');
-									return false;
-								}
-								if(!that.checked) {
-									that.$toast('请勾选用户购买条例');
-									return false;
-								}
-								var ua = navigator.userAgent.toLowerCase();
-								var trade_type;
-								if(ua.match(/MicroMessenger/i) == "micromessenger") {
-									trade_type = 'JSAPI';
-								} else {
-									trade_type = 'MWEB';
-								};
-								const wxPay = {
-									"total_fee": that.payMsg.deposit,
-									"trade_type": trade_type,
-									"product_id": getQueryString('id'),
-									"ext_id": that.payMsg.extId,
-									"openid": sessionStorage.getItem("openid"),
-								}
-								if(that.isWexin()) {
-									Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
-										if(Data.status == 200) {
-											wx.chooseWXPay({
-												timestamp: Data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-												nonceStr: Data.data.noncestr, // 支付签名随机串，不长于 32 位
-												package: "prepay_id=" + Data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-												signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-												paySign: Data.data.sign, // 支付签名
-												appid:Data.data.appid,
-												success: function(res) {
-													// 支付成功后的回调函数
-													if(res.errMsg=="chooseWXPay:ok") {
-														//alert("支付成功");
-														window.location.href = "paySuccess.html?id=" + that.payMsg.extId;
-													} else {
-														window.location.href = "payError.html"
-													}
-												},
-												cancel: function(res) {
-													alert(res)
-													layerMsg($.parseJSON(res));
-												}
-											});
-										} else if(Data.status == 400) {
-											//openid为空,请先微信授权!
-											//isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
-											var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
-											window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
-										}
-									});
-								}
-							},
-							isWexin: function() {
-								var ua = navigator.userAgent.toLowerCase();
-								if(ua.match(/MicroMessenger/i) == "micromessenger") {
-									return true;
-								} else {
-									var content = '<div class="img-wrap"><img src="images/2312311313@2x.png"/></div><p class="text">您好，目前微信支付只能在微信公众号里发起，请关注趣单生活公众号完成绑定并支付～</p><button class="btn">我知道了</button>'
-									layerLinkWechat("layerLinkWechat", content)
-									return false;
-								}
-							},
-							refreshCode: function() {
-								let that = this;
-								const wxPay = {
-									"total_fee": that.payMsg.deposit,
-									"trade_type": "NATIVE",
-									"product_id": getQueryString('id'),
-									"ext_id": that.payMsg.extId,
-								}
-								console.log(wxPay)
-								Ajax_token(that.IP + "msqudan/api/wxpay/pay", "get", getCookie('token'), wxPay, function(req) {
-									if(req.status == 200) {
-										console.log(req.data.code_url)
-										Ajax_token(that.IP + "msqudan/api/qrcodeurl", "post", getCookie('token'), JSON.stringify({
-											"str": req.data.code_url
-										}), function(req) {
-											if(req.code == 200) {
-												that.refreshShade = false;
-												that.qrImgUrl = req.data.qrImgUrl;
-												var intervalID = setInterval(function() {
-													Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {
-														"extId": that.payMsg.extId
-													}, function(req) {
-														if(req.code == 200) {
-															console.log(JSON.stringify(req.data))
-															sessionStorage.setItem("order", JSON.stringify(req.data))
-															if(req.data.orderStatus == 1) {
-																window.location.href = "paySuccess.html"
-															} else if(req.data.orderStatus == 2) {
-																window.location.href = "payError.html"
-															}
-														}
-													});
-												}, 5000);
-
-												setTimeout(function() {
-													clearInterval(intervalID);
-													that.refreshShade = true;
-												}, 100000);
-											}
-										})
-									}
-								})
-							},
-							onChangeDetail: function(val) {
-								if(val == "") {
-									$(".van-button--normal").css({
-										"background": "#C3C3C3"
-									})
-								} else {
-									$(".van-button--normal").css({
-										"background": "#FFBF00"
-									})
-								}
-							},
-							onFocus: function(val) {
-								let n;
-								switch(val) {
-									case "name":
-										n = 0;
-										break;
-									case "tel":
-										n = 1;
-										break;
-									case "addressDetail":
-										n = 3;
-										break;
-									default:
-										n = 2;
-								}
-
-								$(".van-address-edit .van-cell").not(n).css({
-									"border-bottom": "1px solid #ebedf0"
-								});
-								$(".van-address-edit .van-cell").eq(n).css({
-									"border-bottom": "1px solid #ffbf00"
-								});
-								if(n < 3) {
-									$(".van-address-edit .van-cell").eq(3).css({
-										"border-bottom": "none"
-									});
-								}
-							}
+						}, 1000)
+					}
+				},
+				onSave: function(val) {
+					this.useInfo.receiver = val.name,
+						this.useInfo.receiverMobile = val.tel,
+						this.useInfo.region = val.province + val.city + val.county,
+						this.useInfo.address = val.addressDetail,
+						this.useInfo.applyName = val.name,
+						this.useInfo.applyMobile = val.tel,
+						this.applyShow = !this.applyShow;
+				},
+				onDelete: function() {
+					Toast('delete');
+				},
+				payMethod: function() {
+					let that = this;
+					if(that.useInfo.applyName == "" || that.useInfo.applyName == undefined) {
+						this.$toast('请填写申请人姓名');
+						return false;
+					}
+					if(that.useInfo.applyMobile == "" || that.useInfo.applyMobile == undefined) {
+						this.$toast('请填写申请人号码');
+						return false;
+					}
+					if(!(/^1[34578]\d{9}$/.test(that.useInfo.applyMobile))) {
+						that.$toast('请填写正确的号码');
+						return false;
+					}
+					if(that.useInfo.validcode == "" || that.useInfo.validcode == undefined) {
+						that.$toast('请填写验证码');
+						return false;
+					}
+					if(that.token == "" || that.token == undefined) {
+						if(that.useInfo.alipayAcount == "" || that.useInfo.alipayAcount == undefined) {
+							that.$toast('请填写退返账号');
+							return false;
+						}
+					}
+					if(!that.checked) {
+						that.$toast('请勾选用户购买条例');
+						return false;
+					}
+					Ajax_token(that.IP + "msqudan/api/user/apply/pos", "POST", getCookie('token'), JSON.stringify(that.useInfo), function(req) {
+						if(req.code == 200) {
+							that.payMsg = req.data;
+							that.payWay = true;
 						}
 					});
+				},
+				payMoney: function() {
+					let that = this;
+					if(that.payMthod != 2) {
+						that.$toast('请勾选微信支付');
+						return false;
+					}
+					if(!that.checked) {
+						that.$toast('请勾选用户购买条例');
+						return false;
+					}
+					var ua = navigator.userAgent.toLowerCase();
+					var trade_type;
+					if(ua.match(/MicroMessenger/i) == "micromessenger") {
+						trade_type = 'JSAPI';
+					} else {
+						trade_type = 'MWEB';
+					};
+					const wxPay = {
+						"total_fee": that.payMsg.deposit,
+						"trade_type": trade_type,
+						"product_id": getQueryString('id'),
+						"ext_id": that.payMsg.extId,
+						"openid": sessionStorage.getItem("openid"),
+					}
+					if(that.isWexin()) {
+						var wxjsapi_data = location.href.split('#').toString();
+						ajaxWxjsapi(domain_test_server + "wechat/wxjsapi", wxjsapi_data, wxConfig); //微信jssdk认证
+						function wxConfig(Data) {
+							// 通过config接口注入权限验证配置
+							if(Data.code == 200) {
+								wx.config({
+									debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+									appId: Data.data.appId, // 必填，公众号的唯一标识
+									timestamp: Data.data.timestamp, // 必填，生成签名的时间戳
+									nonceStr: Data.data.noncestr, // 必填，生成签名的随机串
+									signature: Data.data.signature, // 必填，签名
+									jsApiList: ['chooseWXPay'] // 必填，需要使用的JS接口列表
+								});
+							}
+						}
+						Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
+							if(Data.status == 200) {
+								wx.chooseWXPay({
+									timestamp: Data.data.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+									nonceStr: Data.data.noncestr, // 支付签名随机串，不长于 32 位
+									package: "prepay_id=" + Data.data.prepayid, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
+									signType: 'MD5', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+									paySign: Data.data.sign, // 支付签名							
+									success: function(res) {
+										// 支付成功后的回调函数
+										if(res.errMsg == "chooseWXPay:ok") {
+											//alert("支付成功");
+											window.location.href = "paySuccess.html?id=" + that.payMsg.extId;
+										} else {
+											window.location.href = "payError.html"
+										}
+									},
+									cancel: function(res) {
+										alert(res)
+										layerMsg($.parseJSON(res));
+									}
+								});
+							} else if(Data.status == 400) {
+								//openid为空,请先微信授权!
+								//isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+								var REDIRECT_URI = encodeURIComponent(domain_test + 'blank.html?isLoginAuthorize=0');
+								window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+							}
+						});
+					}
+				},
+				isWexin: function() {
+					var ua = navigator.userAgent.toLowerCase();
+					if(ua.match(/MicroMessenger/i) == "micromessenger") {
+						return true;
+					} else {
+						var content = '<div class="img-wrap"><img src="images/2312311313@2x.png"/></div><p class="text">您好，目前微信支付只能在微信公众号里发起，请关注趣单生活公众号完成绑定并支付～</p><button class="btn">我知道了</button>'
+						layerLinkWechat("layerLinkWechat", content)
+						return false;
+					}
+				},
+				refreshCode: function() {
+					let that = this;
+					const wxPay = {
+						"total_fee": that.payMsg.deposit,
+						"trade_type": "NATIVE",
+						"product_id": getQueryString('id'),
+						"ext_id": that.payMsg.extId,
+					}
+					console.log(wxPay)
+					Ajax_token(that.IP + "msqudan/api/wxpay/pay", "get", getCookie('token'), wxPay, function(req) {
+						if(req.status == 200) {
+							console.log(req.data.code_url)
+							Ajax_token(that.IP + "msqudan/api/qrcodeurl", "post", getCookie('token'), JSON.stringify({
+								"str": req.data.code_url
+							}), function(req) {
+								if(req.code == 200) {
+									that.refreshShade = false;
+									that.qrImgUrl = req.data.qrImgUrl;
+									var intervalID = setInterval(function() {
+										Ajax_token(that.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {
+											"extId": that.payMsg.extId
+										}, function(req) {
+											if(req.code == 200) {
+												console.log(JSON.stringify(req.data))
+												sessionStorage.setItem("order", JSON.stringify(req.data))
+												if(req.data.orderStatus == 1) {
+													window.location.href = "paySuccess.html"
+												} else if(req.data.orderStatus == 2) {
+													window.location.href = "payError.html"
+												}
+											}
+										});
+									}, 5000);
+
+									setTimeout(function() {
+										clearInterval(intervalID);
+										that.refreshShade = true;
+									}, 100000);
+								}
+							})
+						}
+					})
+				},
+				onChangeDetail: function(val) {
+					if(val == "") {
+						$(".van-button--normal").css({
+							"background": "#C3C3C3"
+						})
+					} else {
+						$(".van-button--normal").css({
+							"background": "#FFBF00"
+						})
+					}
+				},
+				onFocus: function(val) {
+					let n;
+					switch(val) {
+						case "name":
+							n = 0;
+							break;
+						case "tel":
+							n = 1;
+							break;
+						case "addressDetail":
+							n = 3;
+							break;
+						default:
+							n = 2;
+					}
+
+					$(".van-address-edit .van-cell").not(n).css({
+						"border-bottom": "1px solid #ebedf0"
+					});
+					$(".van-address-edit .van-cell").eq(n).css({
+						"border-bottom": "1px solid #ffbf00"
+					});
+					if(n < 3) {
+						$(".van-address-edit .van-cell").eq(3).css({
+							"border-bottom": "none"
+						});
+					}
+				}
+			}
+		});
 	</script>
 	<style type="text/css">
 		.van-button--normal {
