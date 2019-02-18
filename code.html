@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <link rel="stylesheet" href="plugin/layer_mobile/need/layer.css?v=20190103001">
+
+</head>
+
+<body>
+    <script src="js/config.js"></script>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="plugin/layer_mobile/layer.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        //isLoginAuthorize为0非登录页面授权，授权结束后返回当前页面；为1登录页面点微信登陆按钮进行微信授权，授权结束后跳到首页
+        var isLoginAuthorize = getQueryString("isLoginAuthorize");
+        if (isLoginAuthorize) {
+            isLoginAuthorize = 0;
+        } else {
+            isLoginAuthorize = 1;
+        }
+        var code = getQueryString("code");   
+        var state = getQueryString("state");
+        var token;
+        var data = {
+            code: code,
+            type:3
+        };
+        ajaxGet(domain_test_server + "wechat/oauth", data, getWutid);
+        function getWutid(Data) {
+            if (Data.code == 200) {
+            	alert(Data.data.openid);
+             }
+        }
+        function ajaxGet(url, data, callback) {
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: data,
+                dataType: 'json',
+                success: callback,
+                error: function (e) {
+                    var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
+                    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
