@@ -38,7 +38,7 @@
             if (Data.code == 200) {
             	sessionStorage.setItem("openid",Data.data.openid);
             	alert(Data.data.openid);
-            	 window.location.href ='applyPos.html?id='+id;
+                window.location.href ='applyPos.html?id='+id;
              }
         }
         function ajaxGet(url, data, callback) {
