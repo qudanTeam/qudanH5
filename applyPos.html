@@ -396,7 +396,7 @@
 									"ext_id": that.payMsg.extId,
 									"openid": sessionStorage.getItem("openid"),
 								}
-								alert(wxPay);
+								alert(JSON.stringify(wxPay));
 								if(that.isWexin()) {
 									Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
 										if(Data.status == 200) {
@@ -408,7 +408,7 @@
 												paySign: Data.data.sign, // 支付签名
 												success: function(res) {
 													// 支付成功后的回调函数
-													if(res.errMsg == "chooseWXPay:ok") {
+													if(res.errMsg=="chooseWXPay:ok") {
 														//alert("支付成功");
 														window.location.href = "paySuccess.html?id=" + that.payMsg.extId;
 													} else {
@@ -416,6 +416,7 @@
 													}
 												},
 												cancel: function(res) {
+													alert(res)
 													layerMsg($.parseJSON(res));
 												}
 											});
