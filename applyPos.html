@@ -393,6 +393,7 @@
 						"ext_id": that.payMsg.extId,
 						"openid":sessionStorage.getItem("openid"),
 					}
+					alert(wxPay);
 					if(that.isWexin()) {
 						Ajax_token(that.IP + 'msqudan/api/wxpay/pay', "GET", getCookie('token'), wxPay, function(Data) {
 							if(Data.status == 200) {
