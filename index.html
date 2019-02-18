@@ -247,7 +247,11 @@
 								} else {
 									var pid = target.getAttribute("data-id");
 									var ptype = target.getAttribute("data-ptype");
-									window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
+									if(ptype==3){
+										window.location.href = "posDetail.html?id=" + pid;
+									}else{
+										window.location.href = "shareIndex.html?id=" + pid + "&ptype=" + ptype;
+									}									
 								}
 							}
 						})
