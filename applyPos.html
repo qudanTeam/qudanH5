@@ -251,8 +251,9 @@
 				payMthod: "2"
 			},
 			mounted: function() {
-				var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=0');
-				window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+				if(sessionStorage.getItem("openid")){
+					alert(sessionStorage.getItem("openid"));	
+				}				
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
 			},
 			methods: {
@@ -285,9 +286,10 @@
 					this.useInfo.validcode ="";
 					this.applyShow = true;
 				},
-				userShow: function() {               
-	    			 this.show = !this.show;
-	    			 $('div').hasClass('redColor')				
+				userShow: function() {  
+				 var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id='+this.id);
+                  window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";	
+	    		this.show = !this.show;			
 				},
 				getCode: function(val) {
 					if(this.useInfo.applyName == "" || this.useInfo.applyName == undefined) {
