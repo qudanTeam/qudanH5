@@ -55,24 +55,30 @@
 		</div>
 	</body>
 	<script src="js/common.js"></script>
+	<script src="js/vue.min.js"></script>
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="plugin/layer_mobile/layer.js"></script>
-	<script src="js/vue.min.js"></script>
 	<script type="text/javascript">
 		var app = new Vue({
 			el: "#app",
 			data: {
-				order: {},
+				order: {
+				 "orderNo":"",
+				 "type":"",
+				 "price":"",
+				},
 				IP: 'http://msqudan.myhshop.top/',
 			},
 			mounted() {
-				Ajax_token(this.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {
-					"extId": getQueryString('id'),
-				}, function(req) {
-					if(req.code == 200) {
-						this.order = req.data;
-					}
-				})
+				Ajax_token(this.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {"extId": getQueryString('id'),},this.getDetail)
+			},
+			methods: {
+				getDetail: function(Data) {
+					if(Data.code == 200) {
+						this.order=Data.data;
+						console.log(this.order)
+					}	
+				}
 			}
 		})
 	</script>

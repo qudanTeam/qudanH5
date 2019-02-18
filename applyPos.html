@@ -111,8 +111,8 @@
 					<img src="images/payBg.png" />
 					<span class="posPrice">
 						<span class="payIcon">¥</span>
-					<span class="payMoney">{{detail.product.posPrice+detail.product.posDeposit}}</span>
-					<span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
+						<span class="payMoney">{{(detail.product.posPrice).toFixed(1)+(detail.product.posDeposit).toFixed(1)}}</span>
+					   <span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
 					</span>
 					<span class="payName">立即申请</span>
 				</p>
