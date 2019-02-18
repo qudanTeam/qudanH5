@@ -174,7 +174,7 @@
 					<img src="images/payBg.png" />
 					<span class="posPrice">
 						<span class="payIcon">¥</span>
-					<span class="payMoney">{{(detail.product.posPrice+detail.product.posDeposit).toFiixed(1)}}</span>
+					<span class="payMoney">{{(detail.product.posPrice).toFixed(1)+(detail.product.posDeposit).toFixed(1)}}</span>
 					<span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
 					</span>
 					<span class="payName">确认支付</span>
@@ -520,7 +520,7 @@
 							layerMsg($.parseJSON(e.responseText).error.message);
 						}
 					})
-				}
+				},
 				onFocus: function(val) {
 					let n;
 					switch(val) {
