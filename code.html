@@ -33,7 +33,7 @@
 				code: code,
 				type: 3
 			};
-			ajaxGet(this.IP + "wechat/oauth", data, getOpenid);
+			ajaxGet(domain_test_server+ "wechat/oauth", data, getOpenid);
 			function getOpenid(Data) {
 				if(Data.code == 200) {
 					sessionStorage.setItem("openid", Data.data.openid);
