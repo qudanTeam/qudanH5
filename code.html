@@ -27,9 +27,9 @@
         }
         var code = getQueryString("code");         
         var id = getQueryString("id");   
-        var state = getQueryString("state");
+        var shareid = getQueryString("shareid");
         sessionStorage.setItem("code",code);
-        window.location.href = "applyPos.html?id="+id;
+        window.location.href = "applyPos.html?id="+id+"&shareid="+shareid;
         var token;
         function ajaxGet(url, data, callback) {
             $.ajax({

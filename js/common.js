@@ -135,7 +135,7 @@ function ajaxGet(url, data, callback) {
 		dataType: 'json',
 		success: callback,
 		error: function(e) {
-			layerMsg($.parseJSON(e.responseText).error.message);
+			console.log($.parseJSON(e.responseText).error.message);
 		}
 	})
 }
