@@ -118,7 +118,11 @@
 						<h3 class="title text-overflow"><%=list.rows[i].productName%></h3>
 						<p class="pos-info">姓名：
 							<%=formatName(list.rows[i].applyName)%>
+							<%if(list.rows[i].award){%>
 							<p class="moneyIcon"><span class="text-red">¥</span><span class="text-red award"><%=list.rows[i].award%></span></p>
+							<%}else{%>
+							   <p class="moneyIcon"><span class="award">邀请人</span></p>
+							<%}%>
 						</p>
 						<p class="pos-info">手机号：
 							<%=des(list.rows[i].mobile)%>
@@ -136,13 +140,21 @@
 						<p class="text-blue top-right" style="color:#FF563A;">押金已支付</p>
 						<%}else if(list.rows[i].depositStatus==2){%>
 						<p class="text-blue top-right">押金退还中</p>
-							<%}else{%>
-								<p class="text-blue top-right">押金已退还</p>
-								<%}%>
 						<%}else{%>
-						<p class="text-blue top-right" style="color:#FF563A;"><%=list.rows[i].rejectReason%></p>				
+						<p class="text-blue top-right">押金已退还</p>
 						<%}%>
+						<%}else{%>
+						<p class="text-blue top-right" style="color:#FF563A;">
+							<%=list.rows[i].rejectReason%>
+						</p>
+						<%}%>
+						<%if(list.rows[i].inviteUsername){%>
+						<p class="bottom-right" style="color:#000;">
+							<%=formatName(list.rows[i].inviteUsername)%>
+						</p>
+						<%}else{%>
 						<p class="bottom-right">佣金</p>
+						<%}%>
 					</div>
 					<%if(list.rows[i].expressNo){%>
 					<p>&nbsp;</p>
