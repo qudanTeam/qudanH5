@@ -251,7 +251,6 @@
 				openid:""
 			},
 			mounted: function() {
-				alert(sessionStorage.getItem("code"));
 				if(sessionStorage.getItem("code") == null) {
 					var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id=' + this.id);
 					window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";

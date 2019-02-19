@@ -27,7 +27,7 @@ function layerConfirm(content, btnName, callback) {
 	})
 }
 // html弹框
-function layerHtml(className,content) {
+function layerHtml(className, content) {
 	layer.open({
 		type: 1,
 		content: content,
@@ -114,7 +114,7 @@ function Ajax(url, data, callback) {
 	})
 }
 
-function AjaxGet(url,callback) {
+function AjaxGet(url, callback) {
 	$.ajax({
 		url: url,
 		type: "GET",
@@ -123,6 +123,21 @@ function AjaxGet(url,callback) {
 		error: function(e) {
 			console.log($.parseJSON(e.responseText));
 			layerMsg($.parseJSON(e.responseText).error.message);
+		}
+	})
+}
+
+function ajaxGet(url, data, callback) {
+	$.ajax({
+		url: url,
+		type: "GET",
+		data: data,
+		dataType: 'json',
+		success: callback,
+		error: function(e) {
+			var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
+			window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+
 		}
 	})
 }
