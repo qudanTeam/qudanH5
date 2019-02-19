@@ -25,21 +25,12 @@
         } else {
             isLoginAuthorize = 1;
         }
-        var code = getQueryString("code");   
+        var code = getQueryString("code");         
         var id = getQueryString("id");   
         var state = getQueryString("state");
+        sessionStorage.setItem("code",code);
+        window.location.href = "applyPos.html?id="+id;
         var token;
-        var data = {
-            code: code,
-            type:3
-        };
-        ajaxGet(domain_test_server + "wechat/oauth", data, getWutid);
-        function getWutid(Data) {
-            if (Data.code == 200) {
-            	sessionStorage.setItem("openid",Data.data.openid);
-                window.location.href ='applyPos.html?id='+id;
-             }
-        }
         function ajaxGet(url, data, callback) {
             $.ajax({
                 url: url,

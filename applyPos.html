@@ -111,8 +111,8 @@
 					<img src="images/payBg.png" />
 					<span class="posPrice">
 						<span class="payIcon">¥</span>
-						<span class="payMoney">{{(detail.product.posPrice+detail.product.posDeposit).toFixed(1)}}</span>
-					   <span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
+					<span class="payMoney">{{(detail.product.posPrice+detail.product.posDeposit).toFixed(1)}}</span>
+					<span class="payRemak">(含¥{{detail.product.posDeposit}}押金)</span>
 					</span>
 					<span class="payName">立即申请</span>
 				</p>
@@ -248,13 +248,23 @@
 				payMsg: {}, //支付信息
 				qrImgUrl: "", //二维码
 				checked: true, //用户协议
-				payMthod: "2"
+				payMthod: "2",
+				openid:""
 			},
 			mounted: function() {
-				if(sessionStorage.getItem("openid") == null) {
+				if(sessionStorage.getItem("code") == null) {
 					var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?isLoginAuthorize=1&id=' + this.id);
 					window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 				}
+				var data = {
+					code:sessionStorage.getItem("code"),
+					type: 3
+				};
+				AjaxGet(this.IP + "wechat/oauth",data,function (Data) {
+					if(Data.code == 200) {						
+						this.openid=Data.data.openid;
+					}
+				});		
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
 			},
 			methods: {
@@ -393,7 +403,7 @@
 						"trade_type": trade_type,
 						"product_id": getQueryString('id'),
 						"ext_id": that.payMsg.extId,
-						"openid": sessionStorage.getItem("openid"),
+						"openid":this.openid,
 					}
 					if(that.isWexin()) {
 						//微信jssdk认证

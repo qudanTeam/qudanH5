@@ -26,6 +26,7 @@
             isLoginAuthorize = 1;
         }
         var code = getQueryString("code");
+        sessionStorage.setItem("code",code);
         var state = getQueryString("state");
         var token;
         var data = {
