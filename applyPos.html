@@ -260,14 +260,16 @@
 					code:sessionStorage.getItem("code"),
 					type: 3
 				};
-				AjaxGet(this.IP + "wechat/oauth",data,function (Data) {
-					if(Data.code == 200) {						
-						this.openid=Data.data.openid;
-					}
-				});		
+				AjaxGet(this.IP + "wechat/oauth",data,this.getOpenid);		
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
 			},
 			methods: {
+				getOpenid:function(Data){			
+					if(Data.code == 200) {						
+						this.openid=Data.data.openid;
+						alert(this.openid)
+					}
+				},
 				getDetail: function(Data) {
 					if(Data.code == 200) {
 						console.log(Data)
