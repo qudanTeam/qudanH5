@@ -114,7 +114,7 @@ function Ajax(url, data, callback) {
 	})
 }
 
-function AjaxGet(url, callback) {
+function AjaxGet(url,callback) {
 	$.ajax({
 		url: url,
 		type: "GET",

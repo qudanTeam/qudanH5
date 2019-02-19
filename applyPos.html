@@ -260,7 +260,7 @@
 					code:sessionStorage.getItem("code"),
 					type: 3
 				};
-				AjaxGet(this.IP + "wechat/oauth",data,this.getOpenid);		
+				ajaxGet(this.IP + "wechat/oauth",data,this.getOpenid);		
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
 			},
 			methods: {
