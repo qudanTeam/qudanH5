@@ -248,26 +248,16 @@
 				qrImgUrl: "", //二维码
 				checked: true, //用户协议
 				payMthod: "2",
-				openid:""
+				openid:sessionStorage.getItem("openid")
 			},
 			mounted: function() {
 				if(sessionStorage.getItem("code") == null) {
 					var REDIRECT_URI = encodeURIComponent(domain_test + 'code.html?shareid='+getQueryString('shareid')+'&id=' + this.id);
 					window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
-				}
-				var data = {
-					code:sessionStorage.getItem("code"),
-					type: 3
-				};
-				ajaxGet(this.IP + "wechat/oauth",data,this.getOpenid);		
+				}									
 				AjaxGet(this.IP + 'msqudan/api/product/' + this.id, this.getDetail);
 			},
 			methods: {
-				getOpenid:function(Data){			
-					if(Data.code == 200) {						
-						this.openid=Data.data.openid;						
-					}
-				},
 				getDetail: function(Data) {
 					if(Data.code == 200) {
 						console.log(Data)
