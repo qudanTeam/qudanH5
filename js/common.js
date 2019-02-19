@@ -135,9 +135,7 @@ function ajaxGet(url, data, callback) {
 		dataType: 'json',
 		success: callback,
 		error: function(e) {
-			var REDIRECT_URI = encodeURIComponent(domain_test + 'bindMobile.html?type=2&isLoginAuthorize=' + isLoginAuthorize);
-			window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appid + "&redirect_uri=" + REDIRECT_URI + "&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
-
+			layerMsg($.parseJSON(e.responseText).error.message);
 		}
 	})
 }
