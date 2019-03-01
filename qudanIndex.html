@@ -88,7 +88,7 @@
 							<img class="media-object fl" src="<%=one.logo%>" alt="">
 							<div class="media-body">
 								<h3 class="title text-overflow" style="max-width: 1.8rem;"><%=one.productName%> </h3>
-								<%if (one.productType!=3) {%>		
+								<%if (one.productType!=3) {%>
 								<div class="tag-box">
 									<%if(_array(one.specialTag).length>=2){%>
 									<%for(var j = 0; j < 2; j++) {%>
@@ -101,9 +101,9 @@
 									<%}%>
 								</div>
 								<%}else{%>
-									<span style="font-size:0.13rem;color: #FFBF00;float: right;"><%=one.specialTag%></span>
+								<span style="font-size:0.13rem;color: #FFBF00;float: right;"><%=one.specialTag%></span>
 								<%}%>
-								<%if (one.productType==3) {%>								
+								<%if (one.productType==3) {%>
 								<p class="data"><span>激活率：<%=rate(one.allowRate,2)%></span><span>领取人数：<%=one.applyNum%></span></p>
 								<%}else{%>
 								<p class="data"><span>通过率：<%=rate(one.allowRate,2)%></span><span>申请人数：<%=one.applyNum%></span></p>
@@ -112,8 +112,13 @@
 								<p class="summary text-overflow">
 									<%=one.specialTxt%>
 								</p>
+								<%if (one.productType==2){%>
+								<a class="btn linear-gradient-red">最高赚
+									<%=rate(one.commission,2)%></a>
+								<%}else{%>
 								<a class="btn linear-gradient-red">最高赚
 									<%=one.commission%>元</a>
+								<%}%>
 							</div>
 						</li>
 						<%}%>
