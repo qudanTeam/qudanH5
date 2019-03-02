@@ -41,7 +41,7 @@
                 <div class="media-body">
                     <h3 class="title"><%=detail.product.productName%></h3>
                     <p class="data">期限范围：<%=detail.product.expireBegin%>-<%=detail.product.expireEnd%>期/月利率：<%=rate(detail.product.monthRate,2)%>/通过率：<%=rate(detail.product.allowRate,2)%></p>
-                    <p class="limit">最高<%=unit(detail.product.amountLine)%>借款额度</p>
+                    <p class="limit">最高<%=detail.product.amountLine%>借款额度</p>
                     <p class="data fr">申请人数：<%=detail.product.applyNum%></p>
                 </div>
             </div>
