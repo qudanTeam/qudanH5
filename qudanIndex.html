@@ -242,7 +242,7 @@
 				document.querySelector('.pullUpLabel').style.display = 'block';
 				if(Data.code == 200) {
 					if(Data.data.total != 0) {
-						total = Math.floor((Data.data.total) / per_page);
+						total = (Data.data.total) / per_page;
 						goods = Data.data;
 						console.log(goods);
 						var html = template(tplGoodsList, goods);

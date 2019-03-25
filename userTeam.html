@@ -133,7 +133,7 @@
                 document.querySelector(".total-people").innerHTML = Data.data.totalPeople + "人";
                 document.querySelector(".total-revenue").innerHTML = Data.data.totalRevenue + "元";
                 if (Data.data.rows.length > 0) {
-                    total = Math.floor((Data.data.total) / per_page);
+                    total = (Data.data.total) / per_page;
                     list = Data.data;
                     var html = template(tpl, list);
                     if (page > 1) {

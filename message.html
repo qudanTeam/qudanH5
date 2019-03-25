@@ -66,7 +66,7 @@
         function getMsglist(Data) {
             if (Data.code == 200) {
                 if (Data.data.total != 0) {
-                    total = Math.floor((Data.data.total) / per_page);
+                    total = (Data.data.total) / per_page;
                     console.log(total);
                     msgList = Data.data;
                     var html = template(tplMsgList, msgList);
