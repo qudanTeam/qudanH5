@@ -238,7 +238,7 @@
         function getGoods(Data) {
             if (Data.code == 200) {
                 if (Data.data.total != 0) {
-                    total = (Data.data.total) / per_page;
+                    total = Math.ceil((Data.data.total) / per_page);
                     console.log(total);
                     goods = Data.data;
                     var html = template(tplGoodsList, goods);

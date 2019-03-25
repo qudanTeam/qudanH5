@@ -106,7 +106,7 @@
             document.querySelector('.pullUpLabel').style.display = 'block';
             if (Data.code == 200) {
                 if (Data.data.total != 0) {
-                    total = (Data.data.total) / per_page;
+                    total = Math.ceil((Data.data.total) / per_page);
                     console.log(total);
                     list = Data.data;
                     var html = template(tpl, list);
