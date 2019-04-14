@@ -68,7 +68,7 @@
 				 "price":"",
 				 "deposit":"",
 				},
-				IP: 'http://msqudan.myhshop.top/',
+				IP: IP',
 			},
 			mounted() {
 				Ajax_token(this.IP + "msqudan/api/user/apply/pos/status", "get", getCookie('token'), {"extId": getQueryString('id'),},this.getDetail)
